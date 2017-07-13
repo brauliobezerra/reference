@@ -691,9 +691,9 @@ fn test() {
     let mut u = MyUnion { f1: 1 };
     unsafe {
         let b1 = &mut u.f1;
-                      ---- first mutable borrow occurs here (via `u.f1`)
+                   // ---- first mutable borrow occurs here (via `u.f1`)
         let b2 = &mut u.f2;
-                      ^^^^ second mutable borrow occurs here (via `u.f2`)
+                   // ^^^^ second mutable borrow occurs here (via `u.f2`)
         *b1 = 5;
     }
     - first borrow ends here
@@ -863,24 +863,19 @@ implement. This interface consists of associated items, which come in
 three varieties:
 
 - functions
-- [constants](#associated-constants)
+- [constants](#associated-constants) (feature gated by `#![feature(associated_consts)]`)
 - types
 
-Associated functions whose first parameter is named `self` are called
-methods and may be invoked using `.` notation (e.g., `x.foo()`).
+The syntax for traits is:
 
-All traits define an implicit type parameter `Self` that refers to
-"the type that is implementing this interface". Traits may also
-contain additional type parameters. These type parameters (including
-`Self`) may be constrained by other traits and so forth as usual.
+> **`trait`** *TraitName* *Type-Parameters* `{` *Trait-Items* `}`
 
-Trait bounds on `Self` are considered "supertraits". These are
-required to be acyclic.  Supertraits are somewhat different from other
-constraints in that they affect what methods are available in the
-vtable when the trait is used as a [trait object].
+where type parameters and trait items are optional.
 
 Traits are implemented for specific types through separate
 [implementations].
+
+#### Trait functions
 
 Consider the following trait:
 
@@ -888,12 +883,18 @@ Consider the following trait:
 # type Surface = i32;
 # type BoundingBox = i32;
 trait Shape {
+	fn sides() -> u8;
     fn draw(&self, Surface);
     fn bounding_box(&self) -> BoundingBox;
 }
 ```
 
-This defines a trait with two methods. All values that have
+This trait defines three associated functions that must be implemented by
+the types which implement this trait.
+
+Associated functions whose first parameter is named `self` are called
+methods and may be invoked using dot notation (e.g., `x.foo()`).
+`Shade` defines a trait with two methods. All values that have
 [implementations] of this trait in scope can have their
 `draw` and `bounding_box` methods called, using `value.bounding_box()`
 [syntax].
@@ -902,30 +903,28 @@ This defines a trait with two methods. All values that have
 [implementations]: #implementations
 [syntax]: expressions.html#method-call-expressions
 
-Traits can include default implementations of methods, as in:
+Associated functions **without** a `self` parameter must be called using
+the path syntax (in our example, `sides` is called using `Square::sides()`
+for a `Square` type which implements the `Shape` trait).
+
+##### Default functions
+
+Traits can include default implementations of associated functions, as in:
 
 ```rust
 trait Foo {
-    fn bar(&self);
+    fn bar() { printlnt!("We called bar."); }
     fn baz(&self) { println!("We called baz."); }
+	fn bat();
+	fn bab(&self);
 }
 ```
 
-Here the `baz` method has a default implementation, so types that implement
-`Foo` need only implement `bar`. It is also possible for implementing types
-to override a method that has a default implementation.
+Here the `bar` and `baz` methods have default implementations, so types that
+implement `Foo` need only implement `bar` and `bab`. It is also possible for
+implementing types to override a method that has a default implementation.
 
-Type parameters can be specified for a trait to make it generic. These appear
-after the trait name, using the same syntax used in [generic
-functions](#generic-functions).
-
-```rust
-trait Seq<T> {
-    fn len(&self) -> u32;
-    fn elt_at(&self, n: u32) -> T;
-    fn iter<F>(&self, F) where F: Fn(T);
-}
-```
+#### Trait-associated types
 
 It is also possible to define associated types for a trait. Consider the
 following example of a `Container` trait. Notice how the type is available
@@ -940,8 +939,28 @@ trait Container {
 ```
 
 In order for a type to implement this trait, it must not only provide
-implementations for every method, but it must specify the type `E`. Here's
-an implementation of `Container` for the standard library type `Vec`:
+implementations for every method, but it must specify the type `E`. The
+following is an example of a simple implementation of a `Container`:
+
+```rust
+# trait Container {
+#     type E;
+#     fn empty() -> Self;
+#     fn insert(&mut self, Self::E);
+# }
+struct Bag {
+	value: Option<u32>,
+}
+
+impl Container for Bag {
+	type E = u32;
+	fn empty() -> Bag { Bag{value: None} }
+	fn insert(&mut self, value: u32) -> { self.value = Some(value); }
+}
+```
+
+Here's an implementation of `Container` for the standard library type `Vec`,
+using a generic argument to define what the trait-associated type `E` is:
 
 ```rust
 # trait Container {
@@ -955,6 +974,31 @@ impl<T> Container for Vec<T> {
     fn insert(&mut self, x: T) { self.push(x); }
 }
 ```
+#### Generic traits
+
+Type parameters can be specified for a trait to make it generic. These appear
+after the trait name, using the same syntax used in [generic
+functions](#generic-functions).
+
+```rust
+trait Seq<T> {
+    fn len(&self) -> u32;
+    fn elt_at(&self, n: u32) -> T;
+    fn iter<F>(&self, F) where F: Fn(T);
+}
+```
+
+All traits define an implicit type parameter `Self` that refers to
+"the type that is implementing this interface". Traits may also
+contain additional type parameters. These type parameters (including
+`Self`) may be constrained by other traits and so forth as usual.
+
+Trait bounds on `Self` are considered "supertraits". These are
+required to be acyclic.  Supertraits are somewhat different from other
+constraints in that they affect what methods are available in the
+vtable when the trait is used as a [trait object].
+
+#### Traits as type bounds
 
 Generic functions may use traits as _bounds_ on their type parameters. This
 will have two effects:
@@ -973,6 +1017,8 @@ fn draw_twice<T: Shape>(surface: Surface, sh: T) {
     sh.draw(surface);
 }
 ```
+
+#### Trait objects
 
 Traits also define a [trait object] with the same
 name as the trait. Values of this type are created by coercing from a
@@ -1000,6 +1046,8 @@ parameters that are bounded by the trait.
 
 [methods called]: expressions.html#method-call-expressions
 
+#### Static trait methods
+
 Trait methods may be static, which means that they lack a `self` argument.
 This means that they can only be called with function call syntax (`f(x)`) and
 not method call syntax (`obj.f()`). The way to refer to the name of a static
@@ -1015,6 +1063,8 @@ impl Num for f64 {
 }
 let x: f64 = Num::from_i32(42);
 ```
+
+#### Trait inheritance
 
 Traits may inherit from other traits. Consider the following example:
 
