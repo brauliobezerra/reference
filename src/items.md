@@ -890,11 +890,11 @@ trait Shape {
 ```
 
 This trait defines three associated functions that must be implemented by
-the types which implement this trait.
+the types which implement the `Shape` trait.
 
 Associated functions whose first parameter is named `self` are called
 methods and may be invoked using dot notation (e.g., `x.foo()`).
-`Shade` defines a trait with two methods. All values that have
+`Shape` defines a trait with two methods. All values that have
 [implementations] of this trait in scope can have their
 `draw` and `bounding_box` methods called, using `value.bounding_box()`
 [syntax].
@@ -903,7 +903,8 @@ methods and may be invoked using dot notation (e.g., `x.foo()`).
 [implementations]: #implementations
 [syntax]: expressions.html#method-call-expressions
 
-Associated functions **without** a `self` parameter must be called using
+Associated functions **without** a `self` parameter, also called static
+functions, must be called using
 the path syntax (in our example, `sides` is called using `Square::sides()`
 for a `Square` type which implements the `Shape` trait).
 
@@ -920,9 +921,33 @@ trait Foo {
 }
 ```
 
-Here the `bar` and `baz` methods have default implementations, so types that
-implement `Foo` need only implement `bar` and `bab`. It is also possible for
-implementing types to override a method that has a default implementation.
+Here the `bar` and `baz` functions have default implementations, so types that
+implement `Foo` need only implement `bat` and `bab`. It is also possible for
+implementing types to override a function that has a default implementation.
+For example:
+
+```rust
+# trait Foo {
+#     fn bar() { printlnt!("We called bar."); }
+#     fn baz(&self) { println!("We called baz."); }
+# 	fn bat();
+# 	fn bab(&self);
+# }
+# type Bazz = u32;
+impl Foo for Bazz {
+	// implement the abstract functions
+	fn bat() { println!("We called Bazz::bat."); }
+	fn bab(&self) { println!("We called Bazz.bab."); }
+	// override the already implement function bar
+	fn bar() { println!("We called Bazz::bar."); }
+}
+```
+
+Default functions can call associated functions which don't have a default
+implementation. Because of that, it's not allowed to call default static
+functions using the path on the trait itself, without an implementing type.
+In our example, we are **not** allowed to call `Foo::bar()`, even though it's
+completely implemented.
 
 #### Trait-associated types
 
