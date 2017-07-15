@@ -866,16 +866,30 @@ three varieties:
 - [constants](#associated-constants) (feature gated by `#![feature(associated_consts)]`)
 - types
 
-The syntax for traits is:
+The syntax of a traits definition is:
 
 > **`trait`** *TraitName* *Type-Parameters* `{` *Trait-Items* `}`
 
-where type parameters and trait items are optional.
+where type parameters and trait items are optional. Traits with no trait items
+are called *marker traits*.
 
-Traits are implemented for specific types through separate
-[implementations].
+Traits are implemented for specific types through separate [implementations].
 
-#### Trait functions
+#### `Self` and `self` in traits
+
+All traits define an implicit type parameter `Self` that refers to
+"the type that is implementing this interface". Traits may also
+contain additional type parameters. These type parameters (including
+`Self`) may be constrained by other traits and so forth as usual.
+
+Contrary to other uses of `Self` in Rust, there's no implicit `Sized` bound on
+the `Self` type parameter in traits.
+
+**FIXME** explain why `Self` isn't Sized-bounded by default
+
+`self` can be used on trait function in their first parameter
+
+#### Trait functions (methods)
 
 Consider the following trait:
 
@@ -892,21 +906,39 @@ trait Shape {
 This trait defines three associated functions that must be implemented by
 the types which implement the `Shape` trait.
 
+Trait methods (with no default implementation) interfaces aren't required to
+name their parameters, but they can. For example, the draw method could be
+declared as `fn draw(&self, surface: Surface);` in the example above.
+
+##### Instance methods
+
 Associated functions whose first parameter is named `self` are called
-methods and may be invoked using dot notation (e.g., `x.foo()`).
-`Shape` defines a trait with two methods. All values that have
+*methods* and may be invoked using dot notation (e.g., `x.foo()`). They
+can also be called using the function notation, though (e.g., `X::foo(x)`).
+
+In our example, `Shape` defines a trait with two methods. All values that have
 [implementations] of this trait in scope can have their
 `draw` and `bounding_box` methods called, using `value.bounding_box()`
 [syntax].
 
-[trait object]: types.html#trait-objects
 [implementations]: #implementations
 [syntax]: expressions.html#method-call-expressions
 
-Associated functions **without** a `self` parameter, also called static
-functions, must be called using
-the path syntax (in our example, `sides` is called using `Square::sides()`
-for a `Square` type which implements the `Shape` trait).
+##### Static methods
+
+Associated functions **without** a `self` parameter are called *static
+methods*. Static methods must be called using the function syntax (in our 
+example, `sides` is called using `Square::sides()` for a `Square` type
+which implements the `Shape` trait).
+
+A trait that has at least one method with no reference to `self` or `Self`
+in its definition (i.e., a static method in which Self is not bounded) is
+considered to be *not object safe* and can't be used as a [trait object].
+
+**FIXME:** explain why Self needs to be bounded or referenced in the function
+parameters.
+
+[trait object]: types.html#trait-objects
 
 ##### Default functions
 
@@ -914,7 +946,7 @@ Traits can include default implementations of associated functions, as in:
 
 ```rust
 trait Foo {
-    fn bar() { printlnt!("We called bar."); }
+    fn bar() { println!("We called bar."); }
     fn baz(&self) { println!("We called baz."); }
 	fn bat();
 	fn bab(&self);
@@ -928,7 +960,7 @@ For example:
 
 ```rust
 # trait Foo {
-#     fn bar() { printlnt!("We called bar."); }
+#     fn bar() { println!("We called bar."); }
 #     fn baz(&self) { println!("We called baz."); }
 # 	fn bat();
 # 	fn bab(&self);
@@ -964,8 +996,9 @@ trait Container {
 ```
 
 In order for a type to implement this trait, it must not only provide
-implementations for every method, but it must specify the type `E`. The
-following is an example of a simple implementation of a `Container`:
+implementations for every method, but it **must specify the type `E`**. The
+following is an example of a simple implementation of a `Container` with
+the `E` type defined as `u32`:
 
 ```rust
 # trait Container {
@@ -980,7 +1013,7 @@ struct Bag {
 impl Container for Bag {
 	type E = u32;
 	fn empty() -> Bag { Bag{value: None} }
-	fn insert(&mut self, value: u32) -> { self.value = Some(value); }
+	fn insert(&mut self, value: u32) { self.value = Some(value); }
 }
 ```
 
@@ -1012,11 +1045,6 @@ trait Seq<T> {
     fn iter<F>(&self, F) where F: Fn(T);
 }
 ```
-
-All traits define an implicit type parameter `Self` that refers to
-"the type that is implementing this interface". Traits may also
-contain additional type parameters. These type parameters (including
-`Self`) may be constrained by other traits and so forth as usual.
 
 Trait bounds on `Self` are considered "supertraits". These are
 required to be acyclic.  Supertraits are somewhat different from other
