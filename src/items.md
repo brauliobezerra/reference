@@ -1,5 +1,27 @@
 # Items
 
+> **<sup>Syntax:<sup>**  
+> _Item_:  
+&nbsp;&nbsp; [_Visibility_] (
+> [_Module_](#modules) |
+> [_ExternCrate_](#extern-crate-declarations) |
+> [_UseDeclaration_](#use-declarations) |
+> [_StaticItem_](#static-items) |
+> [_ConstantValue_](#constant-items) |
+> [_Function_](#functions) |
+> [_TypeAlias_](#type-aliases) |
+> [_Enumeration_](#enumerations) |
+> [_Struct_](#structs) |
+> [_Union_](#unions) |
+> [_ExternBlock_](#external-blocks) |
+> [_TraitItem_](#traits) |
+> [_ImplementationItem_](#implementations) |
+> _ConstFunction_ |
+> _ExternFunction_
+> )
+
+[_Visibility_]: visibility-and-privacy.html
+
 An _item_ is a component of a crate. Items are organized within a crate by a
 nested set of [modules]. Every crate has a single "outermost"
 anonymous module; all further items within the crate have [paths]
@@ -10,22 +32,6 @@ within the module tree of the crate.
 
 Items are entirely determined at compile-time, generally remain fixed during
 execution, and may reside in read-only memory.
-
-There are several kinds of item:
-
-* [`extern crate` declarations](#extern-crate-declarations)
-* [`use` declarations](#use-declarations)
-* [modules](#modules)
-* [function definitions](#functions)
-* [`extern` blocks](#external-blocks)
-* [type definitions](#type-aliases)
-* [struct definitions](#structs)
-* [enumeration definitions](#enumerations)
-* [union definitions](#unions)
-* [constant items](#constant-items)
-* [static items](#static-items)
-* [trait definitions](#traits)
-* [implementations](#implementations)
 
 Some items form an implicit scope for the declaration of sub-items. In other
 words, within a function or module, declarations of items can (in many cases)
@@ -42,6 +48,17 @@ which sub-item declarations may appear.
 All items except modules, constants and statics may be *parameterized* by type.
 Type parameters are given as a comma-separated list of identifiers enclosed in
 angle brackets (`<...>`), after the name of the item and before its definition.
+
+> **<sup>Syntax:<sup>**  
+> _Type-Parameters_ :  
+> &nbsp;&nbsp; `<` _Lifetimes_ `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+
 The type parameters of an item are considered "part of the name", not part of
 the type of the item. A referencing [path] must (in principle) provide
 type arguments as a list of comma-separated types enclosed within angle
@@ -62,6 +79,15 @@ A module is a container for zero or more [items].
 A _module item_ is a module, surrounded in braces, named, and prefixed with the
 keyword `mod`. A module item introduces a new, named module into the tree of
 modules making up a crate. Modules can nest arbitrarily.
+
+> **<sup>Syntax:<sup>**  
+> _Module_ :  
+> &nbsp;&nbsp; `mod` [_Identifier_] `{`  
+> &nbsp;&nbsp;&nbsp;&nbsp; _InnerAttribute_*  
+> &nbsp;&nbsp;&nbsp;&nbsp; _Item_*  
+> &nbsp;&nbsp; `}`
+
+[_Identifier_]: identifiers.html
 
 An example of a module:
 
@@ -116,11 +142,16 @@ mod thread {
 }
 ```
 
-### Extern crate declarations
+## Extern crate declarations
 
 An _`extern crate` declaration_ specifies a dependency on an external crate.
 The external crate is then bound into the declaring scope as the `ident`
 provided in the `extern_crate_decl`.
+
+> **<sup>Syntax:<sup>**  
+> ExternCrate :  
+> &nbsp;&nbsp; `extern` `crate` [_Identifier_] (`as` [_Identifier_])<sup>?</sup> `;`
+
 
 The external crate is resolved to a specific `soname` at compile time, and a
 runtime linkage requirement to that `soname` is passed to the linker for
@@ -154,12 +185,16 @@ extern crate hello_world; // hyphen replaced with an underscore
 
 [RFC 940]: https://github.com/rust-lang/rfcs/blob/master/text/0940-hyphens-considered-harmful.md
 
-### Use declarations
+## Use declarations
 
 A _use declaration_ creates one or more local name bindings synonymous with
 some other [path]. Usually a `use` declaration is used to shorten the
 path required to refer to a module item. These declarations may appear in
 [modules] and [blocks], usually at the top.
+
+> **<sup>Syntax:<sup>**  
+> _UseDeclaration_ :  
+> &nbsp;&nbsp; `use` 
 
 [path]: paths.html
 [modules]: #modules
@@ -869,6 +904,24 @@ three varieties:
 - [constants](#associated-constants)
 - types
 
+The syntax of a trait definition is:
+
+> _Trait_ :  
+> &nbsp;&nbsp; `unsafe`<sup>?</sup>  
+> &nbsp;&nbsp; `trait` [_Identifier_]  
+> &nbsp;&nbsp; [_Type-Parameters_](#type-parameters)<sup>?</sup>  
+> &nbsp;&nbsp; (`for` _Type_)<sup>?</sup>  
+> &nbsp;&nbsp; (`:` _TypeBound_)<sup>?</sup> `{`  
+> &nbsp;&nbsp;&nbsp;&nbsp; _Trait-Item_<sup>*</sup>  
+> &nbsp;&nbsp; `}`  
+>   
+> _Trait-Item_ :  
+> &nbsp;&nbsp; _Trait-Method_ | _Trait-Const_ | _Trait-Type_  
+>   
+> _Trait-Method_ :  
+> &nbsp;&nbsp; _Type-Method_ | _Method_
+
+
 Associated functions whose first parameter is named `self` are called
 methods and may be invoked using `.` notation (e.g., `x.foo()`).
 
@@ -1158,7 +1211,14 @@ impl Foo {
 An _implementation_ is an item that implements a [trait](#traits) for a
 specific type.
 
-Implementations are defined with the keyword `impl`.
+Implementations are defined with the keyword `impl` and have the following
+syntax:
+
+> `unsafe`? `impl` GenericParams? (`!`? _TraitName_ `for`)? (_TypeName_ | `..`) `{`  
+> &nbsp;&nbsp; _InnerAttributes?_  
+> &nbsp;&nbsp; _ImplementationItems?_  
+> `}`
+
 
 ```rust
 # #[derive(Copy, Clone)]
