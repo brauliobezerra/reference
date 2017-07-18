@@ -42,6 +42,16 @@ which sub-item declarations may appear.
 All items except modules, constants and statics may be *parameterized* by type.
 Type parameters are given as a comma-separated list of identifiers enclosed in
 angle brackets (`<...>`), after the name of the item and before its definition.
+
+> _Type-Parameters_ :  
+> &nbsp;&nbsp; `<` _Lifetimes_ `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+> &nbsp;&nbsp; | `<` ... `>`  
+
 The type parameters of an item are considered "part of the name", not part of
 the type of the item. A referencing [path] must (in principle) provide
 type arguments as a list of comma-separated types enclosed within angle
@@ -862,16 +872,30 @@ A _trait_ describes an abstract interface that types can
 implement. This interface consists of associated items, which come in
 three varieties:
 
-- functions
+- [functions](#associated-functions)
 - [constants](#associated-constants) (feature gated by `#![feature(associated_consts)]`)
-- types
+- [types](#associated-types)
 
-The syntax of a traits definition is:
+The syntax of a trait definition is:
 
-> **`trait`** *TraitName* *Type-Parameters* `{` *Trait-Items* `}`
+> _Trait_ :  
+> &nbsp;&nbsp; `unsafe`? `trait` _Ident_  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [_Type-Parameters_](#type-parameters)?  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (`for` _Type_)?  
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (`:` _TypeBound_)?  
+> &nbsp;&nbsp; `{`  
+> &nbsp;&nbsp;&nbsp;&nbsp; _Trait-Item_*  
+> &nbsp;&nbsp; `}`  
+>   
+> _Trait-Item_ :  
+> &nbsp;&nbsp; _Trait-Method_ | _Trait-Const_ | _Trait-Type_  
+>   
+> _Trait-Method_ :  
+> &nbsp;&nbsp; _Type-Method_ | _Method_
 
-where type parameters and trait items are optional. Traits with no trait items
-are called *marker traits*.
+Traits with no trait items are called *marker traits*. They are commonly used
+to assign intrisic properties to types. For example, `std::marker::Sized`
+indicates types that have a constant size known at compile time.
 
 Traits are implemented for specific types through separate [implementations].
 
@@ -889,7 +913,7 @@ the `Self` type parameter in traits.
 
 `self` can be used on trait function in their first parameter
 
-#### Trait functions (methods)
+#### Associated Functions
 
 Consider the following trait:
 
@@ -897,34 +921,55 @@ Consider the following trait:
 # type Surface = i32;
 # type BoundingBox = i32;
 trait Shape {
-	fn sides() -> u8;
+    fn sides() -> u8;
     fn draw(&self, Surface);
     fn bounding_box(&self) -> BoundingBox;
 }
 ```
 
-This trait defines three associated functions that must be implemented by
-the types which implement the `Shape` trait.
+This trait defines three associated functions (also called methods) that must
+be implemented by the types which implement the `Shape` trait.
 
-Trait methods (with no default implementation) interfaces aren't required to
-name their parameters, but they can. For example, the draw method could be
-declared as `fn draw(&self, surface: Surface);` in the example above.
+Trait methods interfaces aren't required to name their parameters, but they
+can. For example, the draw method could be declared as
+`fn draw(&self, surface: Surface);` in the example above. This only applies to
+methods that have no default implementation.
 
-##### Instance methods
+##### Dynamic associated methods
 
 Associated functions whose first parameter is named `self` are called
-*methods* and may be invoked using dot notation (e.g., `x.foo()`). They
-can also be called using the function notation, though (e.g., `X::foo(x)`).
+*methods* and they are executed in the context of an object. They may be
+invoked using dot notation (e.g., `x.foo()`). They can also be called
+using the function notation, though (e.g., `X::foo(x)`).
 
 In our example, `Shape` defines a trait with two methods. All values that have
-[implementations] of this trait in scope can have their
-`draw` and `bounding_box` methods called, using `value.bounding_box()`
-[syntax].
+[implementations] of this trait in scope can have their `draw` and
+`bounding_box` methods called, using `value.bounding_box()` [syntax].
+
+Another example:
+
+```rust
+# type X = u32;
+trait A {
+    fn f(&self);
+}
+
+impl A for X {
+    fn f(&self) {
+        /* ... */
+    }
+}
+
+fn test(a: &A) {
+    a.f();   // this is the same
+    A::f(a); // as this
+}
+```
 
 [implementations]: #implementations
 [syntax]: expressions.html#method-call-expressions
 
-##### Static methods
+##### Static associated methods
 
 Associated functions **without** a `self` parameter are called *static
 methods*. Static methods must be called using the function syntax (in our 
@@ -981,7 +1026,82 @@ functions using the path on the trait itself, without an implementing type.
 In our example, we are **not** allowed to call `Foo::bar()`, even though it's
 completely implemented.
 
-#### Trait-associated types
+#### Associated Constants
+
+*Feature gated by `#![feature(associated_consts)]`*
+
+A trait can define constants like this:
+
+```rust.ignore
+#![feature(associated_consts)]
+trait Foo {
+    const ID: i32;
+}
+
+impl Foo for i32 {
+    const ID: i32 = 1;
+}
+
+fn main() {
+    assert_eq!(1, i32::ID);
+}
+```
+
+Any implementor of `Foo` will have to define `ID`. Without the definition:
+
+```rust,ignore
+trait Foo {
+    const ID: i32;
+}
+
+impl Foo for i32 {
+}
+```
+
+gives
+
+```text
+error: not all trait items implemented, missing: `ID` [E0046]
+     impl Foo for i32 {
+     }
+```
+
+A default value can be implemented as well:
+
+```rust.ignore
+trait Foo {
+    const ID: i32 = 1;
+}
+
+impl Foo for i32 {
+}
+
+impl Foo for i64 {
+    const ID: i32 = 5;
+}
+
+fn main() {
+    assert_eq!(1, i32::ID);
+    assert_eq!(5, i64::ID);
+}
+```
+
+As you can see, when implementing `Foo`, you can leave it unimplemented, as
+with `i32`. It will then use the default value. But, as in `i64`, we can also
+add our own definition.
+
+Associated constants don’t have to be associated with a trait. An `impl` block
+for a `struct` or an `enum` works fine too:
+
+```rust.ignore
+struct Foo;
+
+impl Foo {
+    const FOO: u32 = 3;
+}
+```
+
+#### Associated Types
 
 It is also possible to define associated types for a trait. Consider the
 following example of a `Container` trait. Notice how the type is available
@@ -1180,85 +1300,68 @@ let mycircle = Box::new(mycircle) as Box<Circle>;
 let nonsense = mycircle.radius() * mycircle.area();
 ```
 
-#### Associated Constants
-
-
-A trait can define constants like this:
-
-```rust
-trait Foo {
-    const ID: i32;
-}
-
-impl Foo for i32 {
-    const ID: i32 = 1;
-}
-
-fn main() {
-    assert_eq!(1, i32::ID);
-}
-```
-
-Any implementor of `Foo` will have to define `ID`. Without the definition:
-
-```rust,ignore
-trait Foo {
-    const ID: i32;
-}
-
-impl Foo for i32 {
-}
-```
-
-gives
-
-```text
-error: not all trait items implemented, missing: `ID` [E0046]
-     impl Foo for i32 {
-     }
-```
-
-A default value can be implemented as well:
-
-```rust
-trait Foo {
-    const ID: i32 = 1;
-}
-
-impl Foo for i32 {
-}
-
-impl Foo for i64 {
-    const ID: i32 = 5;
-}
-
-fn main() {
-    assert_eq!(1, i32::ID);
-    assert_eq!(5, i64::ID);
-}
-```
-
-As you can see, when implementing `Foo`, you can leave it unimplemented, as
-with `i32`. It will then use the default value. But, as in `i64`, we can also
-add our own definition.
-
-Associated constants don’t have to be associated with a trait. An `impl` block
-for a `struct` or an `enum` works fine too:
-
-```rust
-struct Foo;
-
-impl Foo {
-    const FOO: u32 = 3;
-}
-```
-
 ### Implementations
 
-An _implementation_ is an item that implements a [trait](#traits) for a
-specific type.
+An _implementation_ is an item that either:
 
-Implementations are defined with the keyword `impl`.
+* implements a [trait](#traits) for a specific type
+* implements functions inherent to a specific to a type
+* unsecure **FIXME**
+* implements functions to all types (`for ..`) **FIXME**
+* negative (`!`) **FIXME**
+
+Implementations are defined with the keyword `impl` and have the following
+syntax:
+
+> `unsafe`? `impl` GenericParams? (`!`? _TraitName_ `for`)? (_TypeName_ | `..`) `{`  
+> &nbsp;&nbsp; _InnerAttributes?_  
+> &nbsp;&nbsp; _ImplementationItems?_  
+> `}`
+
+Implementation items can be:
+
+* functions
+* types
+* constants
+
+#### Trait implementations
+
+```rust
+impl X for Y {
+}
+```
+
+#### Inherent implementations
+
+```rust.ignore
+impl Y {
+}
+```
+
+#### Generic implementations
+
+#### Default implementations (UNSTABLE)
+
+```rust.ignore
+impl X for .. {
+}
+```
+
+#### Unsafe implementations (UNSTABLE)
+
+```rust.ignore
+unsafe impl X for .. {
+}
+```
+
+#### Negative implementations (UNSTABLE)
+
+```rust.ignore
+impl !X for Y {
+}
+```
+
+For example:
 
 ```rust
 # #[derive(Copy, Clone)]
