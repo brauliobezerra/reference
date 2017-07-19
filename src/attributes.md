@@ -1,5 +1,8 @@
 # Attributes
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 Any item declaration may have an _attribute_ applied to it. Attributes in Rust
 are modeled on Attributes in ECMA-335, with the syntax coming from ECMA-334
 (C#). An attribute is a general, free-form metadatum that is interpreted

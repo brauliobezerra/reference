@@ -1,5 +1,8 @@
 # Comments
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 Comments in Rust code follow the general C++ style of line (`//`) and
 block (`/* ... */`) comment forms. Nested block comments are supported.
 

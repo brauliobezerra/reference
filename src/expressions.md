@@ -1,5 +1,24 @@
 # Expressions
 
+> **<sup>Syntax</sup>**  
+> _Expression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_ConstantExpression_](#constant-expressions)  
+> &nbsp;&nbsp; | [_LiteralExpression_](#literal-expressions)  
+> &nbsp;&nbsp; | [_PathExpression_](#path-expressions)  
+> &nbsp;&nbsp; | [_TupleExpression_](#tuple-expression)  
+> &nbsp;&nbsp; | [__](#)  
+> &nbsp;&nbsp; | [__](#)  
+> &nbsp;&nbsp; | [__](#)  
+> &nbsp;&nbsp; | [_RangeExpression_](#range-expressions)  
+> &nbsp;&nbsp; | [_OperatorExpression_](#operator-expressions)  
+> &nbsp;&nbsp; | [_GroupedExpression_](#grouped-expressions)  
+> &nbsp;&nbsp; | [_LoopExpression_](#loops)  
+> &nbsp;&nbsp; | [_IfExpression_](#if-expressions)  
+> &nbsp;&nbsp; | [_MatchExpression_](#match-expressions)  
+> &nbsp;&nbsp; | [_IfLetExpression_](#if-let-expressions)  
+> &nbsp;&nbsp; | [_WhileLetExpression_](#while-let-loops)  
+> &nbsp;&nbsp; | [_ReturnExpression_](#return-expressions)  
+
 An expression may have two roles: it always produces a *value*, and it may have
 *effects* (otherwise known as "side effects"). An expression *evaluates to* a
 value, and has effects during *evaluation*. Many expressions contain
@@ -151,6 +170,9 @@ Implicit borrows may be taken in the following expressions:
 
 ## Constant expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 Certain types of expressions can be evaluated at compile time. These are called
 _constant expressions_. Certain places, such as in
 [constants](items.html#constant-items) and [statics](items.html#static-items),
@@ -206,6 +228,9 @@ exist in `core::ops` and `core::cmp` with the same names.
 
 ## Literal expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A _literal expression_ consists of one of the [literal](tokens.html#literals)
 forms described earlier. It directly describes a number, character, string,
 boolean value, or the unit value.
@@ -218,6 +243,9 @@ boolean value, or the unit value.
 ```
 
 ## Path expressions
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 A [path](paths.html) used as an expression context denotes either a local
 variable or an item. Path expressions that resolve to local or static variables
@@ -241,6 +269,9 @@ let slice_reverse = <[i32]>::reverse;
 
 ## Tuple expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 Tuples are written by enclosing zero or more comma-separated expressions in
 parentheses. They are used to create [tuple-typed](types.html#tuple-types)
 values.
@@ -259,6 +290,10 @@ comma:
 ```
 
 ## Struct expressions
+
+> **<sup>Syntax</sup>**  
+> FIXME
+> FIXME include shorthand?
 
 There are several forms of struct expressions. A _struct expression_ consists
 of the [path](paths.html) of a [struct item](items.html#structs), followed by a
@@ -320,6 +355,9 @@ Point3d {y: 0, z: 10, .. base};
 
 #### Struct field init shorthand
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 When initializing a data structure (struct, enum, union) with named (but not
 numbered) fields, it is allowed to write `fieldname` as a shorthand for
 `fieldname: fieldname`. This allows a compact syntax with less duplication.
@@ -337,6 +375,9 @@ Point3d { x, y: y_value, z };
 
 ### Enumeration Variant expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 Enumeration variants can be constructed similarly to structs, using a path to
 an enum variant instead of to a struct:
 
@@ -352,6 +393,9 @@ let m = Message::Move { x: 50, y: 200 };
 ```
 
 ## Block expressions
+
+> **<sup>Syntax</sup>**  
+> FIXME `{` `}`
 
 A _block expression_ is similar to a module in terms of the declarations that
 are possible, but can also contain [statements](statements.html) and end with
@@ -381,12 +425,18 @@ if really needed.
 
 ### `unsafe` blocks
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 _See [`unsafe` block](unsafe-blocks.html) for more information on when to use `unsafe`_
 
 A block of code can be prefixed with the `unsafe` keyword, to permit calling
 `unsafe` functions or dereferencing raw pointers within a safe function.
 
 ## Method-call expressions
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 A _method call_ consists of an expression followed by a single dot, an
 [identifier](identifiers.html), and a parenthesized expression-list. Method
@@ -439,6 +489,9 @@ syntax.](#disambiguating-function-calls) for method and function invocation.
 
 ## Field expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A _field expression_ consists of an expression followed by a single dot and an
 [identifier](identifiers.html), when not immediately followed by a
 parenthesized expression-list (the latter is always a [method call
@@ -483,6 +536,9 @@ let d: String = x.f3;           // Move out of x.f3
 
 ### Tuple indexing expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 [Tuples](types.html#tuple-types) and [struct tuples](items.html#structs) can be
 indexed using the number corresponding to the position of the field. The index
 must be written as a [decimal literal](tokens.html#integer-literals) with no
@@ -499,6 +555,9 @@ assert_eq!(unit_x.0, 1.0);
 ```
 
 ## Call expressions
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 A _call expression_ consists of an expression followed by a parenthesized
 expression-list. It invokes a function, providing zero or more input variables.
@@ -590,6 +649,9 @@ Refer to [RFC 132] for further details and motivations.
 
 ## Closure expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME `|` Parameters `|` `->`<sup>?</sup>
+
 A _closure expression_ defines a closure and denotes it as a value, in a single
 expression. A closure expression is a pipe-symbol-delimited (`|`) list of
 patterns followed by an expression. Type annotations may optionally be added
@@ -646,6 +708,9 @@ ten_times(move |j| println!("{}, {}", word, j));
 
 ## Array expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 An _[array](types.html#array-and-slice-types) expression_ can be written by
 enclosing zero or more comma-separated expressions of uniform type in square
 brackets. This produces and array containing each of these values in the
@@ -668,6 +733,9 @@ greater than 1 then this requires that the type of `a` is
 ```
 
 ## Index expressions
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 [Array and slice](types.html#array-and-slice-types)-typed expressions can be
 indexed by writing a square-bracket-enclosed expression (the index) after them.
@@ -698,6 +766,34 @@ arr[10];                  // panics
 
 ## Range expressions
 
+> **<sup>Syntax</sup>**  
+> _RangeExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _ClosedRangeExpr_  
+> &nbsp;&nbsp; | _FromRangeExpr_  
+> &nbsp;&nbsp; | _ToRangeExpr_  
+> &nbsp;&nbsp; | _OpenRangeExpr_  
+>  
+> _ClosedRangeExpr_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_](#expressions) `..` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `...` [_Expression_](#expressions)  
+>  
+> _FromRangeExpr_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_](#expressions) `..`  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `...`  
+>  
+> _ToRangeExpr_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `..` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | `...` [_Expression_](#expressions)  
+>  
+> _OpenRangeExpr_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `..`  
+
+**FIXME:** what `...` does?
+
+**FIXME:** what expression generates what range type? Create a table
+
+**FIXME:** example inside `for` loop
+
 The `..` operator will construct an object of one of the `std::ops::Range` (or
 `core::ops::Range`) variants.
 
@@ -719,6 +815,19 @@ assert_eq!(x, y);
 
 ## Operator expressions
 
+> **<sup>Syntax</sup>**  
+> _OperatorExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_BorrowExpression_](#borrow-operators)  
+> &nbsp;&nbsp; | [_DereferenceExpression_](#the-dereference-operator)  
+> &nbsp;&nbsp; | [_QuestionMarkExpression_](#the--operator)  
+> &nbsp;&nbsp; | [_NegationExpression_](#negation-operators)  
+> &nbsp;&nbsp; | [_ArithmeticOrLogicalExpression_](#arithmetic-and-logical-binary-operators)  
+> &nbsp;&nbsp; | [_ComparisonExpression_](#comparison-operators)  
+> &nbsp;&nbsp; | [_LazyBooleanExpression_](#lazy-boolean-expression)  
+> &nbsp;&nbsp; | [_TypeCastExpr_](#type-cast-expressions)  
+> &nbsp;&nbsp; | [_AssignmentExpression_](#assignment-expressions)  
+> &nbsp;&nbsp; | [_CompoundAssignmentExpression_](#compound-assignment-expressions)  
+
 Operators are defined for built in types by the Rust language. Many of the
 following operators can also be overloaded using traits in `std::ops` or
 `std::cmp`.
@@ -739,6 +848,11 @@ overflow:
   the number of bits in the type of the left-hand argument, or is negative.
 
 ### Borrow operators
+
+> **<sup>Syntax</sup>**  
+> _BorrowExpression_ :   
+> &nbsp;&nbsp; &nbsp;&nbsp; `&` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | `&` `mut` [_Expression_](#expressions)  
 
 The `&` (shared borrow) and `&mut` (mutable borrow) operators are unary prefix
 operators. When applied to an lvalue produce a reference (pointer) to the
@@ -766,6 +880,10 @@ let mut array = [-2, 3, 9];
 
 ### The dereference operator
 
+> **<sup>Syntax</sup>**  
+> _DereferenceExpression_ :  
+> &nbsp;&nbsp; `*` [_Expression_](#expressions)
+
 The `*` (dereference) operator is also a unary prefix operator. When applied to
 a [pointer](types.html#pointer-types) it denotes the pointed-to location. If
 the expression is of type `&mut T` and `*mut T`, and is either a local
@@ -787,6 +905,10 @@ assert_eq!(*y, 11);
 
 ### The `?` operator.
 
+> **<sup>Syntax</sup>**  
+> _QuestionMarkExpression_ :  
+> &nbsp;&nbsp; _Expression_ `?`  
+
 The `?` ("question mark") operator can be applied to values of the `Result<T,
 E>` type to propagate errors. If applied to `Err(e)` it will return
 `Err(From::from(e))` from the enclosing function or closure. If applied to
@@ -807,6 +929,11 @@ println!("{:?}", res);
 ```
 
 ### Negation operators
+
+> **<sup>Syntax</sup>**  
+> _NegationExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `-` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | `!` [_Expression_](#expressions)  
 
 These are the last two unary operators. This table summarizes the behavior of
 them on primitive types and which traits are used to overload these operators
@@ -831,6 +958,19 @@ assert_eq!(true, !false);
 ```
 
 ### Arithmetic and Logical Binary Operators
+
+> **<sup>Syntax</sup>**  
+> _ArithmeticOrLogicalExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_](#expressions) `+` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `-` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `*` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `/` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `%` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `&` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `|` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `^` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `<<` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `>>` [_Expression_](#expressions)  
 
 Binary operators expressions are all written with infix notation. This table
 summarizes the behavior of arithmetic and logical binary operators on
@@ -871,6 +1011,15 @@ assert_eq!(-10 >> 2, -3);
 ```
 
 ### Comparison Operators
+
+> **<sup>Syntax</sup>**  
+> _ComparisonExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_](#expressions) `==` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `!=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `>` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `<` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `>=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `<=` [_Expression_](#expressions)  
 
 Comparison operators are also defined both for primitive types and many type in
 the standard library. Parentheses are required when chaining comparison
@@ -916,6 +1065,11 @@ assert!("World" >= "Hello");
 
 ### Lazy boolean operators
 
+> **<sup>Syntax</sup>**  
+> _LazyBooleanExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_](#expressions) `||` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `&&` [_Expression_](#expressions)
+
 The operators `||` and `&&` may be applied to operands of boolean type. The
 `||` operator denotes logical 'or', and the `&&` operator denotes logical
 'and'. They differ from `|` and `&` in that the right-hand operand is only
@@ -930,6 +1084,10 @@ let y = false && panic!(); // false, doesn't evaluate `panic!()`
 ```
 
 ### Type cast expressions
+
+> **<sup>Syntax</sup>**  
+> _TypeCastExpr_ :  
+> &nbsp;&nbsp; [_Expression_](#expressions) `as` [_Identifier_]
 
 A type cast expression is denoted with the binary operator `as`.
 
@@ -1004,6 +1162,10 @@ same trait object.
 
 ### Assignment expressions
 
+> **<sup>Syntax</sup>**  
+> _AssignmentExpression_ :  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `=` [_Expression_](#expressions)  
+
 An _assignment expression_ consists of an
 [lvalue](expressions.html#lvalues-and-rvalues) expression followed
 by an equals sign (`=`) and an
@@ -1021,6 +1183,19 @@ x = y;
 ```
 
 ### Compound assignment expressions
+
+> **<sup>Syntax</sup>**  
+> _CompoundAssignmentExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_](#expressions) `+=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `-=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `*=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `/=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `%=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `&=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `|=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `^=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `<<=` [_Expression_](#expressions)  
+> &nbsp;&nbsp; | [_Expression_](#expressions) `>>=` [_Expression_](#expressions)  
 
 The `+`, `-`, `*`, `/`, `%`, `&`, `|`, `^`, `<<`, and `>>` operators may be
 composed with the `=` operator. The expression `lval OP= val` is equivalent to
@@ -1063,6 +1238,9 @@ given by their associativity.
 
 ## Grouped expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 An expression enclosed in parentheses evaluates to the result of the enclosed
 expression. Parentheses can be used to explicitly specify evaluation order
 within an expression.
@@ -1078,6 +1256,14 @@ assert_eq!(y, 20);
 
 ## Loops
 
+> **<sup>Syntax</sup>**  
+> _LoopExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _LoopLabel_<sup>?</sup> (
+> [_InfiniteLoopExpression_](#infinite-loops)
+> | [_PredicateLoopExpression_](#predicate-loops)
+> | [_IteratorLoopExpression_](#iterator-loops)
+> )
+
 Rust supports three loop expressions:
 
 *   A [`loop` expression](#infinite-loops) denotes an infinite loop.
@@ -1091,6 +1277,12 @@ Only `loop` supports [evaluation to non-trivial values](#break-and-loop-values).
 
 ### Infinite loops
 
+> **<sup>Syntax</sup>**  
+> _InfiniteLoopExpression_ :  
+> &nbsp;&nbsp; `loop` `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; **FIXME**  
+> &nbsp;&nbsp; `}`
+
 A `loop` expression repeats execution of its body continuously:
 `loop { println!("I live."); }`.
 
@@ -1102,6 +1294,12 @@ may terminate, and must have type compatible with the value of the `break`
 expression(s).
 
 ### Predicate loops
+
+> **<sup>Syntax</sup>**  
+> _PredicateLoopExpression_ :  
+> &nbsp;&nbsp; `while` [_Expression_](#expressions) `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; **FIXME**  
+> &nbsp;&nbsp; `}`
 
 A `while` loop begins by evaluating the boolean loop conditional expression. If
 the loop conditional expression evaluates to `true`, the loop body block
@@ -1120,6 +1318,12 @@ while i < 10 {
 ```
 
 ### Iterator loops
+
+> **<sup>Syntax</sup>**  
+> _PredicateLoopExpression_ :  
+> &nbsp;&nbsp; `for` [_Identifier_] `in` [_Expression_](#expressions) `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; **FIXME**  
+> &nbsp;&nbsp; `}`
 
 A `for` expression is a syntactic construct for looping over elements provided
 by an implementation of `std::iter::IntoIterator`. If the iterator yields a
@@ -1149,6 +1353,9 @@ assert_eq!(sum, 55);
 
 ### Loop labels
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A loop expression may optionally have a _label_. The label is written as
 a lifetime preceding the loop expression, as in `'foo: loop { break 'foo; }`,
 `'bar: while false {}`, `'humbug: for _ in 0..0 {}`.
@@ -1158,6 +1365,9 @@ See [break expressions](#break-expressions) and [continue
 expressions](#continue-expressions).
 
 ### `break` expressions
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 When `break` is encountered, execution of the associated loop body is
 immediately terminated, for example:
@@ -1190,6 +1400,9 @@ the forms `break`, `break 'label` or ([see below](#break-and-loop-values))
 `break EXPR` or `break 'label EXPR`.
 
 ### `continue` expressions
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 When `continue` is encountered, the current iteration of the associated loop
 body is immediately terminated, returning control to the loop *head*. In
@@ -1228,6 +1441,9 @@ expression `()`.
 
 ## `if` expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME `if` `{` `}` (`else` `{` `}`)<sup>?</sup>
+
 An `if` expression is a conditional branch in program control. The form of an
 `if` expression is a condition expression, followed by a consequent block, any
 number of `else if` conditions and blocks, and an optional trailing `else`
@@ -1259,6 +1475,9 @@ assert_eq!(y, "Bigger");
 ```
 
 ## `match` expressions
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 A `match` expression branches on a *pattern*. The exact form of matching that
 occurs depends on the pattern. Patterns consist of some combination of
@@ -1388,6 +1607,9 @@ let message = match maybe_digit {
 
 ## `if let` expressions
 
+> **<sup>Syntax</sup>**  
+> _IfLetExpr_ :
+
 An `if let` expression is semantically similar to an `if` expression but in
 place of a condition expression it expects the keyword `let` followed by a
 refutable pattern, an `=` and an expression. If the value of the expression on
@@ -1415,6 +1637,9 @@ if let ("Ham", b) = dish {
 
 ## `while let` loops
 
+> **<sup>Syntax</sup>**  
+> FIXME `while`
+
 A `while let` loop is semantically similar to a `while` loop but in place of a
 condition expression it expects the keyword `let` followed by a refutable
 pattern, an `=` and an expression. If the value of the expression on the right
@@ -1432,6 +1657,11 @@ while let Some(y) = x.pop() {
 
 ## `return` expressions
 
+> **<sup>Syntax</sup>**  
+> _ReturnExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `return`  
+> &nbsp;&nbsp; | `return` [_Expression_](#expressions)  
+
 Return expressions are denoted with the keyword `return`. Evaluating a `return`
 expression moves its argument into the designated output location for the
 current function call, destroys the current function activation frame, and
@@ -1447,3 +1677,5 @@ fn max(a: i32, b: i32) -> i32 {
     return b;
 }
 ```
+
+[_Identifier_]: identifiers.html
