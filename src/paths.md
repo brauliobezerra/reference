@@ -1,7 +1,22 @@
 # Paths
 
+<!-- FIXME: why is this in the Lexical section? -->
+
 > **<sup>Syntax</sup>**  
-> FIXME
+> _Path_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _ModulePath_  
+> &nbsp;&nbsp; | _TypePath_  
+> &nbsp;&nbsp; | _ExpressionPath_  
+> &nbsp;&nbsp; | _GlobalPath_  
+>  
+> _ModulePath_ : FIXME  
+>  
+> _TypePath_ : FIXME  
+>  
+> _ExpressionPath_ : FIXME  
+>  
+> _GlobalPath_ :  
+> &nbsp;&nbsp; `::` _Path_  
 
 A _path_ is a sequence of one or more path components _logically_ separated by
 a namespace qualifier (`::`). If a path consists of only one component, it may

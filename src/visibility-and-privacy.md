@@ -5,7 +5,7 @@
 > &nbsp;&nbsp; &nbsp;&nbsp; EMPTY  
 > &nbsp;&nbsp; | `pub`  
 > &nbsp;&nbsp; | `pub` `(` `crate` `)`  
-> &nbsp;&nbsp; | `pub` `(` `in path` `)`  
+> &nbsp;&nbsp; | `pub` `(` `in` _ModulePath_ `)`  
 > &nbsp;&nbsp; | `pub` `(` `in`<sup>?</sup> `self` `)`  
 > &nbsp;&nbsp; | `pub` `(` `in`<sup>?</sup> `super` `)`  
 

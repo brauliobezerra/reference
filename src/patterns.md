@@ -1,6 +1,7 @@
 # Patterns
 
-**FIXME:** pattern introduction
+<!-- FIXME: pattern introduction -->
+<!-- FIXME: pattern main uses (functions, match, let, if let, while let, etc.) -->
 
 > **<sup>Syntax</sup>**  
 > _Pattern_ :  
@@ -15,9 +16,12 @@
 > &nbsp;&nbsp; | _RangePattern_  
 > &nbsp;&nbsp; | _StructPattern_  
 
-**FIXME:** pattern uses (functions, match, let, if let, while let, etc.)
-
-**FIXME:** irrefutable patterns
+<!-- FIXME: irrefutable patterns -->
+<!-- FIXME: multiple patterns: a | b -->
+<!-- FIXME: ignoring one value: _ -->
+<!-- FIXME: ignoring multiple values: .. -->
+<!-- FIXME: binding: @ -->
+<!-- FIXME: guards: _Pattern_ `if` _Expression_ -->
 
 ## Wildcard pattern
 
@@ -37,6 +41,8 @@
 > **<sup>Syntax</sup>**  
 > _TuplePattern_ :  
 > &nbsp;&nbsp; **FIXME**
+
+<!-- FIXME: includes enum variants? -->
 
 ## Slice patterns
 
@@ -78,4 +84,4 @@
 
 ## Struct patterns
 
-**FIXME:** enum, actually?
+<!-- **FIXME:** destructuring patterns -->
