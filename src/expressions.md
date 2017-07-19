@@ -827,7 +827,7 @@ assert_eq!(x, y);
 > _OperatorExpression_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; [_BorrowExpression_](#borrow-operators)  
 > &nbsp;&nbsp; | [_DereferenceExpression_](#the-dereference-operator)  
-> &nbsp;&nbsp; | [_QuestionMarkExpression_](#the--operator)  
+> &nbsp;&nbsp; | [_ErrorPropagationExpression_](#the--operator)  
 > &nbsp;&nbsp; | [_NegationExpression_](#negation-operators)  
 > &nbsp;&nbsp; | [_ArithmeticOrLogicalExpression_](#arithmetic-and-logical-binary-operators)  
 > &nbsp;&nbsp; | [_ComparisonExpression_](#comparison-operators)  
@@ -914,7 +914,7 @@ assert_eq!(*y, 11);
 ### The `?` operator.
 
 > **<sup>Syntax</sup>**  
-> _QuestionMarkExpression_ :  
+> _ErrorPropagationExpression_ :  
 > &nbsp;&nbsp; _Expression_ `?`  
 
 The `?` ("question mark") operator can be applied to values of the `Result<T,

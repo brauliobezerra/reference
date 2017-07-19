@@ -10,6 +10,7 @@ Rust has two kinds of statement: [declaration
 statements](#declaration-statements) and [expression
 statements](#expression-statements).
 
+
 ## Declaration statements
 
 > **<sup>Syntax</sup>**  
@@ -37,7 +38,7 @@ in meaning to declaring the item outside the statement block.
 ### `let` statements
 
 > **<sup>Syntax</sup>**  
-> FIXME `let` IDENTIFIER (`=` Expression)?
+> FIXME `let` _Pattern_ (`:` Type)<sup>?</sup> (`=` Expression )<sup>?</sup> `;`
 
 A _`let` statement_ introduces a new set of variables, given by a pattern. The
 pattern may be followed by a type annotation, and/or an initializer expression.
