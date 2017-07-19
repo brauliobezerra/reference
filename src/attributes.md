@@ -1,10 +1,28 @@
 # Attributes
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> _Attribute_ :  
+> &nbsp;&nbsp; _InnerAttribute_ | _OuterAttribute_  
+>  
+> _InnerAttribute_ :  
+> &nbsp;&nbsp; `#[` MetaItem `]`  
+>   
+> _OuterAttribute_ :  
+> &nbsp;&nbsp; `#![` MetaItem `]`  
+>   
+> _MetaItem_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER  
+> &nbsp;&nbsp; | IDENTIFIER `=` LITERAL  
+> &nbsp;&nbsp; | IDENTIFIER `(` _MetaSeq_ `)`  
+> &nbsp;&nbsp; | IDENTIFIER `(` _MetaSeq_ `,` `)`  
+>   
+> _MetaSeq_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; EMPTY  
+> &nbsp;&nbsp; | _MetaItem_  
+> &nbsp;&nbsp; | _MetaSeq_ `,` _MetaItem_  
 
 Any item declaration may have an _attribute_ applied to it. Attributes in Rust
-are modeled on Attributes in ECMA-335, with the syntax coming from ECMA-334
+are modeled on Attributes in [ECMA-335], with the syntax coming from [ECMA-334]
 (C#). An attribute is a general, free-form metadatum that is interpreted
 according to name, convention, and language and compiler version. Attributes
 may appear as any of:
@@ -491,5 +509,7 @@ removed.
 If an unknown feature is found in a directive, it results in a compiler error.
 An unknown feature is one which has never been recognized by the compiler.
 
+[ECMA-335]: https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-335.pdf
+[ECMA-334]: https://www.ecma-international.org/publications/files/ECMA-ST/Ecma-334.pdf
 [The Unstable Book]: https://doc.rust-lang.org/nightly/unstable-book/
 [unstable book plugin]: ../unstable-book/language-features/plugin.html#lint-plugins

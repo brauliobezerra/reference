@@ -3,7 +3,9 @@
 This document is the primary reference for the Rust programming language. It
 provides three kinds of material:
 
-  - Chapters that informally describe each language construct and their use.
+  - Chapters that
+     - Informally describe each language construct and their use.
+     - Formally describe the grammar productions of each of them.
   - Chapters that informally describe the memory model, concurrency model,
     runtime services, linkage model and debugging facilities.
   - Appendix chapters providing rationale and references to languages that
