@@ -8,7 +8,7 @@ the [token][tokens] rule, and are assumed to be the result of a
 lexical-analysis phase feeding the parser, driven by a DFA, operating over the
 disjunction of all such string table entries.
 
-When such a string enclosed in double-quotes (`"`) occurs inside the grammar,
+When such a string formatted in `code` style occurs inside the grammar,
 it is an implicit reference to a single member of such a string table
 production. See [tokens] for more information.
 

@@ -1,5 +1,8 @@
 ## Procedural Macros
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 "Procedural macros" are the second way to implement a macro. For now, the only
 thing they can be used for is to implement derive on your own types. See
 [the book][procedural macros] for a tutorial.

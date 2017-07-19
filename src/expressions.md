@@ -2,13 +2,19 @@
 
 > **<sup>Syntax</sup>**  
 > _Expression_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_ConstantExpression_](#constant-expressions)  
-> &nbsp;&nbsp; | [_LiteralExpression_](#literal-expressions)  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_LiteralExpression_](#literal-expressions)  
 > &nbsp;&nbsp; | [_PathExpression_](#path-expressions)  
-> &nbsp;&nbsp; | [_TupleExpression_](#tuple-expression)  
-> &nbsp;&nbsp; | [__](#)  
-> &nbsp;&nbsp; | [__](#)  
-> &nbsp;&nbsp; | [__](#)  
+> &nbsp;&nbsp; | [_TupleExpression_](#tuple-expressions)  
+> &nbsp;&nbsp; | [_StructExpression_](#struct-expressions)  
+> &nbsp;&nbsp; | [_EnumerationVariantExpression_](#enumeration-variant-expressions)  
+> &nbsp;&nbsp; | [_BlockExpression_](#block-expressions)  
+> &nbsp;&nbsp; | [_MethodCallExpression_](#method-call-expressions)  
+> &nbsp;&nbsp; | [_FieldExpression_](#field-expressions)  
+> &nbsp;&nbsp; | [_TupleIndexingExpression_](#tuple-indexing-expressions)  
+> &nbsp;&nbsp; | [_CallExpression_](#call-expressions)  
+> &nbsp;&nbsp; | [_ClosureExpression_](#closure-expressions)  
+> &nbsp;&nbsp; | [_ArrayExpression_](#array-expressions)  
+> &nbsp;&nbsp; | [_IndexExpression_](#index-expressions)  
 > &nbsp;&nbsp; | [_RangeExpression_](#range-expressions)  
 > &nbsp;&nbsp; | [_OperatorExpression_](#operator-expressions)  
 > &nbsp;&nbsp; | [_GroupedExpression_](#grouped-expressions)  
@@ -373,7 +379,7 @@ Point3d { x: x, y: y_value, z: z };
 Point3d { x, y: y_value, z };
 ```
 
-### Enumeration Variant expressions
+## Enumeration Variant expressions
 
 > **<sup>Syntax</sup>**  
 > FIXME
@@ -490,7 +496,8 @@ syntax.](#disambiguating-function-calls) for method and function invocation.
 ## Field expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> _FieldExpression_ :  
+> &nbsp;&nbsp; [_Expression_](#expressions) `.` [IDENTIFIER]
 
 A _field expression_ consists of an expression followed by a single dot and an
 [identifier](identifiers.html), when not immediately followed by a
@@ -537,7 +544,8 @@ let d: String = x.f3;           // Move out of x.f3
 ### Tuple indexing expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> _TupleIndexingExpression_ :  
+> &nbsp;&nbsp; [_Expression_](#expressions) `.` INTEGER_LITERAL
 
 [Tuples](types.html#tuple-types) and [struct tuples](items.html#structs) can be
 indexed using the number corresponding to the position of the field. The index
@@ -1087,7 +1095,7 @@ let y = false && panic!(); // false, doesn't evaluate `panic!()`
 
 > **<sup>Syntax</sup>**  
 > _TypeCastExpr_ :  
-> &nbsp;&nbsp; [_Expression_](#expressions) `as` [_Identifier_]
+> &nbsp;&nbsp; [_Expression_](#expressions) `as` [IDENTIFIER]
 
 A type cast expression is denoted with the binary operator `as`.
 
@@ -1321,7 +1329,7 @@ while i < 10 {
 
 > **<sup>Syntax</sup>**  
 > _PredicateLoopExpression_ :  
-> &nbsp;&nbsp; `for` [_Identifier_] `in` [_Expression_](#expressions) `{`  
+> &nbsp;&nbsp; `for` [IDENTIFIER] `in` [_Expression_](#expressions) `{`  
 > &nbsp;&nbsp; &nbsp;&nbsp; **FIXME**  
 > &nbsp;&nbsp; `}`
 
@@ -1678,4 +1686,4 @@ fn max(a: i32, b: i32) -> i32 {
 }
 ```
 
-[_Identifier_]: identifiers.html
+[IDENTIFIER]: identifiers.html

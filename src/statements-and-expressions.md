@@ -1,5 +1,8 @@
 # Statements and expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME _Statement_ | _Expression_
+
 Rust is _primarily_ an expression language. This means that most forms of
 value-producing or effect-causing evaluation are directed by the uniform syntax
 category of _expressions_. Each kind of expression can typically _nest_ within

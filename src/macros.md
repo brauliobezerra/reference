@@ -1,5 +1,8 @@
 # Macros
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A number of minor features of Rust are not central enough to have their own
 syntax, and yet are not implementable as functions. Instead, they are given
 names, and invoked through a consistent syntax: `some_extension!(...)`.

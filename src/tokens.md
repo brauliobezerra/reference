@@ -1,5 +1,8 @@
 # Tokens
 
+> **<sup>Lexer</sup>**  
+> **FIXME**
+
 Tokens are primitive productions in the grammar defined by regular
 (non-recursive) languages. "Simple" tokens are given in [string table
 production] form, and occur in the rest of the
@@ -8,6 +11,9 @@ grammar as double-quoted strings. Other tokens have exact rules given.
 [string table production]: string-table-productions.html
 
 ## Literals
+
+> **<sup>Lexer</sup>**  
+> **FIXME**
 
 A literal is an expression consisting of a single token, rather than a sequence
 of tokens, that immediately and directly denotes the value it evaluates to,
@@ -309,9 +315,15 @@ The representation semantics of floating-point numbers are described in
 
 ### Boolean literals
 
+> **<sup>Lexer</sup>**  
+> **FIXME**
+
 The two values of the boolean type are written `true` and `false`.
 
 ## Symbols
+
+> **<sup>Lexer</sup>**  
+> **FIXME**
 
 Symbols are a general class of printable [tokens] that play structural
 roles in a variety of grammar productions. They are a

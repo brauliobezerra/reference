@@ -1,5 +1,8 @@
 # Paths
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A _path_ is a sequence of one or more path components _logically_ separated by
 a namespace qualifier (`::`). If a path consists of only one component, it may
 refer to either an [item] or a [variable] in a local control

@@ -1,7 +1,12 @@
 # Comments
 
-> **<sup>Syntax</sup>**  
-> FIXME
+> **<sup>Lexer</sup>**  
+> BLOCK_COMMENT : `/*` ... `*/`  
+> LINE_COMMENT : `//` ... `\n`  
+> OUTER_DOC_LINE_COMMENT : `//!` ... `\n`  
+> OUTER_DOC_BLOCK_COMMENT : `/*!` ... `*/`  
+> INNER_DOC_LINE_COMMENT : `///` ... `\n`  
+> INNER_DOC_BLOCK_COMMENT : `/**` ... `*/`  
 
 Comments in Rust code follow the general C++ style of line (`//`) and
 block (`/* ... */`) comment forms. Nested block comments are supported.
