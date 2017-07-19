@@ -5,10 +5,10 @@
 > &nbsp;&nbsp; _InnerAttribute_ | _OuterAttribute_  
 >  
 > _InnerAttribute_ :  
-> &nbsp;&nbsp; `#[` MetaItem `]`  
+> &nbsp;&nbsp; `#![` MetaItem `]`  
 >   
 > _OuterAttribute_ :  
-> &nbsp;&nbsp; `#![` MetaItem `]`  
+> &nbsp;&nbsp; `#[` MetaItem `]`  
 >   
 > _MetaItem_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER  

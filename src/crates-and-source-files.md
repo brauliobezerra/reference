@@ -1,8 +1,5 @@
 # Crates and source files
 
-> **<sup>Syntax</sup>**  
-> FIXME
-
 Although Rust, like any other language, can be implemented by an interpreter as
 well as a compiler, the only existing implementation is a compiler,
 and the language has
@@ -20,6 +17,13 @@ The compilation model centers on artifacts called _crates_. Each compilation
 processes a single crate in source form, and if successful, produces a single
 crate in binary form: either an executable or some sort of
 library.[^cratesourcefile]
+
+> **<sup>Syntax</sup>**  
+> _Crate_ :  
+> &nbsp;&nbsp; UTF8BOM<sup>?</sup>  
+> &nbsp;&nbsp; SHEBANG<sup>?</sup>  
+> &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; [_Item_]<sup>\*</sup>  
 
 A _crate_ is a unit of compilation and linking, as well as versioning,
 distribution and runtime loading. A crate contains a _tree_ of nested
@@ -74,3 +78,5 @@ A crate that contains a `main` function can be compiled to an executable. If a
 [module path]: paths.html
 [attributes]: items-and-attributes.html
 [unit]: types.html#tuple-types
+[_InnerAttribute_]: attributes.html
+[_Item_]: items.html

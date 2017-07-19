@@ -305,6 +305,9 @@ fn main() {}
 
 ## Functions
 
+> **<sup>Syntax</sup>**  
+> FIXME `fn` ...
+
 A _function item_ defines a sequence of [statements] and a
 final [expression], along with a name and a set of
 parameters. Other than a name, all these are optional.
@@ -468,6 +471,9 @@ contiguous stack segments like C.
 
 ## Type aliases
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A _type alias_ defines a new name for an existing [type]. Type
 aliases are declared with the keyword `type`. Every value has a single,
 specific type, but may implement several different traits, or be compatible with
@@ -493,6 +499,9 @@ let _: F = E::A;  // OK
 ```
 
 ## Structs
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 A _struct_ is a nominal [struct type] defined with the
 keyword `struct`.
@@ -540,6 +549,9 @@ particular layout using the [`repr` attribute].
 [`repr` attribute]: attributes.html#ffi-attributes
 
 ## Enumerations
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 An _enumeration_ is a simultaneous definition of a nominal [enumerated
 type] as well as a set of *constructors*, that can be used
@@ -606,6 +618,9 @@ This only works as long as none of the variants have data attached. If
 it were `Bar(i32)`, this is disallowed.
 
 ## Unions
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 A union declaration uses the same syntax as a struct declaration, except with
 `union` in place of `struct`.
@@ -751,6 +766,9 @@ More detailed specification for unions, including unstable bits, can be found in
 
 ## Constant items
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A *constant item* is a named _[constant value]_ which is not associated with a
 specific memory location in the program. Constants are essentially inlined
 wherever they are used, meaning that they are copied directly into the relevant
@@ -791,6 +809,9 @@ const BITS_N_STRINGS: BitsNStrings<'static> = BitsNStrings {
 ```
 
 ## Static items
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 A *static item* is similar to a *constant*, except that it represents a precise
 memory location in the program. A static is never "inlined" at the usage site,
@@ -912,7 +933,7 @@ The syntax of a trait definition is:
 > &nbsp;&nbsp; [_Type-Parameters_](#type-parameters)<sup>?</sup>  
 > &nbsp;&nbsp; (`for` _Type_)<sup>?</sup>  
 > &nbsp;&nbsp; (`:` _TypeBound_)<sup>?</sup> `{`  
-> &nbsp;&nbsp;&nbsp;&nbsp; _Trait-Item_<sup>*</sup>  
+> &nbsp;&nbsp;&nbsp;&nbsp; _Trait-Item_<sup>\*</sup>  
 > &nbsp;&nbsp; `}`  
 >   
 > _Trait-Item_ :  
