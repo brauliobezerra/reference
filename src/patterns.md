@@ -29,6 +29,8 @@
 > _WildcardPattern_ :  
 > &nbsp;&nbsp; `_`
 
+<!-- FIXME: explain wildcard patterns -->
+
 ## Reference patterns
 
 > **<sup>Syntax</sup>**  
@@ -36,12 +38,15 @@
 > &nbsp;&nbsp; &nbsp;&nbsp; (`&`|`&&`) _Pattern_  
 > &nbsp;&nbsp; | (`&`|`&&`) _Mutability_ _Pattern_  
 
+<!-- FIXME: explain reference patterns  -->
+
 ## Tuple patterns
 
 > **<sup>Syntax</sup>**  
 > _TuplePattern_ :  
 > &nbsp;&nbsp; **FIXME**
 
+<!-- FIXME: explain tuple patterns -->
 <!-- FIXME: includes enum variants? -->
 
 ## Slice patterns
@@ -49,6 +54,8 @@
 > **<sup>Syntax</sup>**  
 > _SlicePattern_ :  
 > &nbsp;&nbsp; **FIXME**
+
+<!-- FIXME: explain slice patterns -->
 
 ## Identifier patterns
 
@@ -58,11 +65,7 @@
 > &nbsp;&nbsp; | `mut` IDENTIFIER `@` _Pattern_  
 > &nbsp;&nbsp; | `ref` IDENTIFIER `@` _Pattern_  
 
-## Box pattern
-
-> **<sup>Syntax</sup>**  
-> _BoxPattern_ :  
-> &nbsp;&nbsp; **FIXME**
+<!-- FIXME: explain identifier patterns -->
 
 ## Path patterns
 
@@ -70,11 +73,16 @@
 > _PathPattern_ :  
 > &nbsp;&nbsp; **FIXME**
 
+<!-- FIXME: explain paths in patterns -->
+
 ## Literal patterns
 
 > **<sup>Syntax</sup>**  
 > _LiteralPattern_ :  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; &nbsp;&nbsp; LITERAL  
+> &nbsp;&nbsp; | `-` LITERAL  
+
+<!-- FIXME: explain literal patterns -->
 
 ## Range patterns
 
@@ -82,6 +90,21 @@
 > _RangePattern_ :  
 > &nbsp;&nbsp; **FIXME**
 
-## Struct patterns
+<!-- FIXME: explain range patterns -->
 
-<!-- **FIXME:** destructuring patterns -->
+## Tuple struct patterns
+
+<!-- FIXME: explain struct patterns -->
+
+<!-- FIXME: destructuring patterns -->
+
+## Box pattern
+
+> **<sup>Syntax</sup>**  
+> _BoxPattern_ :  
+> &nbsp;&nbsp; **FIXME**
+
+<!-- FIXME: explain box patterns -->
+<!-- FIXME: find out whether they're not stable -->
+
+## Refutability
