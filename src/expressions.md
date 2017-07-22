@@ -417,7 +417,11 @@ let m = Message::Move { x: 50, y: 200 };
 ## Block expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME `{` `}`
+> _BlockExpression_ :  
+> &nbsp;&nbsp; `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]*  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Statement_]*  
+> &nbsp;&nbsp; `}`  
 
 A _block expression_ is similar to a module in terms of the declarations that
 are possible, but can also contain [statements](statements.html) and end with
@@ -1502,7 +1506,10 @@ expression `()`.
 ## `if` expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME `if` `{` `}` (`else` `{` `}`)<sup>?</sup>
+> _IfExpression_ :  
+> &nbsp;&nbsp; `if` [_Expression_]&nbsp;[_BlockExpression_]  
+> &nbsp;&nbsp; (`else` `if` [_Expression_]&nbsp;[_BlockExpression_] )<sup>\*</sup>  
+> &nbsp;&nbsp; (`else` [_BlockExpression_] )<sup>?</sup>  
 
 An `if` expression is a conditional branch in program control. The form of an
 `if` expression is a condition expression, followed by a consequent block, any
@@ -1668,11 +1675,15 @@ let message = match maybe_digit {
 ## `if let` expressions
 
 > **<sup>Syntax</sup>**  
-> _IfLetExpr_ :
+> _IfLetExpr_ : `if` `let` [_Pattern_] `=` [_BlockExpression_]
+
+<!-- FIXME: check in the parser -->
+<!-- FIXME: limitations on the expression: no struct literal? -->
+<!-- FIXME: link refutable pattern -->
 
 An `if let` expression is semantically similar to an `if` expression but in
 place of a condition expression it expects the keyword `let` followed by a
-refutable pattern, an `=` and an expression. If the value of the expression on
+refutable pattern, an `=` and a block expression. If the value of the expression on
 the right hand side of the `=` matches the pattern, the corresponding block
 will execute, otherwise flow proceeds to the following `else` block if it
 exists. Like `if` expressions, `if let` expressions have a value determined by
@@ -1698,12 +1709,15 @@ if let ("Ham", b) = dish {
 ## `while let` loops
 
 > **<sup>Syntax</sup>**  
-> FIXME  
-> _WhileLetExpression_: `while` `let`  
+> _WhileLetExpression_:  
+> &nbsp;&nbsp; `while` `let` [_Pattern_] `=` [_Expression_]&nbsp;[_BlockExpression_]  
+
+<!-- FIXME: limitations on the expression: no struct literal? -->
+<!-- FIXME: link refutable pattern -->
 
 A `while let` loop is semantically similar to a `while` loop but in place of a
 condition expression it expects the keyword `let` followed by a refutable
-pattern, an `=` and an expression. If the value of the expression on the right
+pattern, an `=` and a block expression. If the value of the expression on the right
 hand side of the `=` matches the pattern, the loop body block executes then
 control returns to the pattern matching statement. Otherwise, the while
 expression completes.
@@ -1739,5 +1753,11 @@ fn max(a: i32, b: i32) -> i32 {
 }
 ```
 
-[IDENTIFIER]: identifiers.html
 [_Expression_]: #expressions
+[_BlockExpression_]: #block-expressions
+
+[_InnerAttribute_]: attributes.html
+
+[IDENTIFIER]: identifiers.html
+
+[_Pattern_]: patterns.html
