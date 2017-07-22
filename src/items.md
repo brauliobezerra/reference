@@ -1159,7 +1159,7 @@ let nonsense = mycircle.radius() * mycircle.area();
 
 A trait can define constants like this:
 
-```rust
+```rust.ignore
 trait Foo {
     const ID: i32;
 }
@@ -1194,7 +1194,7 @@ error: not all trait items implemented, missing: `ID` [E0046]
 
 A default value can be implemented as well:
 
-```rust
+```rust.ignore
 trait Foo {
     const ID: i32 = 1;
 }
@@ -1219,7 +1219,7 @@ add our own definition.
 Associated constants don’t have to be associated with a trait. An `impl` block
 for a `struct` or an `enum` works fine too:
 
-```rust
+```rust.ignore
 struct Foo;
 
 impl Foo {

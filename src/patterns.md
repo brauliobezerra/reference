@@ -3,6 +3,36 @@
 <!-- FIXME: pattern introduction -->
 <!-- FIXME: pattern main uses (functions, match, let, if let, while let, etc.) -->
 
+## Destructuring
+
+Patterns can be used to *destructure* structs, enums, and tuples. Destructuring
+breaks a value up into its component pieces. The syntax used is the same as
+when creating such values. When destructing a data structure with named (but
+not numbered) fields, it is allowed to write `fieldname` as a shorthand for
+`fieldname: fieldname`. In a pattern whose head expression has a `struct`,
+`enum` or `tupl` type, a placeholder (`_`) stands for a *single* data field,
+whereas a wildcard `..` stands for *all* the fields of a particular variant.
+
+```rust
+# enum Message {
+#     Quit,
+#     WriteString(String),
+#     Move { x: i32, y: i32 },
+#     ChangeColor(u8, u8, u8),
+# }
+# let message = Message::Quit;
+match message {
+    Message::Quit => println!("Quit"),
+    Message::WriteString(write) => println!("{}", &write),
+    Message::Move{ x, y: 0 } => println!("move {} horizontally", x),
+    Message::Move{ .. } => println!("other move"),
+    Message::ChangeColor { 0: red, 1: green, 2: _ } => {
+        println!("color change, red: {}, green: {}", red, green);
+    }
+};
+```
+## Refutability
+
 > **<sup>Syntax</sup>**  
 > _Pattern_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; _WildcardPattern_  
@@ -40,6 +70,18 @@
 
 <!-- FIXME: explain reference patterns  -->
 
+Patterns can also dereference pointers by using the `&`, `&mut` and `box`
+symbols, as appropriate. For example, these two matches on `x: &i32` are
+equivalent:
+
+```rust
+# let x = &3;
+let y = match *x { 0 => "zero", _ => "some" };
+let z = match x { &0 => "zero", _ => "some" };
+
+assert_eq!(y, z);
+```
+
 ## Tuple patterns
 
 > **<sup>Syntax</sup>**  
@@ -67,6 +109,23 @@
 
 <!-- FIXME: explain identifier patterns -->
 
+Subpatterns can also be bound to variables by the use of the syntax `variable @
+subpattern`. For example:
+
+```rust
+let x = 1;
+
+match x {
+    e @ 1 ... 5 => println!("got a range element {}", e),
+    _ => println!("anything"),
+}
+```
+
+Patterns that bind variables default to binding to a copy or move of the
+matched value (depending on the matched value's type). This can be changed to
+bind to a reference by using the `ref` keyword, or to a mutable reference using
+`ref mut`.
+
 ## Path patterns
 
 > **<sup>Syntax</sup>**  
@@ -92,6 +151,11 @@
 
 <!-- FIXME: explain range patterns -->
 
+Range patterns only work on scalar types (like integers and characters; not
+like arrays and structs, which have sub-components). A range pattern may not be
+a sub-range of another range pattern inside the same `match`.
+
+
 ## Tuple struct patterns
 
 <!-- FIXME: explain struct patterns -->
@@ -107,4 +171,3 @@
 <!-- FIXME: explain box patterns -->
 <!-- FIXME: find out whether they're not stable -->
 
-## Refutability

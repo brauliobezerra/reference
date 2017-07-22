@@ -1,6 +1,7 @@
 # Keywords
 
-**FIXME:** say somethig about keywords
+<!-- FIXME: say somethig about keywords -->
+<!-- FIXME: what about the `box` keyword? It isn't stable -->
 
 ## Strict keywords
 

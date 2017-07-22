@@ -176,9 +176,6 @@ Implicit borrows may be taken in the following expressions:
 
 ## Constant expressions
 
-> **<sup>Syntax</sup>**  
-> FIXME
-
 Certain types of expressions can be evaluated at compile time. These are called
 _constant expressions_. Certain places, such as in
 [constants](items.html#constant-items) and [statics](items.html#static-items),
@@ -1525,61 +1522,7 @@ match x {
 }
 ```
 
-Patterns that bind variables default to binding to a copy or move of the
-matched value (depending on the matched value's type). This can be changed to
-bind to a reference by using the `ref` keyword, or to a mutable reference using
-`ref mut`.
-
-Patterns can be used to *destructure* structs, enums, and tuples. Destructuring
-breaks a value up into its component pieces. The syntax used is the same as
-when creating such values. When destructing a data structure with named (but
-not numbered) fields, it is allowed to write `fieldname` as a shorthand for
-`fieldname: fieldname`. In a pattern whose head expression has a `struct`,
-`enum` or `tupl` type, a placeholder (`_`) stands for a *single* data field,
-whereas a wildcard `..` stands for *all* the fields of a particular variant.
-
-```rust
-# enum Message {
-#     Quit,
-#     WriteString(String),
-#     Move { x: i32, y: i32 },
-#     ChangeColor(u8, u8, u8),
-# }
-# let message = Message::Quit;
-match message {
-    Message::Quit => println!("Quit"),
-    Message::WriteString(write) => println!("{}", &write),
-    Message::Move{ x, y: 0 } => println!("move {} horizontally", x),
-    Message::Move{ .. } => println!("other move"),
-    Message::ChangeColor { 0: red, 1: green, 2: _ } => {
-        println!("color change, red: {}, green: {}", red, green);
-    }
-};
-```
-
-Patterns can also dereference pointers by using the `&`, `&mut` and `box`
-symbols, as appropriate. For example, these two matches on `x: &i32` are
-equivalent:
-
-```rust
-# let x = &3;
-let y = match *x { 0 => "zero", _ => "some" };
-let z = match x { &0 => "zero", _ => "some" };
-
-assert_eq!(y, z);
-```
-
-Subpatterns can also be bound to variables by the use of the syntax `variable @
-subpattern`. For example:
-
-```rust
-let x = 1;
-
-match x {
-    e @ 1 ... 5 => println!("got a range element {}", e),
-    _ => println!("anything"),
-}
-```
+### Multiple patterns
 
 Multiple match patterns may be joined with the `|` operator. A range of values
 may be specified with `...`. For example:
@@ -1593,9 +1536,7 @@ let message = match x {
 };
 ```
 
-Range patterns only work on scalar types (like integers and characters; not
-like arrays and structs, which have sub-components). A range pattern may not be
-a sub-range of another range pattern inside the same `match`.
+### Pattern guards
 
 Finally, match patterns can accept *pattern guards* to further refine the
 criteria for matching a case. Pattern guards appear after the pattern and
