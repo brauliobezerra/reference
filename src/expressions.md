@@ -289,7 +289,10 @@ let slice_reverse = <[i32]>::reverse;
 ## Tuple expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> _TupleExpression_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `(` [_Expression_] `,` `)`  
+> &nbsp;&nbsp; | `(` [_Expression_] (`,` [_Expression_] )<sup>\+</sup> 
+>                `,`<sup>?</sup> `)`  
 
 Tuples are written by enclosing zero or more comma-separated expressions in
 parentheses. They are used to create [tuple-typed](types.html#tuple-types)
@@ -558,7 +561,7 @@ let d: String = x.f3;           // Move out of x.f3
 
 > **<sup>Syntax</sup>**  
 > _TupleIndexingExpression_ :  
-> &nbsp;&nbsp; [_Expression_] `.` INTEGER_LITERAL
+> &nbsp;&nbsp; [_Expression_] `.` [DECIMAL_LITERAL]
 
 [Tuples](types.html#tuple-types) and [struct tuples](items.html#structs) can be
 indexed using the number corresponding to the position of the field. The index
@@ -574,6 +577,8 @@ assert_eq!(pair.1, 2);
 let unit_x = Point(1.0, 0.0);
 assert_eq!(unit_x.0, 1.0);
 ```
+
+[INTEGER_LITERAL]: tokens.html#integer-literals
 
 ## Call expressions
 
@@ -789,34 +794,58 @@ arr[10];                  // panics
 
 > **<sup>Syntax</sup>**  
 > _RangeExpression_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; _ClosedRangeExpr_  
-> &nbsp;&nbsp; | _FromRangeExpr_  
-> &nbsp;&nbsp; | _ToRangeExpr_  
-> &nbsp;&nbsp; | _OpenRangeExpr_  
+> &nbsp;&nbsp; &nbsp;&nbsp; _RangeExpr_  
+> &nbsp;&nbsp; | _RangeFromExpr_  
+> &nbsp;&nbsp; | _RangeToExpr_  
+> &nbsp;&nbsp; | _RangeFullExpr_  
 >  
-> _ClosedRangeExpr_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `..` [_Expression_]  
-> &nbsp;&nbsp; | [_Expression_] `...` [_Expression_]  
+> _RangeExpr_ :  
+> &nbsp;&nbsp; [_Expression_] `..` [_Expression_]  
 >  
-> _FromRangeExpr_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `..`  
-> &nbsp;&nbsp; | [_Expression_] `...`  
+> _RangeFromExpr_ :  
+> &nbsp;&nbsp; [_Expression_] `..`  
 >  
-> _ToRangeExpr_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; `..` [_Expression_]  
-> &nbsp;&nbsp; | `...` [_Expression_]  
+> _RangeToExpr_ :  
+> &nbsp;&nbsp; `..` [_Expression_]  
 >  
-> _OpenRangeExpr_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; `..`  
+> _RangeFullExpr_ :  
+> &nbsp;&nbsp; `..`  
 
-**FIXME:** what `...` does?
+<!-- FIXME inclusive ranges are still unstable
 
-**FIXME:** what expression generates what range type? Create a table
+> _RangeExpression_ :  
+> &nbsp;&nbsp; | _RangeInclusiveExpr_  
+> &nbsp;&nbsp; | _RangeToInclusiveExpr_  
+>  
+> _RangeInclusiveExpr_ :  
+> &nbsp;&nbsp; [_Expression_] `...` [_Expression_]  
+>  
+> _RangeToInclusiveExpr_ :  
+> &nbsp;&nbsp; `...` [_Expression_]  
 
-**FIXME:** example inside `for` loop
+-->
+
+<!-- FIXME: example inside `for` loop -->
+<!-- FIXME: only integer literals allowed? -->
+<!-- FIXME: only nonnegative integer literals allowed? -->
+<!-- FIXME: there can be whitespace outside the .. ? -->
 
 The `..` operator will construct an object of one of the `std::ops::Range` (or
-`core::ops::Range`) variants.
+`core::ops::Range`) variants, according to the following table:
+
+| Production             | Syntax        | Type                         | Range                 |
+|------------------------|---------------|------------------------------|-----------------------|
+| _RangeExpr_            | start`..`end  | [std::ops::Range]            | start &le; x &lt; end |
+| _RangeFromExpr_        | start`..`     | [std::ops::RangeFrom]        | start &le; x          |
+| _RangeToExpr_          | `..`end       | [std::ops::RangeTo]          |            x &lt; end |
+| _RangeFullExpr_        | `..`          | [std::ops::RangeFull]        |            -          |
+
+<!-- FIXME inclusive ranges are still unstable
+| _RangeInclusiveExpr_   | start`...`end | [std::ops::RangeInclusive]   | start &le; x &le; end |
+| _RangeToInclusiveExpr_ | `...`end      | [std::ops::RangeToInclusive] |            x &le; end |
+-->
+
+Examples:
 
 ```rust
 1..2;   // std::ops::Range
@@ -833,6 +862,13 @@ let y = 0..10;
 
 assert_eq!(x, y);
 ```
+
+[std::ops::Range]: https://doc.rust-lang.org/std/ops/struct.Range.html
+[std::ops::RangeFrom]: https://doc.rust-lang.org/std/ops/struct.RangeFrom.html
+[std::ops::RangeFull]: https://doc.rust-lang.org/std/ops/struct.RangeFull.html
+[std::ops::RangeTo]: https://doc.rust-lang.org/std/ops/struct.RangeTo.html
+[std::ops::RangeInclusive]: https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html
+[std::ops::RangeToInclusive]: https://doc.rust-lang.org/std/ops/struct.RangeToInclusive.html
 
 ## Operator expressions
 
@@ -1260,7 +1296,8 @@ given by their associativity.
 ## Grouped expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> _GroupedExpression_ :  
+> &nbsp;&nbsp; `(` [_Expression_] `)`
 
 An expression enclosed in parentheses evaluates to the result of the enclosed
 expression. Parentheses can be used to explicitly specify evaluation order
@@ -1373,6 +1410,8 @@ assert_eq!(sum, 55);
 ```
 
 ### Loop labels
+
+<!-- FIXME: what about lifetimes? same syntax? same token? -->
 
 > **<sup>Syntax</sup>**  
 > FIXME
@@ -1659,7 +1698,8 @@ if let ("Ham", b) = dish {
 ## `while let` loops
 
 > **<sup>Syntax</sup>**  
-> FIXME `while`
+> FIXME  
+> _WhileLetExpression_: `while` `let`  
 
 A `while let` loop is semantically similar to a `while` loop but in place of a
 condition expression it expects the keyword `let` followed by a refutable
