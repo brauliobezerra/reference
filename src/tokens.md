@@ -365,8 +365,12 @@ The representation semantics of floating-point numbers are described in
 
 ### Boolean literals
 
-The two values of the boolean type are written `true` and `false`. See
-[keywords] for their definition in the grammar.
+> **<sup>Lexer</sup>**  
+> BOOLEAN_LITERAL :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `true`  
+> &nbsp;&nbsp; | `false`  
+
+The two values of the boolean type are written `true` and `false`.
 
 ## Symbols
 
