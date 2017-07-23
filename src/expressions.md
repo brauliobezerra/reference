@@ -252,12 +252,12 @@ exist in `core::ops` and `core::cmp` with the same names.
 > &nbsp;&nbsp; &nbsp;&nbsp; [CHARACTER_LITERAL]  
 > &nbsp;&nbsp; | [STRING_LITERAL]  
 > &nbsp;&nbsp; | [RAW_STRING_LITERAL]  
+> &nbsp;&nbsp; | [BYTE_LITERAL]  
+> &nbsp;&nbsp; | [BYTE_STRING_LITERAL]  
+> &nbsp;&nbsp; | [RAW_BYTE_STRING_LITERAL]  
 > &nbsp;&nbsp; | [INTEGER_LITERAL]  
 > &nbsp;&nbsp; | [FLOAT_LITERAL]  
-> &nbsp;&nbsp; |
-> &nbsp;&nbsp; 
-> &nbsp;&nbsp; 
-> &nbsp;&nbsp; 
+> &nbsp;&nbsp; | [BOOLEAN_LITERAL]  
 
 A _literal expression_ consists of one of the [literal](tokens.html#literals)
 forms described earlier. It directly describes a number, character, string,
@@ -1553,7 +1553,28 @@ assert_eq!(y, "Bigger");
 ## `match` expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> [_MatchExpression_] :  
+> &nbsp;&nbsp; `match` [_Expression_] `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; ( _MatchArm_ `=>` 
+>                             ( [_BlockExpression_] `,`<sup>?</sup>
+>                             | [_Expression_] `,` ) 
+>                           )<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _MatchArm_ `=>` 
+>                             ( [_BlockExpression_] | [_Expression_] ) `,`<sup>?</sup>  
+> &nbsp;&nbsp; `}`  
+>  
+> _MatchArm_ :  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> _MatchArmPatterns_ _MatchArmGuard_
+>  
+> _MatchArmPatterns_ :  
+> &nbsp;&nbsp; [_Pattern_] ( `|` [_Pattern_] )<sup>*</sup>  
+>  
+> _MatchArmGuard_ :  
+> &nbsp;&nbsp; `if` [_Expression_]  
+
+<!-- FIXME: the discriminant expression has RESTRICTION_NO_STRUCT_LITERAL -->
+<!-- FIXME: the result expressions has RESTRICTION_STMT_EXPR -->
 
 A `match` expression branches on a *pattern*. The exact form of matching that
 occurs depends on the pattern. Patterns consist of some combination of
@@ -1577,6 +1598,10 @@ location (however, a by-value binding may copy or move from the lvalue). When
 possible, it is preferable to match on lvalues, as the lifetime of these
 matches inherits the lifetime of the lvalue, rather than being restricted to
 the inside of the match.
+
+The resulting expression of each arm can be a block or an expression. If it is a
+[_BlockExpression_](block), the `,` separator is optional. It is also optional
+in the last arm.
 
 An example of a `match` expression:
 
@@ -1787,10 +1812,18 @@ fn max(a: i32, b: i32) -> i32 {
 [_ReturnExpression_]: #return-expressions
 
 [_InnerAttribute_]: attributes.html
+[_OuterAttribute_]: attributes.html
 
 [IDENTIFIER]: identifiers.html
 
+[CHARACTER_LITERAL]: tokens.html#character-literals
+[STRING_LITERAL]: tokens.html#string-literals
+[RAW_STRING_LITERAL]: tokens.html#raw-string-literals
+[BYTE_LITERAL]: tokens.html#byte-literals
+[BYTE_STRING_LITERAL]: tokens.html#byte-string-literals
+[RAW_BYTE_STRING_LITERAL]: tokens.html#raw-byte-string-literals
 [INTEGER_LITERAL]: tokens.html#integer-literals
 [FLOAT_LITERAL]: tokens.html#floating-point-literals
+[BOOLEAN_LITERAL]: tokens.html#boolean-literals
 
 [_Pattern_]: patterns.html
