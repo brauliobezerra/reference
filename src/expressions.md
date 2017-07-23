@@ -1,29 +1,29 @@
 # Expressions
 
 > **<sup>Syntax</sup>**  
-> _Expression_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_LiteralExpression_](#literal-expressions)  
-> &nbsp;&nbsp; | [_PathExpression_](#path-expressions)  
-> &nbsp;&nbsp; | [_TupleExpression_](#tuple-expressions)  
-> &nbsp;&nbsp; | [_StructExpression_](#struct-expressions)  
-> &nbsp;&nbsp; | [_EnumerationVariantExpression_](#enumeration-variant-expressions)  
-> &nbsp;&nbsp; | [_BlockExpression_](#block-expressions)  
-> &nbsp;&nbsp; | [_MethodCallExpression_](#method-call-expressions)  
-> &nbsp;&nbsp; | [_FieldExpression_](#field-expressions)  
-> &nbsp;&nbsp; | [_TupleIndexingExpression_](#tuple-indexing-expressions)  
-> &nbsp;&nbsp; | [_CallExpression_](#call-expressions)  
-> &nbsp;&nbsp; | [_ClosureExpression_](#closure-expressions)  
-> &nbsp;&nbsp; | [_ArrayExpression_](#array-expressions)  
-> &nbsp;&nbsp; | [_IndexExpression_](#index-expressions)  
-> &nbsp;&nbsp; | [_RangeExpression_](#range-expressions)  
-> &nbsp;&nbsp; | [_OperatorExpression_](#operator-expressions)  
-> &nbsp;&nbsp; | [_GroupedExpression_](#grouped-expressions)  
-> &nbsp;&nbsp; | [_LoopExpression_](#loops)  
-> &nbsp;&nbsp; | [_IfExpression_](#if-expressions)  
-> &nbsp;&nbsp; | [_MatchExpression_](#match-expressions)  
-> &nbsp;&nbsp; | [_IfLetExpression_](#if-let-expressions)  
-> &nbsp;&nbsp; | [_WhileLetExpression_](#while-let-loops)  
-> &nbsp;&nbsp; | [_ReturnExpression_](#return-expressions)  
+> [_Expression_] :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_LiteralExpression_]  
+> &nbsp;&nbsp; | [_PathExpression_]  
+> &nbsp;&nbsp; | [_TupleExpression_]  
+> &nbsp;&nbsp; | [_StructExpression_]  
+> &nbsp;&nbsp; | [_EnumerationVariantExpression_]  
+> &nbsp;&nbsp; | [_BlockExpression_]  
+> &nbsp;&nbsp; | [_MethodCallExpression_]  
+> &nbsp;&nbsp; | [_FieldExpression_]  
+> &nbsp;&nbsp; | [_TupleIndexingExpression_]  
+> &nbsp;&nbsp; | [_CallExpression_]  
+> &nbsp;&nbsp; | [_ClosureExpression_]  
+> &nbsp;&nbsp; | [_ArrayExpression_]  
+> &nbsp;&nbsp; | [_IndexExpression_]  
+> &nbsp;&nbsp; | [_RangeExpression_]  
+> &nbsp;&nbsp; | [_OperatorExpression_]  
+> &nbsp;&nbsp; | [_GroupedExpression_]  
+> &nbsp;&nbsp; | [_LoopExpression_]  
+> &nbsp;&nbsp; | [_IfExpression_]  
+> &nbsp;&nbsp; | [_MatchExpression_]  
+> &nbsp;&nbsp; | [_IfLetExpression_]  
+> &nbsp;&nbsp; | [_WhileLetExpression_]  
+> &nbsp;&nbsp; | [_ReturnExpression_]  
 
 An expression may have two roles: it always produces a *value*, and it may have
 *effects* (otherwise known as "side effects"). An expression *evaluates to* a
@@ -248,7 +248,16 @@ exist in `core::ops` and `core::cmp` with the same names.
 ## Literal expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> [_LiteralExpression_] :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [CHARACTER_LITERAL]  
+> &nbsp;&nbsp; | [STRING_LITERAL]  
+> &nbsp;&nbsp; | [RAW_STRING_LITERAL]  
+> &nbsp;&nbsp; | [INTEGER_LITERAL]  
+> &nbsp;&nbsp; | [FLOAT_LITERAL]  
+> &nbsp;&nbsp; |
+> &nbsp;&nbsp; 
+> &nbsp;&nbsp; 
+> &nbsp;&nbsp; 
 
 A _literal expression_ consists of one of the [literal](tokens.html#literals)
 forms described earlier. It directly describes a number, character, string,
@@ -1754,10 +1763,34 @@ fn max(a: i32, b: i32) -> i32 {
 ```
 
 [_Expression_]: #expressions
+[_LiteralExpression_]: #literal-expressions
+[_PathExpression_]: #path-expressions
+[_TupleExpression_]: #tuple-expressions
+[_StructExpression_]: #struct-expressions
+[_EnumerationVariantExpression_]: #enumeration-variant-expressions
 [_BlockExpression_]: #block-expressions
+[_MethodCallExpression_]: #method-call-expressions
+[_FieldExpression_]: #field-expressions
+[_TupleIndexingExpression_]: #tuple-indexing-expressions
+[_CallExpression_]: #call-expressions
+[_ClosureExpression_]: #closure-expressions
+[_ArrayExpression_]: #array-expressions
+[_IndexExpression_]: #index-expressions
+[_RangeExpression_]: #range-expressions
+[_OperatorExpression_]: #operator-expressions
+[_GroupedExpression_]: (#grouped-expressions
+[_LoopExpression_]: #loops
+[_IfExpression_]: #if-expressions
+[_MatchExpression_]: #match-expressions
+[_IfLetExpression_]: #if-let-expressions
+[_WhileLetExpression_]: #while-let-loops
+[_ReturnExpression_]: #return-expressions
 
 [_InnerAttribute_]: attributes.html
 
 [IDENTIFIER]: identifiers.html
+
+[INTEGER_LITERAL]: tokens.html#integer-literals
+[FLOAT_LITERAL]: tokens.html#floating-point-literals
 
 [_Pattern_]: patterns.html
