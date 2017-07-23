@@ -689,7 +689,14 @@ Refer to [RFC 132] for further details and motivations.
 ## Closure expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME `|` Parameters `|` `->`<sup>?</sup>
+> [_ClosureExpression_] :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `move`<sup>?</sup> `|` ParameterList<sup>?</sup> `|`
+>                           [_Expression_]  
+> &nbsp;&nbsp; | `move`<sup>?</sup> `|` ParameterList<sup>?</sup> `|` `->` _Type_
+>                [_BlockExpression_]  
+
+<!-- FIXME: "lambda expression" is not even mentioned here -->
+<!-- FIXME reuse the function parameter list. -->
 
 A _closure expression_ defines a closure and denotes it as a value, in a single
 expression. A closure expression is a pipe-symbol-delimited (`|`) list of
@@ -748,7 +755,12 @@ ten_times(move |j| println!("{}, {}", word, j));
 ## Array expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> [_ArrayExpression_] :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `[`  `]`  
+> &nbsp;&nbsp; | `[` [_Expression_] ( `,` [_Expression_] )<sup>\*</sup> `,`<sup>?</sup> `]`  
+> &nbsp;&nbsp; | `[` [_Expression_] `;` [_Expression_] `]`  
+
+<!-- FIXME: test trailing comma? -->
 
 An _[array](types.html#array-and-slice-types) expression_ can be written by
 enclosing zero or more comma-separated expressions of uniform type in square
@@ -774,7 +786,8 @@ greater than 1 then this requires that the type of `a` is
 ## Index expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> [_IndexExpression_] :  
+> &nbsp;&nbsp; [_Expression_] `[` [_Expression_] `]`
 
 [Array and slice](types.html#array-and-slice-types)-typed expressions can be
 indexed by writing a square-bracket-enclosed expression (the index) after them.
@@ -1333,7 +1346,7 @@ assert_eq!(y, 20);
 > [_InfiniteLoopExpression_](#infinite-loops)
 > | [_PredicateLoopExpression_](#predicate-loops)
 > | [_IteratorLoopExpression_](#iterator-loops)
-> )
+> )  
 
 Rust supports three loop expressions:
 
@@ -1350,9 +1363,7 @@ Only `loop` supports [evaluation to non-trivial values](#break-and-loop-values).
 
 > **<sup>Syntax</sup>**  
 > _InfiniteLoopExpression_ :  
-> &nbsp;&nbsp; `loop` `{`  
-> &nbsp;&nbsp; &nbsp;&nbsp; **FIXME**  
-> &nbsp;&nbsp; `}`
+> &nbsp;&nbsp; `loop` [_BlockExpression_]
 
 A `loop` expression repeats execution of its body continuously:
 `loop { println!("I live."); }`.
@@ -1368,9 +1379,7 @@ expression(s).
 
 > **<sup>Syntax</sup>**  
 > _PredicateLoopExpression_ :  
-> &nbsp;&nbsp; `while` [_Expression_] `{`  
-> &nbsp;&nbsp; &nbsp;&nbsp; **FIXME**  
-> &nbsp;&nbsp; `}`
+> &nbsp;&nbsp; `while` [_Expression_]&nbsp;[_BlockExpression_]
 
 A `while` loop begins by evaluating the boolean loop conditional expression. If
 the loop conditional expression evaluates to `true`, the loop body block
@@ -1391,10 +1400,8 @@ while i < 10 {
 ### Iterator loops
 
 > **<sup>Syntax</sup>**  
-> _PredicateLoopExpression_ :  
-> &nbsp;&nbsp; `for` [IDENTIFIER] `in` [_Expression_] `{`  
-> &nbsp;&nbsp; &nbsp;&nbsp; **FIXME**  
-> &nbsp;&nbsp; `}`
+> _IteratorLoopExpression_ :  
+> &nbsp;&nbsp; `for` [IDENTIFIER] `in` [_Expression_]&nbsp;[_BlockExpression_]
 
 A `for` expression is a syntactic construct for looping over elements provided
 by an implementation of `std::iter::IntoIterator`. If the iterator yields a
@@ -1424,10 +1431,11 @@ assert_eq!(sum, 55);
 
 ### Loop labels
 
-<!-- FIXME: what about lifetimes? same syntax? same token? -->
-
 > **<sup>Syntax</sup>**  
-> FIXME
+> _LoopLabel_ :  
+> &nbsp;&nbsp; LIFETIME_OR_LABEL `:`
+
+<!-- FIXME: link to LIFETIME_OR_LABEL token -->
 
 A loop expression may optionally have a _label_. The label is written as
 a lifetime preceding the loop expression, as in `'foo: loop { break 'foo; }`,
@@ -1440,7 +1448,10 @@ expressions](#continue-expressions).
 ### `break` expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> _BreakExpression_ :  
+> &nbsp;&nbsp; `break` LIFETIME_OR_LABEL<sup>?</sup> [_Expression_]<sup>?</sup>
+
+<!-- FIXME: link to LIFETIME_OR_LABEL token -->
 
 When `break` is encountered, execution of the associated loop body is
 immediately terminated, for example:
@@ -1475,7 +1486,8 @@ the forms `break`, `break 'label` or ([see below](#break-and-loop-values))
 ### `continue` expressions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> _ContinueExpression_ :  
+> &nbsp;&nbsp; `continue` LIFETIME_OR_LABEL<sup>?</sup>
 
 When `continue` is encountered, the current iteration of the associated loop
 body is immediately terminated, returning control to the loop *head*. In
