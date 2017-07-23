@@ -59,6 +59,7 @@
         - [If and if let expressions](expressions/if-expr.md)
         - [Match expressions](expressions/match-expr.md)
         - [Return expressions](expressions/return-expr.md)
+    - [Patterns](patterns.md)
 
 - [Type system](type-system.md)
     - [Types](types.md)
