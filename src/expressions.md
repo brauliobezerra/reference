@@ -1515,10 +1515,12 @@ expression `()`.
 ## `if` expressions
 
 > **<sup>Syntax</sup>**  
-> _IfExpression_ :  
+> [_IfExpression_] :  
 > &nbsp;&nbsp; `if` [_Expression_]&nbsp;[_BlockExpression_]  
-> &nbsp;&nbsp; (`else` `if` [_Expression_]&nbsp;[_BlockExpression_] )<sup>\*</sup>  
-> &nbsp;&nbsp; (`else` [_BlockExpression_] )<sup>?</sup>  
+> &nbsp;&nbsp; (`else` (
+>   [_BlockExpression_]
+> | [_IfExpression_]
+> | [_IfLetExpression_] ) )<sup>\?</sup>  
 
 An `if` expression is a conditional branch in program control. The form of an
 `if` expression is a condition expression, followed by a consequent block, any
@@ -1548,6 +1550,23 @@ let y = if 12 * 15 > 150 {
     "Smaller"
 };
 assert_eq!(y, "Bigger");
+```
+
+`if` and [`if let`](#if-let-expressions) expressions can be intermixed:
+
+```rust
+let x = Some(3);
+let a = if let Some(1) = x {
+    1
+} else if x == Some(2) {
+    2
+} else if let Some(y) = x {
+    y
+} else {
+    -1
+};
+assert_eq!(a, 3);
+
 ```
 
 ## `match` expressions
@@ -1709,7 +1728,12 @@ let message = match maybe_digit {
 ## `if let` expressions
 
 > **<sup>Syntax</sup>**  
-> _IfLetExpr_ : `if` `let` [_Pattern_] `=` [_BlockExpression_]
+> [_IfLetExpression_] :  
+> &nbsp;&nbsp; `if` `let` [_Pattern_] `=` [_Expression_]&nbsp;[_BlockExpression_]  
+> &nbsp;&nbsp; (`else` (
+>   [_BlockExpression_]
+> | [_IfExpression_]
+> | [_IfLetExpression_] ) )<sup>\?</sup>  
 
 <!-- FIXME: check in the parser -->
 <!-- FIXME: limitations on the expression: no struct literal? -->
@@ -1717,7 +1741,7 @@ let message = match maybe_digit {
 
 An `if let` expression is semantically similar to an `if` expression but in
 place of a condition expression it expects the keyword `let` followed by a
-refutable pattern, an `=` and a block expression. If the value of the expression on
+refutable pattern, an `=` and an expression. If the value of the expression on
 the right hand side of the `=` matches the pattern, the corresponding block
 will execute, otherwise flow proceeds to the following `else` block if it
 exists. Like `if` expressions, `if let` expressions have a value determined by
@@ -1743,7 +1767,7 @@ if let ("Ham", b) = dish {
 ## `while let` loops
 
 > **<sup>Syntax</sup>**  
-> _WhileLetExpression_:  
+> [_WhileLetExpression_] :  
 > &nbsp;&nbsp; `while` `let` [_Pattern_] `=` [_Expression_]&nbsp;[_BlockExpression_]  
 
 <!-- FIXME: limitations on the expression: no struct literal? -->
@@ -1767,7 +1791,7 @@ while let Some(y) = x.pop() {
 ## `return` expressions
 
 > **<sup>Syntax</sup>**  
-> _ReturnExpression_ :  
+> [_ReturnExpression_] :  
 > &nbsp;&nbsp; &nbsp;&nbsp; `return`  
 > &nbsp;&nbsp; | `return` [_Expression_]  
 
@@ -1803,7 +1827,7 @@ fn max(a: i32, b: i32) -> i32 {
 [_IndexExpression_]: #index-expressions
 [_RangeExpression_]: #range-expressions
 [_OperatorExpression_]: #operator-expressions
-[_GroupedExpression_]: (#grouped-expressions
+[_GroupedExpression_]: #grouped-expressions
 [_LoopExpression_]: #loops
 [_IfExpression_]: #if-expressions
 [_MatchExpression_]: #match-expressions
@@ -1827,3 +1851,5 @@ fn max(a: i32, b: i32) -> i32 {
 [BOOLEAN_LITERAL]: tokens.html#boolean-literals
 
 [_Pattern_]: patterns.html
+
+[_Statement_]: statements.html
