@@ -1,4 +1,26 @@
 # Items
+[_Item_]: #items
+
+> **<sup>Syntax:<sup>**  
+> [_Item_]:  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> [_Visibility_]  
+> &nbsp;&nbsp; (  
+> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  [_Module_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_ExternCrate_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_UseDeclaration_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_Function_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_TypeAlias_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_Struct_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_Enumeration_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_Union_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_ConstantItem_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_StaticItem_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_Trait_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_Implementation_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_ExternBlock_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | _Macro_  
+> &nbsp;&nbsp; &nbsp;&nbsp; | _MacroDefinition_  
+> &nbsp;&nbsp; )
 
 An _item_ is a component of a crate. Items are organized within a crate by a
 nested set of [modules]. Every crate has a single "outermost" anonymous module;
@@ -57,6 +79,15 @@ over other types, though higher-ranked types do exist for lifetimes.
 [path]: paths.html
 
 ## Modules
+[_Module_]: #modules
+
+> **<sup>Syntax:<sup>**  
+> [_Module_] :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `mod` [IDENTIFIER] `;`  
+> &nbsp;&nbsp; | `mod` [IDENTIFIER] `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; [_Item_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `}`  
 
 A module is a container for zero or more [items].
 
@@ -120,7 +151,12 @@ mod thread {
 }
 ```
 
-### Extern crate declarations
+## Extern crate declarations
+[_ExternCrate_]: #extern-crate-declarations
+
+> **<sup>Syntax:<sup>**  
+> [_ExternCrate_] :  
+> &nbsp;&nbsp; `extern` `crate` [IDENTIFIER] (`as` [IDENTIFIER])<sup>?</sup> `;`
 
 An _`extern crate` declaration_ specifies a dependency on an external crate.
 The external crate is then bound into the declaring scope as the `ident`
@@ -158,7 +194,20 @@ extern crate hello_world; // hyphen replaced with an underscore
 
 [RFC 940]: https://github.com/rust-lang/rfcs/blob/master/text/0940-hyphens-considered-harmful.md
 
-### Use declarations
+## Use declarations
+[_UseDeclaration_]: #use-declarations
+
+> **<sup>Syntax:<sup>**  
+> _UseDeclaration_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `use` `::`<sup>?</sup> [_NonGlobalPath_]  
+> &nbsp;&nbsp; | `use` `::`<sup>?</sup> [_NonGlobalPath_] `as` [IDENTIFIER]  
+> &nbsp;&nbsp; | `use` `::`<sup>?</sup> [_NonGlobalPath_] `::` `*`  
+> &nbsp;&nbsp; | `use` `::`<sup>?</sup> [_NonGlobalPath_] `::` `{` _UseItems_ `}`  
+> &nbsp;&nbsp; | `use` `::`<sup>?</sup> `{` _UseItems_ `}`  
+>  
+> _UseItems_ :  
+> &nbsp;&nbsp; ( `self` | [IDENTIFIER] (`as` [IDENTIFIER] )<sup>?</sup> )
+>              ( `,` _UseItems_ )<sup>?<sup>
 
 A _use declaration_ creates one or more local name bindings synonymous with
 some other [path]. Usually a `use` declaration is used to shorten the path
@@ -273,6 +322,36 @@ fn main() {}
 ```
 
 ## Functions
+[_Function_]: #functions
+
+> **<sup>Syntax</sup>**  
+> [_Function_]:  
+> &nbsp;&nbsp; `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
+>              [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `(` _FunctionParameters_<sup>?</sup> `)`
+>              _FunctionReturnType_<sup>?</sup> _WhereClause_<sup>?</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _BlockWithInnerAttributes_
+>  
+> _Abi_:  
+> &nbsp;&nbsp; STRING_LITERAL  
+>  
+> _FunctionParameters_:  
+> &nbsp;&nbsp; `(` `)`  
+>  
+> _FunctionReturnType_:  
+> &nbsp;&nbsp; `->` [_Type_]  
+>  
+> _WhereClause_ :  
+> &nbsp;&nbsp; FIXME  
+>  
+> _BlockWithInnerAttributes_ :  
+> &nbsp;&nbsp; `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Statement_]<sup>\*</sup>  
+> &nbsp;&nbsp; `}`  
+
+<!-- FIXME: check if Type-Parameters (second section of this document) is where the Generics should be  -->
+<!-- FIXME: Attributes are allowed for each type/lifetime on the _Generics_ production , but it is experimental -->
 
 A _function_ consists of a [block], along with a name and a set of parameters.
 Other than a name, all these are optional. Functions are declared with the
@@ -440,6 +519,10 @@ let fptr: extern "C" fn() -> i32 = new_i32;
 ```
 
 ## Type aliases
+[_TypeAlias_]: #type-aliases
+
+> **<sup>Syntax</sup>**  
+> [_TypeAlias_] : FIXME
 
 A _type alias_ defines a new name for an existing [type]. Type aliases are
 declared with the keyword `type`. Every value has a single, specific type, but
@@ -466,6 +549,11 @@ let _: F = E::A;  // OK
 ```
 
 ## Structs
+[_Struct_]: #structs
+
+> **<sup>Syntax</sup>**  
+> [_Struct_] : FIXME
+
 
 A _struct_ is a nominal [struct type] defined with the keyword `struct`.
 
@@ -512,6 +600,10 @@ particular layout using the [`repr` attribute].
 [`repr` attribute]: attributes.html#ffi-attributes
 
 ## Enumerations
+[_Enumeration_]: #enumerations
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 An _enumeration_ is a simultaneous definition of a nominal [enumerated type] as
 well as a set of *constructors*, that can be used to create or pattern-match
@@ -582,6 +674,10 @@ This only works as long as none of the variants have data attached. If it were
 `Baz(i32)`, this is disallowed.
 
 ## Unions
+[_Union_]: #unions
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 A union declaration uses the same syntax as a struct declaration, except with
 `union` in place of `struct`.
@@ -724,6 +820,10 @@ More detailed specification for unions, including unstable bits, can be found
 in [RFC 1897 "Unions v1.2"](https://github.com/rust-lang/rfcs/pull/1897).
 
 ## Constant items
+[_ConstantItem_]: #constant-items
+
+> **<sup>Syntax</sup>**  
+> [_ConstantItem_] : FIXME `const`
 
 A *constant item* is a named _[constant value]_ which is not associated with a
 specific memory location in the program. Constants are essentially inlined
@@ -767,6 +867,10 @@ const BITS_N_STRINGS: BitsNStrings<'static> = BitsNStrings {
 ```
 
 ## Static items
+[_StaticItem_]: #static-items
+
+> **<sup>Syntax</sup>**  
+> [_StaticItem_] : FIXME
 
 A *static item* is similar to a *constant*, except that it represents a precise
 memory location in the program. A static is never "inlined" at the usage site,
@@ -873,6 +977,23 @@ const RESOLVED_STATIC: Fn(&Foo, &Bar) -> &Baz = ..
 ```
 
 ## Traits
+[_Trait_]: #traits
+
+> **<sup>Syntax</sup>**  
+> _Trait_ :  
+> &nbsp;&nbsp; `unsafe`<sup>?</sup>  
+> &nbsp;&nbsp; `trait` [_Identifier_]  
+> &nbsp;&nbsp; [_Type-Parameters_](#type-parameters)<sup>?</sup>  
+> &nbsp;&nbsp; (`for` _Type_)<sup>?</sup>  
+> &nbsp;&nbsp; (`:` _TypeBound_)<sup>?</sup> `{`  
+> &nbsp;&nbsp;&nbsp;&nbsp; _Trait-Item_<sup>\*</sup>  
+> &nbsp;&nbsp; `}`  
+>   
+> _Trait-Item_ :  
+> &nbsp;&nbsp; _Trait-Method_ | _Trait-Const_ | _Trait-Type_  
+>   
+> _Trait-Method_ :  
+> &nbsp;&nbsp; _Type-Method_ | _Method_
 
 A _trait_ describes an abstract interface that types can implement. This
 interface consists of associated items, which come in three varieties:
@@ -1184,6 +1305,14 @@ let nonsense = mycircle.radius() * mycircle.area();
 ```
 
 ## Implementations
+[_Implementation_]: #implementations
+
+> **<sup>Syntax</sup>**  
+> [_Implementation_] :  
+> `unsafe`? `impl` [_Generics_] (`!`? _TraitName_ `for`)? (_TypeName_ | `..`) `{`  
+> &nbsp;&nbsp; _InnerAttributes?_  
+> &nbsp;&nbsp; _ImplementationItems?_  
+> `}`
 
 An _implementation_ is an item that can implement a [trait](#traits) for a
 specific type.
@@ -1261,6 +1390,10 @@ impl Seq<bool> for u32 {
 ```
 
 ## External blocks
+[_ExternBlock_]: #external-blocks
+
+> **<sup>Syntax</sup>**  
+> [_ExternBlock_] : `extern` FIXME
 
 External blocks form the basis for Rust's foreign function interface.
 Declarations in an external block describe symbols in external, non-Rust
@@ -1343,3 +1476,12 @@ It is valid to add the `link` attribute on an empty extern block. You can use
 this to satisfy the linking requirements of extern blocks elsewhere in your
 code (including upstream crates) instead of adding the attribute to each extern
 block.
+
+[_InnerAttribute_]: attributes.html
+[_OuterAttribute_]: attributes.html
+[IDENTIFIER]: identifiers.html
+[_Statement_]: statements.html
+[LIFETIME_OR_LABEL]: tokens.html#lifetime-or-label
+[_Visibility_]: visibility-and-privacy.html
+
+[_NonGlobalPath_]: paths.html#nonglobal-path
