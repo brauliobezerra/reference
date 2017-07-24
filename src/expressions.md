@@ -19,6 +19,8 @@
 > &nbsp;&nbsp; | [_OperatorExpression_]  
 > &nbsp;&nbsp; | [_GroupedExpression_]  
 > &nbsp;&nbsp; | [_LoopExpression_]  
+> &nbsp;&nbsp; | [_ContinueExpression_]  
+> &nbsp;&nbsp; | [_BreakExpression_]  
 > &nbsp;&nbsp; | [_IfExpression_]  
 > &nbsp;&nbsp; | [_MatchExpression_]  
 > &nbsp;&nbsp; | [_IfLetExpression_]  
@@ -384,7 +386,7 @@ let base = Point3d {x: 1, y: 2, z: 3};
 Point3d {y: 0, z: 10, .. base};
 ```
 
-### Struct field init shorthand
+#### Struct field init shorthand
 
 > **<sup>Syntax</sup>**  
 > FIXME
@@ -907,7 +909,7 @@ assert_eq!(x, y);
 > &nbsp;&nbsp; | [_ArithmeticOrLogicalExpression_](#arithmetic-and-logical-binary-operators)  
 > &nbsp;&nbsp; | [_ComparisonExpression_](#comparison-operators)  
 > &nbsp;&nbsp; | [_LazyBooleanExpression_](#lazy-boolean-expression)  
-> &nbsp;&nbsp; | [_TypeCastExpr_](#type-cast-expressions)  
+> &nbsp;&nbsp; | [_TypeCastExpression_](#type-cast-expressions)  
 > &nbsp;&nbsp; | [_AssignmentExpression_](#assignment-expressions)  
 > &nbsp;&nbsp; | [_CompoundAssignmentExpression_](#compound-assignment-expressions)  
 
@@ -1169,7 +1171,7 @@ let y = false && panic!(); // false, doesn't evaluate `panic!()`
 ### Type cast expressions
 
 > **<sup>Syntax</sup>**  
-> _TypeCastExpr_ :  
+> _TypeCastExpression_ :  
 > &nbsp;&nbsp; [_Expression_] `as` [IDENTIFIER]
 
 A type cast expression is denoted with the binary operator `as`.
@@ -1841,6 +1843,8 @@ fn max(a: i32, b: i32) -> i32 {
 [_OperatorExpression_]: #operator-expressions
 [_GroupedExpression_]: #grouped-expressions
 [_LoopExpression_]: #loops
+[_ContinueExpression_]: #continue-expressions
+[_BreakExpression_]: #break-expressions
 [_IfExpression_]: #if-expressions
 [_MatchExpression_]: #match-expressions
 [_IfLetExpression_]: #if-let-expressions
