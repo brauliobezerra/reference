@@ -1,5 +1,8 @@
 # Statements
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A _statement_ is a component of a block, which is in turn a component of an
 outer [expression](expressions.html) or [function](items.html#functions).
 
@@ -7,13 +10,20 @@ Rust has two kinds of statement: [declaration
 statements](#declaration-statements) and [expression
 statements](#expression-statements).
 
+
 ## Declaration statements
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 A _declaration statement_ is one that introduces one or more *names* into the
 enclosing statement block. The declared names may denote new variables or new
 items.
 
 ### Item declarations
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 An _item declaration statement_ has a syntactic form identical to an
 [item](items.html) declaration within a module. Declaring an item &mdash; a
@@ -27,6 +37,9 @@ in meaning to declaring the item outside the statement block.
 
 ### `let` statements
 
+> **<sup>Syntax</sup>**  
+> FIXME `let` _Pattern_ (`:` Type)<sup>?</sup> (`=` Expression )<sup>?</sup> `;`
+
 A _`let` statement_ introduces a new set of variables, given by a pattern. The
 pattern may be followed by a type annotation, and/or an initializer expression.
 When no type annotation is given, the compiler will infer the type, or signal
@@ -35,6 +48,9 @@ Any variables introduced by a variable declaration are visible from the point of
 declaration until the end of the enclosing block scope.
 
 ## Expression statements
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 An _expression statement_ is one that evaluates an
 [expression](expressions.html) and ignores its result. As a rule, an expression
