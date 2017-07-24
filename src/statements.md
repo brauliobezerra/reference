@@ -1,5 +1,8 @@
 # Statements
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A *statement* is a component of a [block], which is in turn a component of an
 outer [expression] or [function].
 
@@ -9,6 +12,9 @@ statements](#expression-statements).
 
 ## Declaration statements
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A *declaration statement* is one that introduces one or more *names* into the
 enclosing statement block. The declared names may denote new variables or new
 [items][item].
@@ -17,6 +23,9 @@ The two kinds of declaration statements are item declarations and `let`
 statements.
 
 ### Item declarations
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 An *item declaration statement* has a syntactic form identical to an
 [item declaration][item] within a [module]. Declaring an item within a statement
@@ -42,6 +51,9 @@ fn outer() {
 
 ### `let` statements
 
+> **<sup>Syntax</sup>**  
+> FIXME `let` _Pattern_ (`:` Type)<sup>?</sup> (`=` Expression )<sup>?</sup> `;`
+
 A *`let` statement* introduces a new set of variables, given by a pattern. The
 pattern may be followed by a type annotation, and/or an initializer expression.
 When no type annotation is given, the compiler will infer the type, or signal
@@ -50,6 +62,9 @@ Any variables introduced by a variable declaration are visible from the point of
 declaration until the end of the enclosing block scope.
 
 ## Expression statements
+
+> **<sup>Syntax</sup>**  
+> FIXME
 
 An *expression statement* is one that evaluates an [expression] and ignores its
 result. As a rule, an expression statement's purpose is to trigger the effects
