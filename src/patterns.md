@@ -1,5 +1,18 @@
 # Patterns
 
+> **<sup>Syntax</sup>**  
+> _Pattern_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_WildcardPattern_]  
+> &nbsp;&nbsp; | [_ReferencePattern_]  
+> &nbsp;&nbsp; | [_StructPattern_]  
+> &nbsp;&nbsp; | [_TupleStructPattern_]  
+> &nbsp;&nbsp; | [_SlicePattern_]  
+> &nbsp;&nbsp; | [_IdentifierPattern_]  
+> &nbsp;&nbsp; | [_PathPattern_]  
+> &nbsp;&nbsp; | [_LiteralPattern_]  
+> &nbsp;&nbsp; | [_RangePattern_]  
+> &nbsp;&nbsp; | [_BoxPattern_]  
+
 <!-- FIXME: pattern introduction -->
 <!-- FIXME: pattern main uses (functions, match, let, if let, while let, etc.) -->
 
@@ -33,19 +46,6 @@ match message {
 ```
 ## Refutability
 
-> **<sup>Syntax</sup>**  
-> _Pattern_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; _WildcardPattern_  
-> &nbsp;&nbsp; | _ReferencePattern_  
-> &nbsp;&nbsp; | _TuplePattern_  
-> &nbsp;&nbsp; | _SlicePattern_  
-> &nbsp;&nbsp; | _IdentifierPattern_  
-> &nbsp;&nbsp; | _BoxPattern_  
-> &nbsp;&nbsp; | _PathPattern_  
-> &nbsp;&nbsp; | _LiteralPattern_  
-> &nbsp;&nbsp; | _RangePattern_  
-> &nbsp;&nbsp; | _StructPattern_  
-
 <!-- FIXME: irrefutable patterns -->
 <!-- FIXME: multiple patterns: a | b -->
 <!-- FIXME: ignoring one value: _ -->
@@ -54,6 +54,7 @@ match message {
 <!-- FIXME: guards: _Pattern_ `if` _Expression_ -->
 
 ## Wildcard pattern
+[_WildcardPattern_]: #wildcard-pattern
 
 > **<sup>Syntax</sup>**  
 > _WildcardPattern_ :  
@@ -62,6 +63,7 @@ match message {
 <!-- FIXME: explain wildcard patterns -->
 
 ## Reference patterns
+[_ReferencePattern_]: #reference-patterns
 
 > **<sup>Syntax</sup>**  
 > _ReferencePattern_ :  
@@ -82,16 +84,24 @@ let z = match x { &0 => "zero", _ => "some" };
 assert_eq!(y, z);
 ```
 
-## Tuple patterns
+## Struct patterns
+[_StructPattern_]: #struct-patterns
+
+<!-- FIXME: explain struct patterns -->
+<!-- FIXME: destructuring patterns -->
+
+## TupleStruct patterns
+[_TupleStructPattern_]: #tuplestruct-patterns
 
 > **<sup>Syntax</sup>**  
-> _TuplePattern_ :  
+> _TupleStructPattern_ :  
 > &nbsp;&nbsp; **FIXME**
 
 <!-- FIXME: explain tuple patterns -->
 <!-- FIXME: includes enum variants? -->
 
 ## Slice patterns
+[_SlicePattern_]: #slice-patterns
 
 > **<sup>Syntax</sup>**  
 > _SlicePattern_ :  
@@ -100,6 +110,7 @@ assert_eq!(y, z);
 <!-- FIXME: explain slice patterns -->
 
 ## Identifier patterns
+[_IdentifierPattern_]: #identifier-patterns
 
 > **<sup>Syntax</sup>**  
 > _IdentifierPattern :  
@@ -127,6 +138,7 @@ bind to a reference by using the `ref` keyword, or to a mutable reference using
 `ref mut`.
 
 ## Path patterns
+[_PathPattern_]: #path-patterns
 
 > **<sup>Syntax</sup>**  
 > _PathPattern_ :  
@@ -135,6 +147,7 @@ bind to a reference by using the `ref` keyword, or to a mutable reference using
 <!-- FIXME: explain paths in patterns -->
 
 ## Literal patterns
+[_LiteralPattern_]: #literal-patterns
 
 > **<sup>Syntax</sup>**  
 > _LiteralPattern_ :  
@@ -144,6 +157,7 @@ bind to a reference by using the `ref` keyword, or to a mutable reference using
 <!-- FIXME: explain literal patterns -->
 
 ## Range patterns
+[_RangePattern_]: #range-patterns
 
 > **<sup>Syntax</sup>**  
 > _RangePattern_ :  
@@ -156,13 +170,8 @@ like arrays and structs, which have sub-components). A range pattern may not be
 a sub-range of another range pattern inside the same `match`.
 
 
-## Tuple struct patterns
-
-<!-- FIXME: explain struct patterns -->
-
-<!-- FIXME: destructuring patterns -->
-
 ## Box pattern
+[_BoxPattern_]: #box-pattern
 
 > **<sup>Syntax</sup>**  
 > _BoxPattern_ :  
