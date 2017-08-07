@@ -1,5 +1,93 @@
 # Types
 
+> **<sup>Syntax</sup>**  
+> [_Type_] : <a name="type"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_PathType_]  
+> &nbsp;&nbsp; | [_QualifiedPathType_]  
+> &nbsp;&nbsp; | [_TupleType_]  
+> &nbsp;&nbsp; | [_ArrayType_]  
+> &nbsp;&nbsp; | [_SliceType_]  
+> &nbsp;&nbsp; | [_ReferenceType_]  
+> &nbsp;&nbsp; | [_RawPointerType_]  
+> &nbsp;&nbsp; | [_BareFunctionType_]  
+> &nbsp;&nbsp; | [_NeverType_]  
+> &nbsp;&nbsp; | [_TraitObjectType_]  
+> &nbsp;&nbsp; | [_ImplTraitType_]  
+> &nbsp;&nbsp; | [_ParenthesizedType_]  
+> &nbsp;&nbsp; | [_InferredType_]  
+>  
+> [_PathType_] :  
+> &nbsp;&nbsp; [_Path_]  
+>  
+> [_ParenthesizedType_] :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `(` [_Type_] `)`  
+> &nbsp;&nbsp; `(` [_Type_] `)` `+` [_TypeBounds_]  
+>  
+> [_InferredType_] :  
+> &nbsp;&nbsp; `_`  
+
+FIXME
+
+> Type:
+>   ParenthesizedType: `(` Type `)` (`+` TypeBounds)?
+
+>   TupleType :   `(` Type `,` `)`  
+>               | `(` Type (`,` Type )+ `)`
+
+>   NeverType : `!`
+
+>   RawPointerType : `*` ( `mut` | `const` ) TypeNoBounds
+
+>   ArrayType : `[` Type `;` Expression ]`
+
+>   SliceType : `[` Type `]`
+
+>   ReferenceType : `&` Lifetime? `mut`? TypeNoBounds
+
+>   InferredType : `_`
+
+>   QualifiedPathType : QualifiedPath
+
+>   PathType : TypePath (`+` TypeBounds)?
+
+>   FunctionPointerType : `unsafe`? (`extern` STRING_LITERAL?)? `fn` (FunctionArgs) (`->` TypeNoBounds)?
+
+>   `for<'lt> `
+
+>   ImplTrait
+
+>   TraitObjectType : Lifetime? `?` TypeBounds
+
+>  
+> TypeNoBounds:  
+>   ParenthesizedTypeNoBounds : `(` Type `)`  
+>   PathTypeNoBounds : TypePath
+>   
+>  
+> TypeBounds: Bound (`+` Bound)* `+`?  
+> Bound: TypeBound | LifetimeBound  
+> LifetimeBound : Lifetime  
+> TypeBound : TypeBoundNoParen | `(` TypeBoundNoParen `)`  
+> TypeBoundNoParen : `?`? `for`<LifetimeParamDefs> SimplePath  
+
+
+<!-- FIXME create section for type bounds -->
+
+
+PathType - module::module::...::Type
+RawPointerType - *const T, *mut T
+ReferenceType - &'a T, &'a mut T
+BareFunctionType - fn(usize) -> bool
+NeverType - !T
+TupleType - (T, U, V, ...), (T,)
+QualifiedPathType - <Vec<T> as SomeTrait>::SomeType
+TraitObjectType - Bound + Bound + ... + Bound
+ImplTraitType - impl Bound + Bound + ... + Bound
+ParenthesizedType - ( T ) // simply ignores the parenthesis
+InferredType -
+ImplicitSelf
+Macro
+
 Every variable, item and value in a Rust program has a type. The _type_ of a
 *value* defines the interpretation of the memory holding it.
 
@@ -84,7 +172,19 @@ unsigned bytes holding a sequence of UTF-8 code points. Since `str` is a
 [dynamically sized type], it is not a _first-class_ type, but can only be
 instantiated through a pointer type, such as `&str`.
 
+## Types mentions
+
+A type can be mentioned either directly or through a path. Complext types like
+structs can only be mentioned
+
 ## Tuple types
+
+> **<sup>Syntax</sup>**  
+> [_TupleType_] : <a name="tuple-type"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `(` [_Type_] `,` `)`  
+> &nbsp;&nbsp; | `(` [_Type_] ( `,` [_Type_] ) <sup>+</sup> `)`
+
+<!-- FIXME leading comma allowed? -->
 
 A tuple *type* is a heterogeneous product of other types, called the *elements*
 of the tuple. It has no nominal name and is instead structurally typed.
@@ -114,7 +214,14 @@ is often called ‘unit’ or ‘the unit type’.
 
 ## Array, and Slice types
 
-Rust has two different types for a list of items:
+> **<sup>Syntax</sup>**  
+> [_ArrayType_] : <a name="array-type"></a>  
+> &nbsp;&nbsp; `[` [_Type_] `;` [_Expression_] `]`  
+>  
+> [_SliceType_] : <a name="slice-type"></a>  
+> &nbsp;&nbsp; `&` `[` [_Type_] `]`  
+
+Rust has two different types for a list of items of the same type:
 
 * `[T; N]`, an 'array'
 * `[T]`, a 'slice'
@@ -580,3 +687,17 @@ impl Printable for String {
 ```
 
 The notation `&self` is a shorthand for `self: &Self`.
+
+[_Type_]: #type  
+[_PathType_]: #path-type  
+[_QualifiedPathType_]: #qualified-path-type  
+[_TupleType_]: #tuple-type  
+[_ArrayType_]: #array-type  
+[_SliceType_]: #slice-type  
+[_ReferenceType_]: #reference-type  
+[_RawPointerType_]: #raw-pointer-type  
+[_BareFunctionType_]: #bare-function-type  
+[_NeverType_]: #never-type  
+[_TraitObjectType_]: #trait-object-type  
+[_ImplTraitType_]: #impl-trait-type  
+[_ParenthesizedType_]: #parenthesized-type  
