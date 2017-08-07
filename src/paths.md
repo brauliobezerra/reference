@@ -1,16 +1,48 @@
 # Paths
 
+<!-- FIXME: UFCS - universal function call syntax -->
+
+> **<sup>Syntax</sup>**  
+> [_Path_] :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_NonGlobalPath_]  
+> &nbsp;&nbsp; | [_GlobalPath_]  
+>  
+> [_NonGlobalPath_] : <a name="nonglobal-path"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_PathSegment_] ( `::` [_NonGlobalPath_] )<sup>?</sup>  
+>  
+> [_GlobalPath_] : <a name="global-path"></a>  
+> &nbsp;&nbsp; `::` [_NonGlobalPath_]  
+>  
+> [_PathSegment_] : <a name="path-segment"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [IDENTIFIER]  
+> &nbsp;&nbsp; | `<` _TypeArguments_ `>`  
+> &nbsp;&nbsp; | `super`  
+> &nbsp;&nbsp; | `self`  
+>  
+> _PathParameter_ :  
+>  
+
+
+
+
+> path:  
+>   qualified = <...>  
+>   global  
+>   nonglobal  
+>  
+
+
+
 A _path_ is a sequence of one or more path components _logically_ separated by
 a namespace qualifier (`::`). If a path consists of only one component, it may
 refer to either an [item] or a [variable] in a local control
 scope. If a path has multiple components, it refers to an item.
 
-[item]: items.html
-[variable]: variables.html
-
 Every item has a _canonical path_ within its crate, but the path naming an item
 is only meaningful within a given crate. There is no global namespace across
 crates; an item's canonical path merely identifies it within the crate.
+
+## Types of paths
 
 Two examples of simple paths consisting of only identifier components:
 
@@ -26,9 +58,6 @@ after a `::` namespace qualifier in order to disambiguate it from a
 relational expression involving the less-than symbol (`<`). In type
 expression context, the final namespace qualifier is omitted.
 
-[identifiers]: identifiers.html
-[expression]: expressions.html
-
 Two examples of paths with type arguments:
 
 ```rust
@@ -40,12 +69,36 @@ let x  = id::<i32>(10);       // Type arguments used in a call expression
 # }
 ```
 
+### Module paths
+
+> **<sup>Syntax</sup>**  
+> _ModulePath_ :  
+> &nbsp;&nbsp; _ModulePathItem_ ( `::` _ModulePathItem_ )<sup>*</sup>  
+>  
+> _ModulePathItem_ :  
+> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self`  
+
+### Type paths
+
+> **<sup>Syntax</sup>**  
+> _TypePath_ :  
+> &nbsp;&nbsp; _TypePathItem_ ( `::` _TypePathItem_ )<sup>*</sup>  
+>  
+> _TypePathItem_ :  
+> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self`  
+
+### Expression paths
+
+## Path qualifiers
+
+### `::`
+
 Paths can be denoted with various leading qualifiers to change the meaning of
 how it is resolved:
 
-* Paths starting with `::` are considered to be global paths where the
-  components of the path start being resolved from the crate root. Each
-  identifier in the path must resolve to an item.
+Paths starting with `::` are considered to be global paths where the
+components of the path start being resolved from the crate root. Each
+identifier in the path must resolve to an item.
 
 ```rust
 mod a {
@@ -59,8 +112,10 @@ mod b {
 # fn main() {}
 ```
 
-* Paths starting with the keyword `super` begin resolution relative to the
-  parent module. Each further identifier must resolve to an item.
+### `super`
+
+Paths starting with the keyword `super` begin resolution relative to the
+parent module. Each further identifier must resolve to an item.
 
 ```rust
 mod a {
@@ -74,8 +129,10 @@ mod b {
 # fn main() {}
 ```
 
-* Paths starting with the keyword `self` begin resolution relative to the
-  current module. Each further identifier must resolve to an item.
+### `self`
+
+Paths starting with the keyword `self` begin resolution relative to the
+current module. Each further identifier must resolve to an item.
 
 ```rust
 fn foo() {}
@@ -103,3 +160,19 @@ mod a {
 }
 # fn main() {}
 ```
+
+### "Type-qualified" paths
+
+FIXME
+
+[_Path_]: #paths
+[_NonGlobalPath_]: #nonglobal-path
+[_GlobalPath_]: #global-path
+[_PathSegment_]: #path-segment
+
+[IDENTIFIER]: identifiers.html
+
+[item]: items.html
+[identifiers]: identifiers.html
+[expression]: expressions.html
+[variable]: variables.html
