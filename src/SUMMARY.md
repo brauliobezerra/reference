@@ -11,7 +11,6 @@
     - [Comments](comments.md)
     - [Whitespace](whitespace.md)
     - [Tokens](tokens.md)
-    - [Paths](paths.md)
 
 - [Macros](macros.md)
     - [Macros By Example](macros-by-example.md)
@@ -59,6 +58,7 @@
         - [If and if let expressions](expressions/if-expr.md)
         - [Match expressions](expressions/match-expr.md)
         - [Return expressions](expressions/return-expr.md)
+    - [Paths](paths.md)
 
 - [Type system](type-system.md)
     - [Types](types.md)
