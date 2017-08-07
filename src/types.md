@@ -1,5 +1,41 @@
 # Types
 
+> **<sup>Syntax</sup>**  
+> _Type_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_ParenthesizedType_]&nbsp;(`+` [_TypeParamBounds_])<sup>?</sup>  
+> &nbsp;&nbsp; | [_TupleType_]  
+> &nbsp;&nbsp; | [_NeverType_]  
+> &nbsp;&nbsp; | [_RawPointerType_]  
+> &nbsp;&nbsp; | [_ReferenceType_]  
+> &nbsp;&nbsp; | [_ArrayType_]  
+> &nbsp;&nbsp; | [_SliceType_]  
+> &nbsp;&nbsp; | [_InferredType_]  
+> &nbsp;&nbsp; | [_QualifiedPathForType_]  
+> &nbsp;&nbsp; | [_PathForTypeWithGenerics_]&nbsp;(`+` [_TypeParamBounds_])<sup>?</sup>  
+> &nbsp;&nbsp; | [_BareFunctionType_]  
+> &nbsp;&nbsp; | [_MacroInvocationType_]  
+> &nbsp;&nbsp; | [_TypeParamBounds_]  
+>  
+> _TypeNoBounds_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_ParenthesizedType_]  
+> &nbsp;&nbsp; | [_TupleType_]  
+> &nbsp;&nbsp; | [_NeverType_]  
+> &nbsp;&nbsp; | [_RawPointerType_]  
+> &nbsp;&nbsp; | [_ReferenceType_]  
+> &nbsp;&nbsp; | [_ArrayType_]  
+> &nbsp;&nbsp; | [_SliceType_]  
+> &nbsp;&nbsp; | [_InferredType_]  
+> &nbsp;&nbsp; | [_QualifiedPathForType_]  
+> &nbsp;&nbsp; | [_PathForTypeWithGenerics_]  
+> &nbsp;&nbsp; | [_BareFunctionType_]  
+> &nbsp;&nbsp; | [_MacroInvocationType_]  
+>  
+> [_ParenthesizedType_] :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `(` [_Type_] `)`  
+>  
+
+<!-- FIXME create section for type bounds -->
+
 Every variable, item and value in a Rust program has a type. The _type_ of a
 *value* defines the interpretation of the memory holding it.
 
@@ -84,7 +120,18 @@ unsigned bytes holding a sequence of UTF-8 code points. Since `str` is a
 [dynamically sized type], it is not a _first-class_ type, but can only be
 instantiated through a pointer type, such as `&str`.
 
+## Types mentions
+
+A type can be mentioned either directly or through a path. Complex types like
+structs can only be mentioned after being declared by a [item declaration](items.html).
+
 ## Tuple types
+
+> **<sup>Syntax</sup>**  
+> [_TupleType_] : <a name="tuple-type"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `(` `)`  
+> &nbsp;&nbsp; | `(` [_Type_] `,` `)`  
+> &nbsp;&nbsp; | `(` [_Type_]&nbsp;( `,` [_Type_] ) <sup>+</sup> `,`<sup>?</sup> `)`
 
 A tuple *type* is a heterogeneous product of other types, called the *elements*
 of the tuple. It has no nominal name and is instead structurally typed.
@@ -114,13 +161,21 @@ is often called ‘unit’ or ‘the unit type’.
 
 ## Array, and Slice types
 
-Rust has two different types for a list of items:
+> **<sup>Syntax</sup>**  
+> [_ArrayType_] : <a name="array-type"></a>  
+> &nbsp;&nbsp; `[` _type `;` [_Expression_] `]` **FIXME**  
+>  
+> [_SliceType_] : <a name="slice-type"></a>  
+> &nbsp;&nbsp; `[` _type `]` **FIXME**  
+
+Rust has two different types for a list of items of the same type:
 
 * `[T; N]`, an 'array'
 * `[T]`, a 'slice'
 
 An array has a fixed size, and can be allocated on either the stack or the
-heap.
+heap. This size is an expression that evaluates to an
+[`usize`](#machine-dependent-integer-types).
 
 A slice is a [dynamically sized type] representing a 'view' into an array. To
 use a slice type it generally has to be used behind a pointer for example as
@@ -148,6 +203,20 @@ array or slice is always bounds-checked in safe methods and operators.
 
 > Note: The [`Vec<T>`] standard library type provides a heap-allocated resizable
 > array type.
+
+## Never type
+
+> **<sup>Syntax</sup>**  
+> [_NeverType_] : `!`
+
+<!-- FIXME: description (or find whether it is already specified elsewhere -->
+
+## Inferred type
+
+> **<sup>Syntax</sup>**  
+> [_InferredType_] : `_`
+
+<!-- FIXME: description (or find whether it is already specified elsewhere -->
 
 ## Struct types
 
@@ -249,6 +318,11 @@ copied, stored into data structs, and returned from functions.
 
 ### Shared references (`&`)
 
+> **<sup>Syntax</sup>**  
+> [_ReferenceType_] :  
+> &nbsp;&nbsp; `&` Lifetime? `mut`? _type **FIXME**
+  
+
 These point to memory _owned by some other value_. When a shared reference to a
 value is created it prevents direct mutation of the value. [Interior
 mutability](interior-mutability.html) provides an exception for this in certain
@@ -267,6 +341,10 @@ is written `&mut type` or `&'a mut type`. A mutable reference (that hasn't been
 borrowed) is the only way to access the value it points to, so is not `Copy`.
 
 ### Raw pointers (`*const` and `*mut`)
+
+> **<sup>Syntax</sup>**  
+> [_RawPointerType_] :  
+> &nbsp;&nbsp; `*` ( `mut` | `const` ) _type **FIXME  
 
 Raw pointers are pointers without safety or liveness guarantees. Raw pointers
 are written as `*const T` or `*mut T`, for example `*const i32` means a raw
