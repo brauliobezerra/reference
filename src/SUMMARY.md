@@ -13,7 +13,6 @@
     - [Comments](comments.md)
     - [Whitespace](whitespace.md)
     - [Tokens](tokens.md)
-    - [Paths](paths.md)
 
 - [Macros](macros.md)
     - [Macros By Example](macros-by-example.md)
@@ -29,6 +28,7 @@
 - [Statements and expressions](statements-and-expressions.md)
     - [Statements](statements.md)
     - [Expressions](expressions.md)
+    - [Paths](paths.md)
 
 - [Type system](type-system.md)
     - [Types](types.md)
