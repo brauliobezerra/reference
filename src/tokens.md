@@ -248,7 +248,8 @@ literal_. The grammar for recognizing the two kinds of literals is mixed.
 > &nbsp;&nbsp; &nbsp;&nbsp; `u8` | `u16` | `u32` | `u64` | `usize`  
 > &nbsp;&nbsp; | `i8` | `u16` | `i32` | `i64` | `usize`
 
-<!-- FIXME: separate the DECIMAL_LITERAL with no prefix or suffix (use on tuple indexing and float_literal -->
+<!-- FIXME: separate the DECIMAL_LITERAL with no prefix or suffix (used on tuple indexing and float_literal -->
+<!-- FIXME: u128 and i128 -->
 
 An _integer literal_ has one of four forms:
 
