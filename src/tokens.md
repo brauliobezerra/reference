@@ -361,7 +361,7 @@ The two values of the boolean type are written `true` and `false`.
 ### Naming components
 
 > UNDERSCORE        : `_`  
-> LIFETIME_OR_LABEL : `'` IDENTIFIER  
+> LIFETIME_OR_LABEL : `'` IDENTIFIER <a name="lifetime-or-label"></a>  
 
 <!-- FIXME: `'static` has special meaning -->
 <!-- FIXME: how to do a lookup in the grammar? (it would ease the job of specifying a lot of things) -->
