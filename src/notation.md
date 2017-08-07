@@ -32,6 +32,6 @@ The following notations are used by the *Lexer* and *Syntax* grammar snippets:
 ### Simple tokens in syntactical rules
 
 For ease of reading, syntactical rules in the grammar show the printable
-characters of the simple tokens, instead of the the names defined by the
+characters of the simple tokens, instead of the names defined by the
 lexer. For example, we use `while` instead of KW_WHILE and `{` instead
 of OPEN_BRACE.
