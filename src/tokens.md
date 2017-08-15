@@ -74,11 +74,17 @@ evaluated (primarily) at compile time.
 
 #### Character literals
 
+> **<sup>Lexer</sup>**  
+> **FIXME**
+
 A _character literal_ is a single Unicode character enclosed within two
 `U+0027` (single-quote) characters, with the exception of `U+0027` itself,
 which must be _escaped_ by a preceding `U+005C` character (`\`).
 
 #### String literals
+
+> **<sup>Lexer</sup>**  
+> **FIXME**
 
 A _string literal_ is a sequence of any Unicode characters enclosed within two
 `U+0022` (double-quote) characters, with the exception of `U+0022` itself,
@@ -100,6 +106,9 @@ assert_eq!(a,b);
 
 #### Character escapes
 
+> **<sup>Lexer</sup>**  
+> **FIXME**
+
 Some additional _escapes_ are available in either character or non-raw string
 literals. An escape starts with a `U+005C` (`\`) and continues with one of the
 following forms:
@@ -119,6 +128,9 @@ following forms:
   escaped in order to denote *itself*.
 
 #### Raw string literals
+
+> **<sup>Lexer</sup>**  
+> **FIXME**
 
 Raw string literals do not process any escapes. They start with the character
 `U+0072` (`r`), followed by zero or more of the character `U+0023` (`#`) and a
@@ -149,6 +161,9 @@ r##"foo #"# bar"##;                // foo #"# bar
 
 #### Byte literals
 
+> **<sup>Lexer</sup>**  
+> **FIXME**
+
 A _byte literal_ is a single ASCII character (in the `U+0000` to `U+007F`
 range) or a single _escape_ preceded by the characters `U+0062` (`b`) and
 `U+0027` (single-quote), and followed by the character `U+0027`. If the character
@@ -157,6 +172,9 @@ range) or a single _escape_ preceded by the characters `U+0062` (`b`) and
 _number literal_.
 
 #### Byte string literals
+
+> **<sup>Lexer</sup>**  
+> **FIXME**
 
 A non-raw _byte string literal_ is a sequence of ASCII characters and _escapes_,
 preceded by the characters `U+0062` (`b`) and `U+0022` (double-quote), and
@@ -182,6 +200,9 @@ following forms:
   escaped in order to denote its ASCII encoding `0x5C`.
 
 #### Raw byte string literals
+
+> **<sup>Lexer</sup>**  
+> **FIXME**
 
 Raw byte string literals do not process any escapes. They start with the
 character `U+0062` (`b`), followed by `U+0072` (`r`), followed by zero or more
@@ -215,6 +236,20 @@ A _number literal_ is either an _integer literal_ or a _floating-point
 literal_. The grammar for recognizing the two kinds of literals is mixed.
 
 #### Integer literals
+
+> **<sup>Lexer</sup>**  
+> INTEGER_LITERAL :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `0x` [`0`-`9` `a`-`f` `A`-`F` `_`]<sup>+</sup> INTEGER_SUFFIX<sup>?</sup>  
+> &nbsp;&nbsp; | `0o` [`0`-`7` `_`]<sup>+</sup> INTEGER_SUFFIX<sup>?</sup>  
+> &nbsp;&nbsp; | `0b` [`0` `1` `_`]<sup>+</sup> INTEGER_SUFFIX<sup>?</sup>  
+> &nbsp;&nbsp; | [`0`-`9`][`0`-`9` `_`]<sup>\*</sup> INTEGER_SUFFIX<sup>?</sup>  
+>   
+> INTEGER_SUFFIX :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `u8` | `u16` | `u32` | `u64` | `usize`  
+> &nbsp;&nbsp; | `i8` | `u16` | `i32` | `i64` | `usize`
+
+<!-- FIXME: separate the DECIMAL_LITERAL with no prefix or suffix (used on tuple indexing and float_literal -->
+<!-- FIXME: u128 and i128 -->
 
 An _integer literal_ has one of four forms:
 
@@ -256,6 +291,11 @@ Examples of integer literals of various forms:
 0usize;                            // type usize
 ```
 
+<!-- FIXME some examples without the suffix -->
+<!-- FIXME some extreme examples -->
+<!-- FIXME examples of the same number in the 4 bases -->
+<!-- FIXME say that the `_` can be used to separate the suffic -->
+
 Note that the Rust syntax considers `-1i8` as an application of the [unary minus
 operator] to an integer literal `1i8`, rather than
 a single integer literal.
@@ -263,6 +303,23 @@ a single integer literal.
 [unary minus operator]: expressions.html#negation-operators
 
 #### Floating-point literals
+
+> **<sup>Lexer</sup>**  
+> FLOAT_LITERAL :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [`0`-`9`][`0`-`9` `_`]<sup>\*</sup> `.` [`0`-`9` `_`]<sup>\*</sup>  
+> &nbsp;&nbsp; | [`0`-`9`][`0`-`9` `_`]<sup>\*</sup> `.` [`0`-`9` `_`]<sup>+</sup>
+>                FLOAT_EXPONENT<sup>?</sup> FLOAT_SUFFIX  
+> &nbsp;&nbsp; | [`0`-`9`][`0`-`9` `_`]<sup>\*</sup> FLOAT_EXPONENT<sup>?</sup>
+>                FLOAT_SUFFIX<sup>?</sup>  
+>  
+> FLOAT_EXPONENT :  
+> &nbsp;&nbsp; (`e`|`E`) [`0`-`9` `_`]<sup>+</sup>   
+>  
+> FLOAT_SUFFIX :  
+> &nbsp;&nbsp; `f32` | `f64`
+
+<!-- FIXME: conflict with ranges: `1.` vs `1..2` -->
+<!-- FIXME: conflict with integer+method: `1.` vs `1.add(1)` -->
 
 A _floating-point literal_ has one of two forms:
 
@@ -309,6 +366,11 @@ The representation semantics of floating-point numbers are described in
 
 ### Boolean literals
 
+> **<sup>Lexer</sup>**  
+> BOOLEAN_LITERAL :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `true`  
+> &nbsp;&nbsp; | `false`  
+
 The two values of the boolean type are written `true` and `false`.
 
 ## Symbols
@@ -324,4 +386,4 @@ They are catalogued in [the Symbols section][symbols] of the Grammar document.
 [binary operators]: expressions.html#arithmetic-and-logical-binary-operators
 [tokens]: #tokens
 [symbols]: ../grammar.html#symbols
-[keywords]: ../grammar.html#keywords
+[keywords]: keywords.html
