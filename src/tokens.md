@@ -375,15 +375,73 @@ The two values of the boolean type are written `true` and `false`.
 
 ## Symbols
 
-Symbols are a general class of printable [tokens] that play structural
-roles in a variety of grammar productions. They are a
-set of remaining miscellaneous printable tokens that do not
-otherwise appear as [unary operators], [binary
-operators], or [keywords].
-They are catalogued in [the Symbols section][symbols] of the Grammar document.
+### Expression-operator symbols
 
-[unary operators]: expressions.html#borrow-operators
-[binary operators]: expressions.html#arithmetic-and-logical-binary-operators
+> **<sup>Lexer</sup>**  
+> EQ            : `=`  
+> LT            : `<`  
+> LE            : `<=`  
+> EQEQ          : `==`  
+> NE            : `!=`  
+> GE            : `>=`  
+> GT            : `>`  
+> ANDAND        : `&&`  
+> OROR          : `||`  
+> NOT           : `!`  
+> TILDE         : `~`  
+
+### Binary operators
+
+> PLUS          : `+`  
+> MINUS         : `-`  
+> STAR          : `*`  
+> SLASH         : `/`  
+> PERCENT       : `%`  
+> AND           : `&`  
+> OR            : `|`  
+> SHL           : `<<`  
+> SHR           : `>>`  
+
+### Structural symbols
+
+> **<sup>Lexer</sup>**  
+> AT            : `@`  
+> DOT           : `.`  
+> DOTDOT        : `..`  
+> DOTDOTDOT     : `...`  
+> COMMA         : `,`  
+> SEMI          : `;`  
+> COLON         : `:`  
+> MOD_SEPARATOR : `::`  
+> RIGHT_ARROW   : `->`  
+> LEFT_ARROW    : `<-`  
+> FAT_ARROW     : `=>`  
+> POUND         : `#`  
+> DOLLAR        : `$`  
+> QUESTION      : `?`  
+
+### Naming components
+
+> UNDERSCORE        : `_`  
+> LIFETIME_OR_LABEL : `'` IDENTIFIER <a name="lifetime-or-label"></a>  
+
+<!-- FIXME: `'static` has special meaning -->
+<!-- FIXME: how to do a lookup in the grammar? (it would ease the job of specifying a lot of things) -->
+
+### Delimiters
+
+> **<sup>Lexer</sup>**  
+> OPEN_PAREN    : `(`  
+> CLOSE_PAREN   : `)`  
+> OPEN_BRACKET  : `[`  
+> CLOSE_BRACKET : `]`  
+> OPEN_BRACE    : `{`  
+> CLOSE_BRACE   : `}`  
+
 [tokens]: #tokens
+<<<<<<< HEAD
 [symbols]: ../grammar.html#symbols
 [keywords]: keywords.html
+=======
+[keywords]: ../grammar.html#keywords
+>>>>>>> grammar_symbols
