@@ -1,5 +1,15 @@
 # Statements
 
+> **<sup>Syntax</sup>**  
+> _Statement_ :  
+> &nbsp;&nbsp; [_DeclarationStatement_] | [_Expression_] | `;`  
+
+<!-- FIXME what kinds of statements need a semicolon? -->
+<!-- FIXME explain whether Rust uses semicolons as separators (like pascal) or as terminators (like C) -->
+
+[_DeclarationStatement_]: #declaration-statements
+[_ExpressionStatement_]: #expression-statements
+
 A _statement_ is a component of a block, which is in turn a component of an
 outer [expression](expressions.html) or [function](items.html#functions).
 
@@ -8,6 +18,12 @@ statements](#declaration-statements) and [expression
 statements](#expression-statements).
 
 ## Declaration statements
+
+> **<sup>Syntax</sup>**  
+> _DeclarationStatement_ :  
+> &nbsp;&nbsp; [_Item_] | [_LocalVariablesDeclaration_]
+
+[_LocalVariablesDeclaration_]: #let-statements
 
 A _declaration statement_ is one that introduces one or more *names* into the
 enclosing statement block. The declared names may denote new variables or new
@@ -27,6 +43,10 @@ in meaning to declaring the item outside the statement block.
 
 ### `let` statements
 
+> **<sup>Syntax</sup>**  
+> _LocalVariablesDeclaration_ :  
+> &nbsp;&nbsp; `let` [_Pattern_]&nbsp;( `:` [_Type_] )<sup>?</sup> (`=` [_Expression_] )<sup>?</sup> `;`
+
 A _`let` statement_ introduces a new set of variables, given by a pattern. The
 pattern may be followed by a type annotation, and/or an initializer expression.
 When no type annotation is given, the compiler will infer the type, or signal
@@ -35,6 +55,22 @@ Any variables introduced by a variable declaration are visible from the point of
 declaration until the end of the enclosing block scope.
 
 ## Expression statements
+
+> **<sup>Syntax</sup>**  
+> _ExpressionStatement_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _ExpressionWithBlock_  
+> &nbsp;&nbsp; | _ExpressionWithoutBlock_ `;`  
+>  
+> _ExpressionWithBlock_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; BlockExpression  
+> &nbsp;&nbsp; | LoopExpression  
+> &nbsp;&nbsp; | IfExpression  
+> &nbsp;&nbsp; | IfLetExpression  
+> &nbsp;&nbsp; | MatchExpression  
+> &nbsp;&nbsp; | WhileExpression  
+> &nbsp;&nbsp; | WhileLetExpression  
+>  
+> _ExpressionWithoutBlock_: all other expression types
 
 An _expression statement_ is one that evaluates an
 [expression](expressions.html) and ignores its result. As a rule, an expression
@@ -54,3 +90,8 @@ if v.is_empty() {
 }                 // Semicolon can be omitted.
 [1];              // Separate expression statement, not an indexing expression.
 ```
+
+[_Item_]: items.html
+[_Pattern_]: patterns.html
+[_Type_]: types.html
+[_Expression_]: expressions.html
