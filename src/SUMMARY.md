@@ -27,6 +27,7 @@
     - [Statements](statements.md)
     - [Expressions](expressions.md)
     - [Paths](paths.md)
+    - [Patterns](patterns.md)
 
 - [Type system](type-system.md)
     - [Types](types.md)
