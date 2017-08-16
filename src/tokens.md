@@ -439,9 +439,5 @@ The two values of the boolean type are written `true` and `false`.
 > CLOSE_BRACE   : `}`  
 
 [tokens]: #tokens
-<<<<<<< HEAD
 [symbols]: ../grammar.html#symbols
 [keywords]: keywords.html
-=======
-[keywords]: ../grammar.html#keywords
->>>>>>> grammar_symbols
