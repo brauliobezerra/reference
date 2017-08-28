@@ -61,6 +61,41 @@ which sub-item declarations may appear.
 
 ## Type Parameters
 
+> **<sup>Syntax:<sup>**  
+> [_Generics_] :<a name="generics"></a>  
+> &nbsp;&nbsp; `<` _GenericParams_<sup>?</sup> `>`  
+>  
+> _GenericParams_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _LifetimeParams_ `,`<sup>?</sup>  
+> &nbsp;&nbsp; | _TypeParams_ `,`<sup>?</sup>  
+> &nbsp;&nbsp; | _LifetimeParams_ `,` _TypeParams_ `,`<sup>?</sup>  
+>  
+> _LifetimeParams_ :  
+> &nbsp;&nbsp; _LifetimeParam_ (`,` _LifetimeParam_)<sup>\*</sup>  
+>  
+> _LifetimeParam_ :  
+> &nbsp;&nbsp; [LIFETIME_OR_LABEL] LifetimeBounds<sup>?</sup>  
+>  
+> _TypeParams_:  
+> &nbsp;&nbsp; _TypeParam_ (`,` _TypeParam_)<sup>\*</sup>  
+>  
+> _TypeParam_ :  
+> &nbsp;&nbsp; [IDENTIFIER] _TypeParamBounds_<sup>?</sup> ( `=` [_Type_] )<sup>?</sup>  
+>  
+> _TypeParamBounds_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [LIFETIME_OR_LABEL]  
+> &nbsp;&nbsp; | `(` [LIFETIME_OR_LABEL] `)`  
+> &nbsp;&nbsp; | `?`<sup>?</sup> _LateBoundLifetimeDefs_<sup>?</sup> [_TypePath_]  
+> &nbsp;&nbsp; | `(` `?`<sup>?</sup> _LateBoundLifetimeDefs_<sup>?</sup> [_TypePath_] `)`  
+>  
+> _LifetimeBounds_ :  
+> &nbsp;&nbsp; `:` [LIFETIME_OR_LABEL] ( `+` [LIFETIME_OR_LABEL] ) `+`<sup>?</sup>  
+>  
+> _LateBoundLifetimeDefs_ :  
+> &nbsp;&nbsp; `for` `<` _LifetimeParams_ `,`<sup>?</sup> `>`  
+
+[_Generics_]: #generics
+
 Functions, type aliases, structs, enumerations, unions, traits and
 implementations may be *parameterized* by type. Type parameters are given as a
 comma-separated list of identifiers enclosed in angle brackets (`<...>`), after
