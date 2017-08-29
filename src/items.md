@@ -74,7 +74,7 @@ which sub-item declarations may appear.
 > &nbsp;&nbsp; _LifetimeParam_ (`,` _LifetimeParam_)<sup>\*</sup>  
 >  
 > _LifetimeParam_ :  
-> &nbsp;&nbsp; [LIFETIME_OR_LABEL] LifetimeBounds<sup>?</sup>  
+> &nbsp;&nbsp; [LIFETIME_OR_LABEL] _LifetimeBounds_<sup>?</sup>  
 >  
 > _TypeParams_:  
 > &nbsp;&nbsp; _TypeParam_ (`,` _TypeParam_)<sup>\*</sup>  
@@ -92,9 +92,28 @@ which sub-item declarations may appear.
 > &nbsp;&nbsp; `:` [LIFETIME_OR_LABEL] ( `+` [LIFETIME_OR_LABEL] ) `+`<sup>?</sup>  
 >  
 > _LateBoundLifetimeDefs_ :  
-> &nbsp;&nbsp; `for` `<` _LifetimeParams_ `,`<sup>?</sup> `>`  
+> &nbsp;&nbsp; `for` `<` _LifetimeParams_ `,`<sup>?</sup> `>`
+
+> **<sup>Syntax:<sup>**  
+> [_WhereClause_] :<a name="where-clause"></a>  
+> &nbsp;&nbsp; `where` ( _WhereClauseItem_ ( `,` _WhereClauseItem_ )<sup>\*</sup> `,`<sup>?</sup> )<sup>?</sup>  
+>  
+> _WhereClauseItem_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _LifetimeWhereClauseItem_  
+> &nbsp;&nbsp; | _TypeBoundWhereClauseItem_  
+> &nbsp;&nbsp; | _TypeEqualWhereClauseItem_  
+>  
+> _LifetimeWhereClauseItem_ :  
+> &nbsp;&nbsp; [LIFETIME_OR_LABEL] _LifetimeBounds_  
+>  
+> _TypeBoundWhereClauseItem_ :  
+> &nbsp;&nbsp; _LateBoundLifetimeDefs_<sup>?</sup> [_Type_] `:` _TypeParamBounds_  
+>  
+> _TypeEqualWhereClauseItem_ :  
+> &nbsp;&nbsp; _LateBoundLifetimeDefs_<sup>?</sup> [_Type_]&nbsp;(`=`|`==`) [_Type_]  
 
 [_Generics_]: #generics
+[_WhereClause_]: #where-clause
 
 Functions, type aliases, structs, enumerations, unions, traits and
 implementations may be *parameterized* by type. Type parameters are given as a
@@ -364,7 +383,7 @@ fn main() {}
 > &nbsp;&nbsp; `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
 >              [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` _FunctionParameters_<sup>?</sup> `)`
->              _FunctionReturnType_<sup>?</sup> _WhereClause_<sup>?</sup>  
+>              _FunctionReturnType_<sup>?</sup> [_WhereClause_]<sup>?</sup>  
 > &nbsp;&nbsp; &nbsp;&nbsp; _BlockWithInnerAttributes_
 >  
 > _Abi_:  
@@ -375,9 +394,6 @@ fn main() {}
 >  
 > _FunctionReturnType_:  
 > &nbsp;&nbsp; `->` [_Type_]  
->  
-> _WhereClause_ :  
-> &nbsp;&nbsp; FIXME  
 >  
 > _BlockWithInnerAttributes_ :  
 > &nbsp;&nbsp; `{`  
