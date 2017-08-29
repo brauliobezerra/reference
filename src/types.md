@@ -2,7 +2,7 @@
 
 > **<sup>Syntax</sup>**  
 > [_Type_] : <a name="type"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_PathType_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_TypePath_]  
 > &nbsp;&nbsp; | [_QualifiedPathType_]  
 > &nbsp;&nbsp; | [_TupleType_]  
 > &nbsp;&nbsp; | [_ArrayType_]  
@@ -16,7 +16,7 @@
 > &nbsp;&nbsp; | [_ParenthesizedType_]  
 > &nbsp;&nbsp; | [_InferredType_]  
 >  
-> [_PathType_] :  
+> [_TypePath_] :  
 > &nbsp;&nbsp; [_Path_]  
 >  
 > [_ParenthesizedType_] :  
@@ -30,9 +30,6 @@ FIXME
 
 > Type:
 >   ParenthesizedType: `(` Type `)` (`+` TypeBounds)?
-
->   TupleType :   `(` Type `,` `)`  
->               | `(` Type (`,` Type )+ `)`
 
 >   NeverType : `!`
 
@@ -48,7 +45,9 @@ FIXME
 
 >   QualifiedPathType : QualifiedPath
 
->   PathType : TypePath (`+` TypeBounds)?
+>   TypePath : `::`? TypePath (`+` TypeBounds)?         (parse_path_segments_without_colons)
+>   ExprPath : `::`?                                    (parse_path_segments_with_colons)
+>   ModPath :  `::`?                                    (parse_path_segments_without_types)
 
 >   FunctionPointerType : `unsafe`? (`extern` STRING_LITERAL?)? `fn` (FunctionArgs) (`->` TypeNoBounds)?
 
@@ -175,16 +174,15 @@ instantiated through a pointer type, such as `&str`.
 ## Types mentions
 
 A type can be mentioned either directly or through a path. Complext types like
-structs can only be mentioned
+structs can only be mentioned after being declared by a [item declaration](items.html).
 
 ## Tuple types
 
 > **<sup>Syntax</sup>**  
 > [_TupleType_] : <a name="tuple-type"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; `(` [_Type_] `,` `)`  
-> &nbsp;&nbsp; | `(` [_Type_] ( `,` [_Type_] ) <sup>+</sup> `)`
-
-<!-- FIXME leading comma allowed? -->
+> &nbsp;&nbsp; &nbsp;&nbsp; `(` `)`  
+> &nbsp;&nbsp; | `(` [_Type_] `,` `)`  
+> &nbsp;&nbsp; | `(` [_Type_]&nbsp;( `,` [_Type_] ) <sup>+</sup> `,`<sup>?</sup> `)`
 
 A tuple *type* is a heterogeneous product of other types, called the *elements*
 of the tuple. It has no nominal name and is instead structurally typed.
@@ -227,7 +225,8 @@ Rust has two different types for a list of items of the same type:
 * `[T]`, a 'slice'
 
 An array has a fixed size, and can be allocated on either the stack or the
-heap.
+heap. This size is an expression that evaluates to an
+[`usize`](#machine-dependent-integer-types).
 
 A slice is a [dynamically sized type] representing a 'view' into an array. To
 use a slice type it generally has to be used behind a pointer for example as
@@ -688,16 +687,18 @@ impl Printable for String {
 
 The notation `&self` is a shorthand for `self: &Self`.
 
-[_Type_]: #type  
-[_PathType_]: #path-type  
-[_QualifiedPathType_]: #qualified-path-type  
-[_TupleType_]: #tuple-type  
-[_ArrayType_]: #array-type  
-[_SliceType_]: #slice-type  
-[_ReferenceType_]: #reference-type  
-[_RawPointerType_]: #raw-pointer-type  
-[_BareFunctionType_]: #bare-function-type  
-[_NeverType_]: #never-type  
-[_TraitObjectType_]: #trait-object-type  
-[_ImplTraitType_]: #impl-trait-type  
-[_ParenthesizedType_]: #parenthesized-type  
+[_Type_]: #type
+[_TypePath_]: #type-path
+[_QualifiedPathType_]: #qualified-path-type
+[_TupleType_]: #tuple-type
+[_ArrayType_]: #array-type
+[_SliceType_]: #slice-type
+[_ReferenceType_]: #reference-type
+[_RawPointerType_]: #raw-pointer-type
+[_BareFunctionType_]: #bare-function-type
+[_NeverType_]: #never-type
+[_TraitObjectType_]: #trait-object-type
+[_ImplTraitType_]: #impl-trait-type
+[_ParenthesizedType_]: #parenthesized-type
+
+[_Expression_]: expressions.html
