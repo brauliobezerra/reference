@@ -23,25 +23,13 @@
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` [_Type_] `)`  
 > &nbsp;&nbsp; `(` [_Type_] `)` `+` [_TypeBounds_]  
 >  
-> [_InferredType_] :  
-> &nbsp;&nbsp; `_`  
+
+<!--
 
 FIXME
 
 > Type:
 >   ParenthesizedType: `(` Type `)` (`+` TypeBounds)?
-
->   NeverType : `!`
-
->   RawPointerType : `*` ( `mut` | `const` ) TypeNoBounds
-
->   ArrayType : `[` Type `;` Expression ]`
-
->   SliceType : `[` Type `]`
-
->   ReferenceType : `&` Lifetime? `mut`? TypeNoBounds
-
->   InferredType : `_`
 
 >   QualifiedPathType : QualifiedPath
 
@@ -70,9 +58,6 @@ FIXME
 > TypeBoundNoParen : `?`? `for`<LifetimeParamDefs> SimplePath  
 
 
-<!-- FIXME create section for type bounds -->
-
-
 PathType - module::module::...::Type
 RawPointerType - *const T, *mut T
 ReferenceType - &'a T, &'a mut T
@@ -86,6 +71,10 @@ ParenthesizedType - ( T ) // simply ignores the parenthesis
 InferredType -
 ImplicitSelf
 Macro
+
+-->
+
+<!-- FIXME create section for type bounds -->
 
 Every variable, item and value in a Rust program has a type. The _type_ of a
 *value* defines the interpretation of the memory holding it.
@@ -258,6 +247,20 @@ type.
 [dynamically sized type]: dynamically-sized-types.html
 [`Vec<T>`]: ../std/vec/struct.Vec.html
 
+## Never type
+
+> **<sup>Syntax</sup>**  
+> [_NeverType_] : `!`
+
+<!-- FIXME: description (or find whether it is already specified elsewhere -->
+
+## Inferred type
+
+> **<sup>Syntax</sup>**  
+> [_InferredType_] : `_`
+
+<!-- FIXME: description (or find whether it is already specified elsewhere -->
+
 ## Struct types
 
 A `struct` *type* is a heterogeneous product of other types, called the
@@ -369,6 +372,11 @@ operation: it involves only copying the pointer itself, that is, pointers are
 `Copy`. Releasing a reference has no effect on the value it points to, but
 referencing of a [temporary value](expressions.html#temporary-lifetimes) will
 keep it alive during the scope of the reference itself.
+    
+> **<sup>Syntax</sup>**  
+> [_ReferenceType_] :  
+> &nbsp;&nbsp; `&` Lifetime? `mut`? [_TypeNoBounds_]
+    
 
 ### Mutable references (`&mut`)
 
@@ -386,6 +394,10 @@ operation](unsafe-functions.html), this can also be used to convert a raw
 pointer to a reference by reborrowing it (`&*` or `&mut *`). Raw pointers are
 generally discouraged in Rust code; they exist to support interoperability with
 foreign code, and writing performance-critical or low-level functions.
+    
+> **<sup>Syntax</sup>**  
+> [_RawPointerType_] :  
+> &nbsp;&nbsp; `*` ( `mut` | `const` ) [_TypeNoBounds_]
 
 When comparing pointers they are compared by their address, rather than by what
 they point to. When comparing pointers to [dynamically sized
@@ -700,5 +712,6 @@ The notation `&self` is a shorthand for `self: &Self`.
 [_TraitObjectType_]: #trait-object-type
 [_ImplTraitType_]: #impl-trait-type
 [_ParenthesizedType_]: #parenthesized-type
+[_InferredType_]: #inferred-type
 
 [_Expression_]: expressions.html
