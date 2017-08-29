@@ -61,6 +61,60 @@ which sub-item declarations may appear.
 
 ## Type Parameters
 
+> **<sup>Syntax:<sup>**  
+> [_Generics_] :<a name="generics"></a>  
+> &nbsp;&nbsp; `<` _GenericParams_<sup>?</sup> `>`  
+>  
+> _GenericParams_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _LifetimeParams_ `,`<sup>?</sup>  
+> &nbsp;&nbsp; | _TypeParams_ `,`<sup>?</sup>  
+> &nbsp;&nbsp; | _LifetimeParams_ `,` _TypeParams_ `,`<sup>?</sup>  
+>  
+> _LifetimeParams_ :  
+> &nbsp;&nbsp; _LifetimeParam_ (`,` _LifetimeParam_)<sup>\*</sup>  
+>  
+> _LifetimeParam_ :  
+> &nbsp;&nbsp; [LIFETIME_OR_LABEL] _LifetimeBounds_<sup>?</sup>  
+>  
+> _TypeParams_:  
+> &nbsp;&nbsp; _TypeParam_ (`,` _TypeParam_)<sup>\*</sup>  
+>  
+> _TypeParam_ :  
+> &nbsp;&nbsp; [IDENTIFIER] _TypeParamBounds_<sup>?</sup> ( `=` [_Type_] )<sup>?</sup>  
+>  
+> _TypeParamBounds_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [LIFETIME_OR_LABEL]  
+> &nbsp;&nbsp; | `(` [LIFETIME_OR_LABEL] `)`  
+> &nbsp;&nbsp; | `?`<sup>?</sup> _LateBoundLifetimeDefs_<sup>?</sup> [_TypePath_]  
+> &nbsp;&nbsp; | `(` `?`<sup>?</sup> _LateBoundLifetimeDefs_<sup>?</sup> [_TypePath_] `)`  
+>  
+> _LifetimeBounds_ :  
+> &nbsp;&nbsp; `:` [LIFETIME_OR_LABEL] ( `+` [LIFETIME_OR_LABEL] ) `+`<sup>?</sup>  
+>  
+> _LateBoundLifetimeDefs_ :  
+> &nbsp;&nbsp; `for` `<` _LifetimeParams_ `,`<sup>?</sup> `>`
+
+> **<sup>Syntax:<sup>**  
+> [_WhereClause_] :<a name="where-clause"></a>  
+> &nbsp;&nbsp; `where` ( _WhereClauseItem_ ( `,` _WhereClauseItem_ )<sup>\*</sup> `,`<sup>?</sup> )<sup>?</sup>  
+>  
+> _WhereClauseItem_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _LifetimeWhereClauseItem_  
+> &nbsp;&nbsp; | _TypeBoundWhereClauseItem_  
+> &nbsp;&nbsp; | _TypeEqualWhereClauseItem_  
+>  
+> _LifetimeWhereClauseItem_ :  
+> &nbsp;&nbsp; [LIFETIME_OR_LABEL] _LifetimeBounds_  
+>  
+> _TypeBoundWhereClauseItem_ :  
+> &nbsp;&nbsp; _LateBoundLifetimeDefs_<sup>?</sup> [_Type_] `:` _TypeParamBounds_  
+>  
+> _TypeEqualWhereClauseItem_ :  
+> &nbsp;&nbsp; _LateBoundLifetimeDefs_<sup>?</sup> [_Type_]&nbsp;(`=`|`==`) [_Type_]  
+
+[_Generics_]: #generics
+[_WhereClause_]: #where-clause
+
 Functions, type aliases, structs, enumerations, unions, traits and
 implementations may be *parameterized* by type. Type parameters are given as a
 comma-separated list of identifiers enclosed in angle brackets (`<...>`), after
@@ -329,7 +383,7 @@ fn main() {}
 > &nbsp;&nbsp; `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
 >              [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` _FunctionParameters_<sup>?</sup> `)`
->              _FunctionReturnType_<sup>?</sup> _WhereClause_<sup>?</sup>  
+>              _FunctionReturnType_<sup>?</sup> [_WhereClause_]<sup>?</sup>  
 > &nbsp;&nbsp; &nbsp;&nbsp; _BlockWithInnerAttributes_
 >  
 > _Abi_:  
@@ -340,9 +394,6 @@ fn main() {}
 >  
 > _FunctionReturnType_:  
 > &nbsp;&nbsp; `->` [_Type_]  
->  
-> _WhereClause_ :  
-> &nbsp;&nbsp; FIXME  
 >  
 > _BlockWithInnerAttributes_ :  
 > &nbsp;&nbsp; `{`  
