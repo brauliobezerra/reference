@@ -23,25 +23,13 @@
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` [_Type_] `)`  
 > &nbsp;&nbsp; `(` [_Type_] `)` `+` [_TypeBounds_]  
 >  
-> [_InferredType_] :  
-> &nbsp;&nbsp; `_`  
+
+<!--
 
 FIXME
 
 > Type:
 >   ParenthesizedType: `(` Type `)` (`+` TypeBounds)?
-
->   NeverType : `!`
-
->   RawPointerType : `*` ( `mut` | `const` ) TypeNoBounds
-
->   ArrayType : `[` Type `;` Expression ]`
-
->   SliceType : `[` Type `]`
-
->   ReferenceType : `&` Lifetime? `mut`? TypeNoBounds
-
->   InferredType : `_`
 
 >   QualifiedPathType : QualifiedPath
 
@@ -70,9 +58,6 @@ FIXME
 > TypeBoundNoParen : `?`? `for`<LifetimeParamDefs> SimplePath  
 
 
-<!-- FIXME create section for type bounds -->
-
-
 PathType - module::module::...::Type
 RawPointerType - *const T, *mut T
 ReferenceType - &'a T, &'a mut T
@@ -86,6 +71,10 @@ ParenthesizedType - ( T ) // simply ignores the parenthesis
 InferredType -
 ImplicitSelf
 Macro
+
+-->
+
+<!-- FIXME create section for type bounds -->
 
 Every variable, item and value in a Rust program has a type. The _type_ of a
 *value* defines the interpretation of the memory holding it.
@@ -151,7 +140,8 @@ through a pointer type, such as `&str`.
 ## Types mentions
 
 A type can be mentioned either directly or through a path. Complext types like
-structs can only be mentioned after being declared by a [item declaration](items.html).
+structs and traits can only be mentioned after using paths, after being declared
+by an [item declaration](items.html).
 
 ## Tuple types
 
@@ -226,6 +216,20 @@ As you can see, the `vec!` macro allows you to create a `Vec<T>` easily. The
 
 All in-bounds elements of arrays and slices are always initialized, and access
 to an array or slice is always bounds-checked.
+
+## Never type
+
+> **<sup>Syntax</sup>**  
+> [_NeverType_] : `!`
+
+<!-- FIXME: description (or find whether it is already specified elsewhere -->
+
+## Inferred type
+
+> **<sup>Syntax</sup>**  
+> [_InferredType_] : `_`
+
+<!-- FIXME: description (or find whether it is already specified elsewhere -->
 
 ## Struct types
 
@@ -321,7 +325,11 @@ varieties of pointer in Rust:
     Releasing a reference has no effect on the value it points to,
     but a reference of a temporary value will keep it alive during the scope
     of the reference itself.
-
+    
+> **<sup>Syntax</sup>**  
+> [_ReferenceType_] :  
+> &nbsp;&nbsp; `&` Lifetime? `mut`? [_TypeNoBounds_]
+    
 * Raw pointers (`*`)
   : Raw pointers are pointers without safety or liveness guarantees.
     Raw pointers are written as `*const T` or `*mut T`,
@@ -332,6 +340,10 @@ varieties of pointer in Rust:
     Raw pointers are generally discouraged in Rust code;
     they exist to support interoperability with foreign code,
     and writing performance-critical or low-level functions.
+    
+> **<sup>Syntax</sup>**  
+> [_RawPointerType_] :  
+> &nbsp;&nbsp; `*` ( `mut` | `const` ) [_TypeNoBounds_]
 
 The standard library contains additional 'smart pointer' types beyond references
 and raw pointers.
@@ -610,5 +622,6 @@ receiver for a call to the method `make_string`.
 [_TraitObjectType_]: #trait-object-type
 [_ImplTraitType_]: #impl-trait-type
 [_ParenthesizedType_]: #parenthesized-type
+[_InferredType_]: #inferred-type
 
 [_Expression_]: expressions.html
