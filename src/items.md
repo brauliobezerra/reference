@@ -115,6 +115,7 @@ which sub-item declarations may appear.
 [_Generics_]: #generics
 [_WhereClause_]: #where-clause
 [_Type_]: types.html#type
+[_TypePath_]: types.html#type-path
 
 Functions, type aliases, structs, enumerations, unions, traits and
 implementations may be *parameterized* by type. Type parameters are given as a
