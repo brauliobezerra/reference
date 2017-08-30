@@ -208,6 +208,8 @@ is often called ‘unit’ or ‘the unit type’.
 > [_SliceType_] : <a name="slice-type"></a>  
 > &nbsp;&nbsp; `&` `[` [_Type_] `]`  
 
+<!-- FIXME: actually, the slice type is `[` [_Type_] `]`, without `&`. -->
+
 Rust has two different types for a list of items of the same type:
 
 * `[T; N]`, an 'array'
