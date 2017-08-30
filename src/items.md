@@ -730,7 +730,14 @@ This only works as long as none of the variants have data attached. If it were
 [_Union_]: #unions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> [_Union_] :  
+> &nbsp;&nbsp; `union` [_Generics_]<sup>?</sup> [_WhereClause_]<sup>?</sup> `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; _UnionField_ ( `,` _UnionField_ )<sup>\*</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; `}`  
+>  
+> _UnionField_ :  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; [_Visibility_]<sup>?</sup> [IDENTIFIER] `:` [_Type_]
 
 A union declaration uses the same syntax as a struct declaration, except with
 `union` in place of `struct`.
