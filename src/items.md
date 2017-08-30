@@ -603,10 +603,44 @@ let _: F = E::A;  // OK
 
 ## Structs
 [_Struct_]: #structs
+[_StructFields_]: #struct-fields
+[_TupleFields_]: #tuple-fields
 
 > **<sup>Syntax</sup>**  
-> [_Struct_] : FIXME
-
+> [_Struct_] :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _StructStruct_  
+> &nbsp;&nbsp; | _TupleStruct_  
+>  
+> _StructStruct_ :  
+> &nbsp;&nbsp; `struct`
+>   [IDENTIFIER]&nbsp;
+>   [_Generics_]<sup>?</sup>
+>   [_WhereClause_]<sup>?</sup>
+>   ( `{` _StructFields_<sup>?</sup> `}` | `;` )  
+>  
+> _TupleStruct_ :  
+> &nbsp;&nbsp; `struct`
+>   [IDENTIFIER]&nbsp;
+>   [_Generics_]<sup>?</sup>
+>   `(` _TupleFields_<sup>?</sup> `)`
+>   [_WhereClause_]<sup>?</sup>
+>   `;`  
+>  
+> [_StructFields_] :<a name="struct-fields"></a>  
+> &nbsp;&nbsp; _StructField_ (`,` _StructField_)<sup>\*</sup> `,`<sup>?</sup>  
+>  
+> _StructField_ :  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; [_Visibility_]<sup>?</sup>  
+> &nbsp;&nbsp; [IDENTIFIER] `:` [_Type_]  
+>  
+> [_TupleFields_] :<a name="tuple-fields"></a>  
+> &nbsp;&nbsp; _TupleField_ (`,` _TupleField_)<sup>\*</sup> `,`<sup>?</sup>  
+>  
+> _TupleField_ :  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; [_Visibility_]<sup>?</sup>  
+> &nbsp;&nbsp; [_Type_]  
 
 A _struct_ is a nominal [struct type] defined with the keyword `struct`.
 
@@ -656,7 +690,29 @@ particular layout using the [`repr` attribute].
 [_Enumeration_]: #enumerations
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> [_Enumeration_] :  
+> &nbsp;&nbsp; `enum`
+>    [IDENTIFIER]&nbsp;
+>    [_Generics_]<sup>?</sup>
+>    [_WhereClause_]<sup>?</sup>
+>    `{` _EnumItems_<sup>?</sup> `}`  
+>  
+> _EnumItems_ :  
+> &nbsp;&nbsp; _EnumItem_ ( `,` _EnumItem_ )<sup>\*</sup> `,`<sup>?</sup>  
+>  
+> _EnumItem_ :  
+> &nbsp;&nbsp; _OuterAttribute_<sup>\*</sup>  
+> &nbsp;&nbsp; [IDENTIFIER]&nbsp;( _EnumItemTuple_ | _EnumItemStruct_ 
+>                                | _EnumItemWithDiscriminant_ )<sup>?</sup>  
+>  
+> _EnumItemTuple_ :  
+> &nbsp;&nbsp; `(` [_TupleFields_]<sup>?</sup> `)`  
+>   
+> _EnumItemStruct_ :  
+> &nbsp;&nbsp; `(` [_StructFields_]<sup>?</sup> `)`  
+>   
+> _EnumItemWithDiscriminant_ :  
+> &nbsp;&nbsp; `=` [_Expression_]  
 
 An _enumeration_ is a simultaneous definition of a nominal [enumerated type] as
 well as a set of *constructors*, that can be used to create or pattern-match
@@ -730,7 +786,9 @@ This only works as long as none of the variants have data attached. If it were
 [_Union_]: #unions
 
 > **<sup>Syntax</sup>**  
-> FIXME
+> [_Union_] :  
+> &nbsp;&nbsp; `union` [_Generics_]<sup>?</sup> [_WhereClause_]<sup>?</sup>
+>   `{`[_StructFields_] `}`
 
 A union declaration uses the same syntax as a struct declaration, except with
 `union` in place of `struct`.
