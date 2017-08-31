@@ -89,7 +89,7 @@ which sub-item declarations may appear.
 > &nbsp;&nbsp; | `(` `?`<sup>?</sup> _LateBoundLifetimeDefs_<sup>?</sup> [_TypePath_] `)`  
 >  
 > _LifetimeBounds_ :  
-> &nbsp;&nbsp; `:` [LIFETIME_OR_LABEL] ( `+` [LIFETIME_OR_LABEL] ) `+`<sup>?</sup>  
+> &nbsp;&nbsp; `:` [LIFETIME_OR_LABEL] ( `+` [LIFETIME_OR_LABEL] )<sup>\*</sup> `+`<sup>?</sup>  
 >  
 > _LateBoundLifetimeDefs_ :  
 > &nbsp;&nbsp; `for` `<` _LifetimeParams_ `,`<sup>?</sup> `>`
