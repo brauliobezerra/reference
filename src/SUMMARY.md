@@ -90,3 +90,5 @@
 [Appendix: As-yet-undocumented Features](undocumented.md)
 
 [Appendix: Glossary](glossary.md)
+
+[Appendix: Grammar](grammar.md)
