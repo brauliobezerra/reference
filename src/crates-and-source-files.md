@@ -9,7 +9,7 @@
 
 > **<sup>Lexer</sup>**  
 > UTF8BOM : `\uFEFF`  
-> SHEBANG : `#!` ~[`[` `\n`] ~`\n`<sup>*</sup>
+> SHEBANG : `#!` ~[`[` `\n`] ~`\n`<sup>\*</sup>
 
 Although Rust, like any other language, can be implemented by an interpreter as
 well as a compiler, the only existing implementation is a compiler,
