@@ -1,14 +1,20 @@
+#!/usr/bin/env python
+
 import re
 
 
 def files_from_summary_md():
     files_to_search = []
-    pattern = re.compile('[-a-zA-Z/]+\\.md')
+    pattern = re.compile('\\[([^\\]]+)\\]\\(([^(]+)\\)')
+    print(pattern)
     for line in open('src/SUMMARY.md', 'r'):
-        for match in re.findall(pattern, line):
-            files_to_search.append('src/' + match)
+        for match in re.finditer(pattern, line):
+            files_to_search.append(dict(
+                title=match.group(1),
+                path='src/' + match.group(2)))
 
-    files_to_search.remove('src/grammar.md')
+    print(files_to_search)
+    files_to_search.remove(dict(title='Appendix: Grammar', path='src/grammar.md'))
 
     return files_to_search
 
@@ -26,9 +32,9 @@ def extract_snippets(files_to_search):
         lex_in_this_file = ''
         gram_in_this_file = ''
 
-        print('Analyzing ' + file + '...')
+        print('Analyzing ' + file['path'] + '...')
 
-        for line in open(file, 'r'):
+        for line in open(file['path'], 'r'):
             if currently_lexer:
                 if line.startswith('>'):
                     lex_in_this_file += line
@@ -50,11 +56,11 @@ def extract_snippets(files_to_search):
                     currently_grammar = True
 
         if len(lex_in_this_file) > 0:
-            lexer_contents += "\n### {}\n\n".format(file)
+            lexer_contents += "\n### {}\n\n".format(file['title'])
             lexer_contents += lex_in_this_file
 
         if len(gram_in_this_file) > 0:
-            grammar_contents += "\n### {}\n\n".format(file)
+            grammar_contents += "\n### {}\n\n".format(file['title'])
             grammar_contents += gram_in_this_file
 
     return lexer_contents, grammar_contents
