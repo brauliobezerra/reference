@@ -981,7 +981,8 @@ const BITS_N_STRINGS: BitsNStrings<'static> = BitsNStrings {
 [_StaticItem_]: #static-items
 
 > **<sup>Syntax</sup>**  
-> [_StaticItem_] : FIXME
+> [_StaticItem_] :  
+> &nbsp;&nbsp; `static` `mut`? [IDENTIFIER] `:` [_Type_] `=` [_Expression_] `;`
 
 A *static item* is similar to a *constant*, except that it represents a precise
 memory location in the program. A static is never "inlined" at the usage site,
@@ -1594,5 +1595,6 @@ block.
 [_Statement_]: statements.html
 [LIFETIME_OR_LABEL]: tokens.html#lifetime-or-label
 [_Visibility_]: visibility-and-privacy.html
+[_Expression_]: expressions.html
 
 [_NonGlobalPath_]: paths.html#nonglobal-path
