@@ -123,9 +123,43 @@
 >  
 > INTEGER_LITERAL :  
 > &nbsp;&nbsp; ( DEC_LITERAL | BIN_LITERAL | OCT_LITERAL | HEX_LITERAL )
+>              INTEGER_SUFFIX<sup>?</sup>
+>   
+> DEC_LITERAL :  
+> &nbsp;&nbsp; DEC_DIGIT (DEC_DIGIT|`_`)<sup>\*</sup>  
+>  
+> BIN_LITERAL :  
+> &nbsp;&nbsp; `0b` (BIN_DIGIT|`_`)<sup>\*</sup> BIN_DIGIT (BIN_DIGIT|`_`)<sup>\*</sup>  
+>  
+> OCT_LITERAL :  
+> &nbsp;&nbsp; `0o` (OCT_DIGIT|`_`)<sup>\*</sup> OCT_DIGIT (OCT_DIGIT|`_`)<sup>\*</sup>  
+>  
+> HEX_LITERAL :  
+> &nbsp;&nbsp; `0x` (HEX_DIGIT|`_`)<sup>\*</sup> HEX_DIGIT (HEX_DIGIT|`_`)<sup>\*</sup>  
+>  
+> BIN_DIGIT : [`0`-`1` `_`]  
+> OCT_DIGIT : [`0`-`7` `_`]  
+> DEC_DIGIT : [`0`-`9` `_`]  
+> HEX_DIGIT : [`0`-`9` `a`-`f` `A`-`F` `_`]  
+>  
+> INTEGER_SUFFIX :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `u8` | `u16` | `u32` | `u64` | `usize`  
+> &nbsp;&nbsp; | `i8` | `u16` | `i32` | `i64` | `usize`
 >  
 > FLOAT_LITERAL :  
 > &nbsp;&nbsp; &nbsp;&nbsp; DEC_LITERAL `.`
+>   _(not immediately followed by `.`, `_` or an identifier_)  
+> &nbsp;&nbsp; | DEC_LITERAL FLOAT_EXPONENT  
+> &nbsp;&nbsp; | DEC_LITERAL `.` DEC_LITERAL FLOAT_EXPONENT<sup>?</sup>  
+> &nbsp;&nbsp; | DEC_LITERAL (`.` DEC_LITERAL)<sup>?</sup>
+>                    FLOAT_EXPONENT<sup>?</sup> FLOAT_SUFFIX  
+>  
+> FLOAT_EXPONENT :  
+> &nbsp;&nbsp; (`e`|`E`) (`+`|`-`)?
+>               (DEC_DIGIT|`_`)<sup>\*</sup> DEC_DIGIT (DEC_DIGIT|`_`)<sup>\*</sup>   
+>  
+> FLOAT_SUFFIX :  
+> &nbsp;&nbsp; `f32` | `f64`
 >  
 > BOOLEAN_LITERAL :  
 > &nbsp;&nbsp; &nbsp;&nbsp; `true`  
