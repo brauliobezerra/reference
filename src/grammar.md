@@ -67,8 +67,8 @@
 ### Identifiers
 
 > IDENTIFIER :  
-> &nbsp;&nbsp; &nbsp;&nbsp; XID_start XID_continue<sup>\*</sup>  
-> &nbsp;&nbsp; | `_` XID_continue<sup>+</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [`a`-`z` `A`-`Z`]&nbsp;[`a`-`z` `A`-`Z` `0`-`9` `_`]<sup>\*</sup>  
+> &nbsp;&nbsp; | `_` [`a`-`z` `A`-`Z` `0`-`9` `_`]<sup>+</sup>  
 >  
 
 ### Comments
@@ -83,16 +83,16 @@
 > &nbsp;&nbsp; | `/**/`  
 > &nbsp;&nbsp; | `/***/`  
 >  
-> OUTER_LINE_DOC :  
+> INNER_LINE_DOC :  
 > &nbsp;&nbsp; `//!` ~[`\n` _IsolatedCR_]<sup>\*</sup>  
 >  
-> OUTER_BLOCK_DOC :  
+> INNER_BLOCK_DOC :  
 > &nbsp;&nbsp; `/*!` ( _BlockCommentOrDoc_ | ~[`*/` _IsolatedCR_] )<sup>\*</sup> `*/`  
 >  
-> INNER_LINE_DOC :  
+> OUTER_LINE_DOC :  
 > &nbsp;&nbsp; `///` (~`/` ~[`\n` _IsolatedCR_]<sup>\*</sup>)<sup>?</sup>  
 >  
-> INNER_BLOCK_DOC :  
+> OUTER_BLOCK_DOC :  
 > &nbsp;&nbsp; `/**` (~`*` | _BlockCommentOrDoc_ )
 >              (_BlockCommentOrDoc_ | ~[`*/` _IsolatedCR_])<sup>\*</sup> `*/`  
 >  
@@ -122,27 +122,10 @@
 > **FIXME**
 >  
 > INTEGER_LITERAL :  
-> &nbsp;&nbsp; &nbsp;&nbsp; `0x` [`0`-`9` `a`-`f` `A`-`F` `_`]<sup>+</sup> INTEGER_SUFFIX<sup>?</sup>  
-> &nbsp;&nbsp; | `0o` [`0`-`7` `_`]<sup>+</sup> INTEGER_SUFFIX<sup>?</sup>  
-> &nbsp;&nbsp; | `0b` [`0` `1` `_`]<sup>+</sup> INTEGER_SUFFIX<sup>?</sup>  
-> &nbsp;&nbsp; | [`0`-`9`][`0`-`9` `_`]<sup>\*</sup> INTEGER_SUFFIX<sup>?</sup>  
->   
-> INTEGER_SUFFIX :  
-> &nbsp;&nbsp; &nbsp;&nbsp; `u8` | `u16` | `u32` | `u64` | `usize`  
-> &nbsp;&nbsp; | `i8` | `u16` | `i32` | `i64` | `usize`
+> &nbsp;&nbsp; ( DEC_LITERAL | BIN_LITERAL | OCT_LITERAL | HEX_LITERAL )
 >  
 > FLOAT_LITERAL :  
-> &nbsp;&nbsp; &nbsp;&nbsp; [`0`-`9`][`0`-`9` `_`]<sup>\*</sup> `.` [`0`-`9` `_`]<sup>\*</sup>  
-> &nbsp;&nbsp; | [`0`-`9`][`0`-`9` `_`]<sup>\*</sup> `.` [`0`-`9` `_`]<sup>+</sup>
->                FLOAT_EXPONENT<sup>?</sup> FLOAT_SUFFIX  
-> &nbsp;&nbsp; | [`0`-`9`][`0`-`9` `_`]<sup>\*</sup> FLOAT_EXPONENT<sup>?</sup>
->                FLOAT_SUFFIX<sup>?</sup>  
->  
-> FLOAT_EXPONENT :  
-> &nbsp;&nbsp; (`e`|`E`) [`0`-`9` `_`]<sup>+</sup>   
->  
-> FLOAT_SUFFIX :  
-> &nbsp;&nbsp; `f32` | `f64`
+> &nbsp;&nbsp; &nbsp;&nbsp; DEC_LITERAL `.`
 >  
 > BOOLEAN_LITERAL :  
 > &nbsp;&nbsp; &nbsp;&nbsp; `true`  
@@ -251,7 +234,7 @@
 > &nbsp;&nbsp; | `(` `?`<sup>?</sup> _LateBoundLifetimeDefs_<sup>?</sup> [_TypePath_] `)`  
 >  
 > _LifetimeBounds_ :  
-> &nbsp;&nbsp; `:` [LIFETIME_OR_LABEL] ( `+` [LIFETIME_OR_LABEL] ) `+`<sup>?</sup>  
+> &nbsp;&nbsp; `:` [LIFETIME_OR_LABEL] ( `+` [LIFETIME_OR_LABEL] )<sup>\*</sup> `+`<sup>?</sup>  
 >  
 > _LateBoundLifetimeDefs_ :  
 > &nbsp;&nbsp; `for` `<` _LifetimeParams_ `,`<sup>?</sup> `>`
@@ -295,7 +278,7 @@
 >              ( `,` _UseItems_ )<sup>?<sup>
 >  
 > [_Function_]:  
-> &nbsp;&nbsp; `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
+> &nbsp;&nbsp; `const`<sup>?</sup> `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
 >              [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` _FunctionParameters_<sup>?</sup> `)`
 >              _FunctionReturnType_<sup>?</sup> [_WhereClause_]<sup>?</sup>  
@@ -381,9 +364,11 @@
 > &nbsp;&nbsp; `union` [_Generics_]<sup>?</sup> [_WhereClause_]<sup>?</sup>
 >   `{`[_StructFields_] `}`
 >  
-> [_ConstantItem_] : FIXME `const`
+> [_ConstantItem_] :  
+> &nbsp;&nbsp; `const` [IDENTIFIER] `:` [_Type_] `=` [_Expression_]
 >  
-> [_StaticItem_] : FIXME
+> [_StaticItem_] :  
+> &nbsp;&nbsp; `static` `mut`? [IDENTIFIER] `:` [_Type_] `=` [_Expression_] `;`
 >  
 > _Trait_ :  
 > &nbsp;&nbsp; `unsafe`<sup>?</sup>  
