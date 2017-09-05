@@ -240,7 +240,7 @@ literal_. The grammar for recognizing the two kinds of literals is mixed.
 > **<sup>Lexer</sup>**  
 > INTEGER_LITERAL :  
 > &nbsp;&nbsp; ( DEC_LITERAL | BIN_LITERAL | OCT_LITERAL | HEX_LITERAL )
-               INTEGER_SUFFIX<sup>?</sup>
+>              INTEGER_SUFFIX<sup>?</sup>
 >   
 > DEC_LITERAL :  
 > &nbsp;&nbsp; DEC_DIGIT (DEC_DIGIT|`_`)<sup>\*</sup>  
@@ -359,7 +359,7 @@ a single integer literal.
 > **<sup>Lexer</sup>**  
 > FLOAT_LITERAL :  
 > &nbsp;&nbsp; &nbsp;&nbsp; DEC_LITERAL `.`
-    _(not immediately followed by `.`, `_` or an identifier_)  
+>   _(not immediately followed by `.`, `_` or an identifier_)  
 > &nbsp;&nbsp; | DEC_LITERAL FLOAT_EXPONENT  
 > &nbsp;&nbsp; | DEC_LITERAL `.` DEC_LITERAL FLOAT_EXPONENT<sup>?</sup>  
 > &nbsp;&nbsp; | DEC_LITERAL (`.` DEC_LITERAL)<sup>?</sup>
