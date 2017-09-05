@@ -24,10 +24,10 @@ Or
 
 <!-- When non-ascii identifiers are actually supported:
 
-> **<sup>Lexer:<sup>**  
-> IDENTIFIER :  
-> &nbsp;&nbsp; &nbsp;&nbsp; XID_start XID_continue<sup>\*</sup>  
-> &nbsp;&nbsp; | `_` XID_continue<sup>+</sup>  
+ > **<sup>Lexer:<sup>**  
+ > IDENTIFIER :  
+ > &nbsp;&nbsp; &nbsp;&nbsp; XID_start XID_continue<sup>\*</sup>  
+ > &nbsp;&nbsp; | `_` XID_continue<sup>+</sup>  
 
 An identifier is any nonempty Unicode string of the following form:
 
