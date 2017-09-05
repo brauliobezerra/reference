@@ -382,7 +382,7 @@ fn main() {}
 
 > **<sup>Syntax</sup>**  
 > [_Function_]:  
-> &nbsp;&nbsp; `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
+> &nbsp;&nbsp; `const`<sup>?</sup> `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
 >              [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` _FunctionParameters_<sup>?</sup> `)`
 >              _FunctionReturnType_<sup>?</sup> [_WhereClause_]<sup>?</sup>  
@@ -934,7 +934,8 @@ in [RFC 1897 "Unions v1.2"](https://github.com/rust-lang/rfcs/pull/1897).
 [_ConstantItem_]: #constant-items
 
 > **<sup>Syntax</sup>**  
-> [_ConstantItem_] : FIXME `const`
+> [_ConstantItem_] :  
+> &nbsp;&nbsp; `const` [IDENTIFIER] `:` [_Type_] `=` [_Expression_]
 
 A *constant item* is a named _[constant value]_ which is not associated with a
 specific memory location in the program. Constants are essentially inlined
