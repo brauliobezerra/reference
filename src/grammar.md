@@ -766,47 +766,76 @@
 
 ### Patterns
 
-> _Pattern_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_WildcardPattern_]  
+> _Pattern_ :<a name="pattern-syntax"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_LiteralPattern_]  
+> &nbsp;&nbsp; | [_WildcardPattern_]  
+> &nbsp;&nbsp; | [_RangePattern_]  
 > &nbsp;&nbsp; | [_ReferencePattern_]  
+> &nbsp;&nbsp; | [_IdentifierPattern_]  
+> &nbsp;&nbsp; | [_BoxPattern_]  
 > &nbsp;&nbsp; | [_StructPattern_]  
+> &nbsp;&nbsp; | [_TuplePattern_]  
 > &nbsp;&nbsp; | [_TupleStructPattern_]  
 > &nbsp;&nbsp; | [_SlicePattern_]  
-> &nbsp;&nbsp; | [_IdentifierPattern_]  
 > &nbsp;&nbsp; | [_PathPattern_]  
-> &nbsp;&nbsp; | [_LiteralPattern_]  
-> &nbsp;&nbsp; | [_RangePattern_]  
-> &nbsp;&nbsp; | [_BoxPattern_]  
 >  
-> _WildcardPattern_ :  
+> _LiteralPattern_ :<a name="literal-pattern-syntax"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; LITERAL  
+> &nbsp;&nbsp; | `-` LITERAL  
+>  
+> _WildcardPattern_ :<a name="wildcard-pattern-syntax"></a>  
 > &nbsp;&nbsp; `_`
 >  
-> _ReferencePattern_ :  
+> _RangePattern_ :<a name="reference-pattern-syntax"></a>  
+> &nbsp;&nbsp; **FIXME**
+>  
+> _ReferencePattern_ :<a name="reference-pattern-syntax"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; (`&`|`&&`) _Pattern_  
 > &nbsp;&nbsp; | (`&`|`&&`) _Mutability_ _Pattern_  
 >  
-> _TupleStructPattern_ :  
-> &nbsp;&nbsp; **FIXME**
->  
-> _SlicePattern_ :  
-> &nbsp;&nbsp; **FIXME**
->  
-> _IdentifierPattern :  
+> _IdentifierPattern :<a name="identifier-pattern-syntax"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `mut` IDENTIFIER  
 > &nbsp;&nbsp; | `mut` IDENTIFIER `@` _Pattern_  
 > &nbsp;&nbsp; | `ref` IDENTIFIER `@` _Pattern_  
 >  
-> _PathPattern_ :  
+> _BoxPattern_ :<a name="box-pattern-syntax"></a>  
+> &nbsp;&nbsp; `box` **FIXME**
+>  
+> _StructPattern_ :<a name="struct-pattern-syntax"></a>  
+> &nbsp;&nbsp; _Path_ `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; _StructPatternElements_ <sup>?</sup>  
+> &nbsp;&nbsp; `}`  
+>  
+> _StructPatternElements_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _StructPatternFields_ (`,` _StructPatternEtCetera_) ?  
+> &nbsp;&nbsp; | _StructPatternEtCetera_  
+>  
+> _StructPatternFields_ :  
+> &nbsp;&nbsp; _StructPatternField_ (`,` _StructPatternField_) <sup>\*</sup>  
+>  
+> _StructPatternField_ :  
+> &nbsp;&nbsp; _OuterAttribute_ <sup>\*</sup>  
+> &nbsp;&nbsp; (  
+> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; INTEGER_LITERAL `:` [_Pattern_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | IDENTIFIER `:` [_Pattern_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | `box`<sup>?</sup> `ref`<sup>?</sup> `mut`<sup>?</sup>
+>                                  IDENTIFIER  
+> &nbsp;&nbsp; )  
+>  
+> _StructPatternEtCetera_ :  
+> &nbsp;&nbsp; _OuterAttribute_ <sup>\*</sup>  
+> &nbsp;&nbsp; `..`  
+>  
+> _TupleStructPattern_ :<a name="tuplestruct-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
 >  
-> _LiteralPattern_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; LITERAL  
-> &nbsp;&nbsp; | `-` LITERAL  
->  
-> _RangePattern_ :  
+> _TuplePattern_ :<a name="tuple-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
 >  
-> _BoxPattern_ :  
+> _SlicePattern_ :<a name="slice-pattern-syntax"></a>  
+> &nbsp;&nbsp; **FIXME**
+>  
+> _PathPattern_ :<a name="path-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
 >  
 
