@@ -1,7 +1,7 @@
 # Patterns
 
 > **<sup>Syntax</sup>**  
-> _Pattern_ :<a name="pattern-production"></a>  
+> _Pattern_ :<a name="pattern-syntax"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; [_LiteralPattern_]  
 > &nbsp;&nbsp; | [_WildcardPattern_]  
 > &nbsp;&nbsp; | [_RangePattern_]  
@@ -14,7 +14,7 @@
 > &nbsp;&nbsp; | [_SlicePattern_]  
 > &nbsp;&nbsp; | [_PathPattern_]  
 
-[_Pattern_]: #pattern-production
+[_Pattern_]: #pattern-syntax
 
 <!-- FIXME: pattern introduction -->
 
@@ -68,12 +68,13 @@ match message {
 <!-- FIXME: guards: _Pattern_ `if` _Expression_ -->
 
 ## Literal patterns
-[_LiteralPattern_]: #literal-patterns
 
 > **<sup>Syntax</sup>**  
-> _LiteralPattern_ :  
+> _LiteralPattern_ :<a name="literal-pattern-syntax"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; LITERAL  
 > &nbsp;&nbsp; | `-` LITERAL  
+
+[_LiteralPattern_]: #literal-pattern-syntax
 
 Literal patterns match exactly the value they represent.
 
@@ -105,11 +106,12 @@ It's either a two or a four
 <!-- FIXME float points are accepted, but are being deprecated -->
 
 ## Wildcard pattern
-[_WildcardPattern_]: #wildcard-pattern
 
 > **<sup>Syntax</sup>**  
-> _WildcardPattern_ :  
+> _WildcardPattern_ :<a name="wildcard-pattern-syntax"></a>  
 > &nbsp;&nbsp; `_`
+
+[_WildcardPattern_]: #wildcard-pattern-syntax
 
 <!-- FIXME explain the wildcard pattern -->
 
@@ -119,11 +121,12 @@ The _wildcard pattern_ means any value or the value does not matter.
 <!-- FIXME examples -->
 
 ## Range patterns
-[_RangePattern_]: #range-patterns
 
 > **<sup>Syntax</sup>**  
-> _RangePattern_ :  
+> _RangePattern_ :<a name="reference-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
+
+[_RangePattern_]: #range-pattern-syntax
 
 <!-- FIXME: explain range patterns -->
 
@@ -139,12 +142,13 @@ a sub-range of another range pattern inside the same `match`.
 <!-- FIXME floating point literals use here is being deprecated -->
 
 ## Reference patterns
-[_ReferencePattern_]: #reference-patterns
 
 > **<sup>Syntax</sup>**  
-> _ReferencePattern_ :  
+> _ReferencePattern_ :<a name="reference-pattern-syntax"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; (`&`|`&&`) _Pattern_  
 > &nbsp;&nbsp; | (`&`|`&&`) _Mutability_ _Pattern_  
+
+[_ReferencePattern_]: #reference-pattern-syntax
 
 <!-- FIXME: explain reference patterns  -->
 <!-- FIXME: explain why the `&&` is part of the grammar -->
@@ -162,13 +166,14 @@ assert_eq!(y, z);
 ```
 
 ## Identifier patterns
-[_IdentifierPattern_]: #identifier-patterns
 
 > **<sup>Syntax</sup>**  
-> _IdentifierPattern :  
+> _IdentifierPattern :<a name="identifier-pattern-syntax"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `mut` IDENTIFIER  
 > &nbsp;&nbsp; | `mut` IDENTIFIER `@` _Pattern_  
 > &nbsp;&nbsp; | `ref` IDENTIFIER `@` _Pattern_  
+
+[_IdentifierPattern_]: #identifier-pattern-syntax
 
 <!-- FIXME: explain identifier patterns -->
 
@@ -192,20 +197,20 @@ bind to a reference by using the `ref` keyword, or to a mutable reference using
 <!-- explain the difference between `& var` and `ref var` in patterns -->
 
 ## Box pattern
-[_BoxPattern_]: #box-pattern
 
 > **<sup>Syntax</sup>**  
-> _BoxPattern_ :  
+> _BoxPattern_ :<a name="box-pattern-syntax"></a>  
 > &nbsp;&nbsp; `box` **FIXME**
 
+[_BoxPattern_]: #box-pattern-syntax
+
 <!-- FIXME: explain box patterns -->
-<!-- FIXME: find out whether they're not stable -->
+<!-- FIXME: they're not stable -->
 
 ## Struct patterns
-[_StructPattern_]: #struct-patterns
 
 > **<sup>Syntax</sup>**  
-> _StructPattern_ :  
+> _StructPattern_ :<a name="struct-pattern-syntax"></a>  
 > &nbsp;&nbsp; _Path_ `{`  
 > &nbsp;&nbsp; &nbsp;&nbsp; _StructPatternElements_ <sup>?</sup>  
 > &nbsp;&nbsp; `}`  
@@ -230,46 +235,52 @@ bind to a reference by using the `ref` keyword, or to a mutable reference using
 > &nbsp;&nbsp; _OuterAttribute_ <sup>\*</sup>  
 > &nbsp;&nbsp; `..`  
 
+[_StructPattern_]: #struct-pattern-syntax
+
 <!-- FIXME: explain struct patterns -->
 <!-- FIXME: destructuring patterns -->
 
 Struct patterns match ...
 
 ## TupleStruct patterns
-[_TupleStructPattern_]: #tuplestruct-patterns
 
 > **<sup>Syntax</sup>**  
-> _TupleStructPattern_ :  
+> _TupleStructPattern_ :<a name="tuplestruct-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
+
+[_TupleStructPattern_]: #tuplestruct-pattern-syntax
 
 <!-- FIXME: explain tuple struct patterns -->
 <!-- FIXME: includes enum variants? Yes! -->
 
 ## Tuple patterns
-[_TuplePattern_]: #tuple-patterns
 
 > **<sup>Syntax</sup>**  
-> _TuplePattern_ :  
+> _TuplePattern_ :<a name="tuple-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
+
+[_TuplePattern_]: #tuple-pattern-syntax
 
 <!-- FIXME: explain tuple patterns -->
 
 ## Slice patterns
-[_SlicePattern_]: #slice-patterns
 
 > **<sup>Syntax</sup>**  
-> _SlicePattern_ :  
+> _SlicePattern_ :<a name="slice-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
+
+[_SlicePattern_]: #slice-pattern-syntax
 
 <!-- FIXME: explain slice patterns -->
-<!-- FIXME: is this stable? -->
+<!-- FIXME: this is not stable -->
 
 ## Path patterns
-[_PathPattern_]: #path-patterns
 
 > **<sup>Syntax</sup>**  
-> _PathPattern_ :  
+> _PathPattern_ :<a name="path-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
+
+[_PathPattern_]: #path-pattern-syntax
 
 <!-- FIXME: explain paths in patterns -->
 
