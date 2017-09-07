@@ -29,7 +29,7 @@ For example, the pattern used in:
 # struct Person {
 #     name: String,
 #     car: Option<Car>,
-#     computer: Option<Computer>
+#     computer: Option<Computer>,
 #     age: u8,
 # }
 # let person = Person {
@@ -60,12 +60,13 @@ does four things:
 
 Patterns are used in:
 
-  * [`let` declarations](statements.html#let-expressions)
-  * [Function](items.html#functions) and [closure](expressions.html#closures) parameters
-  * [`match` expressions](expressions.html#match-expressions)
-  * [`if let` expressions](expressons.html#if-let-expresssions)
-  * [`while let` expressions](expressions.html#)
-  * Inside other patterns
+* [`let` declarations](statements.html#let-statements)
+* [Function](items.html#functions) and [closure](expressions.html#closure-expressions)
+  parameters
+* [`match` expressions](expressions.html#match-expressions)
+* [`if let` expressions](expressions.html#if-let-expressions)
+* [`while let` expressions](expressions.html#while-let-loops)
+* Inside other patterns
 
 ## Destructuring
 
@@ -99,19 +100,26 @@ match message {
 ## Refutability
 
 <!-- FIXME: irrefutable patterns -->
+<!-- FIXME: which things don't accept irrefutable patterns? -->
+<!-- FIXME: which things don't accept refutable patterns? -->
 
 ## Literal patterns
 
 > **<sup>Syntax</sup>**  
 > _LiteralPattern_ :<a name="literal-pattern-syntax"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; LITERAL  
-> &nbsp;&nbsp; | `-` LITERAL  
+> &nbsp;&nbsp; `-`<sup>?</sup> ( CHAR_LITERAL | INTEGER_LITERAL | FLOAT_LITERAL )  
 
 [_LiteralPattern_]: #literal-pattern-syntax
 
-Literal patterns match exactly the value they represent.
+_Literal patterns_ match exactly the value they represent. Since negative numbers are
+not literals in Rust, literal patterns also accept an optional minus sign before the
+literal.
 
-For example, this loop:
+Floating-point literals are currently accepted, but due to the complexity of comparing
+them, they are going to be forbidden in a future version of Rust (see
+[issue #41620](https://github.com/rust-lang/rust/issues/41620)).
+
+Example:
 
 ```rust
 for i in -2..5 {
@@ -136,8 +144,6 @@ Matched none of the arms
 It's either a two or a four
 ```
 
-<!-- FIXME float points are accepted, but are being deprecated -->
-
 ## Wildcard pattern
 
 > **<sup>Syntax</sup>**  
@@ -149,6 +155,12 @@ It's either a two or a four
 <!-- FIXME explain the wildcard pattern -->
 
 The _wildcard pattern_ means any value or the value does not matter.
+
+For example: 
+
+```
+    
+```
 
 <!-- FIXME where can it be used? -->
 <!-- FIXME examples -->

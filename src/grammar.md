@@ -780,8 +780,7 @@
 > &nbsp;&nbsp; | [_PathPattern_]  
 >  
 > _LiteralPattern_ :<a name="literal-pattern-syntax"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; LITERAL  
-> &nbsp;&nbsp; | `-` LITERAL  
+> &nbsp;&nbsp; `-`<sup>?</sup> ( CHAR_LITERAL | INTEGER_LITERAL | FLOAT_LITERAL )  
 >  
 > _WildcardPattern_ :<a name="wildcard-pattern-syntax"></a>  
 > &nbsp;&nbsp; `_`
