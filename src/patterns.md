@@ -16,18 +16,56 @@
 
 [_Pattern_]: #pattern-syntax
 
-<!-- FIXME: pattern introduction -->
+Patterns in Rust are used to match values against structures and to,
+optionally, bind variables to values inside these structures. They are also
+used in variable declarations and function/closure parameters, though most of
+the time simply as an identifier that binds to any value.
 
-Patterns can be used in:
+For example, the pattern used in:
 
-  * Let declarations
-  * Match expressions
-  * If let expressions
-  * While let expressions
-  * Function parameters
+```rust
+# struct Car;
+# struct Computer;
+# struct Person {
+#     name: String,
+#     car: Option<Car>,
+#     computer: Option<Computer>
+#     age: u8,
+# }
+# let person = Person {
+#     name: String::from("John"),
+#     car: Some(Car),
+#     computer: None,
+#     age: 15,
+# };
+if let
+    Person {
+        car: Some(_),
+        age: person_age @ 13...19,
+        name: ref person_name,
+        ..
+    } = person
+{
+    println!("{} has a car and is {} years old.", person_name, person_age);
+}
+```
+does four things:
+
+* Tests if `person` has the `car` field filled with something.
+* Tests if the person's `age` field is between 13 and 19, and binds its value to
+  the `person_age` variable.
+* Binds a reference to the `name` field to the variable `person_name`.
+* Ignores the rest of the fields of `person`, i.e., they can have any value and
+  are not bound to any variables.
+
+Patterns are used in:
+
+  * [`let` declarations](statements.html#let-expressions)
+  * [Function](items.html#functions) and [closure](expressions.html#closures) parameters
+  * [`match` expressions](expressions.html#match-expressions)
+  * [`if let` expressions](expressons.html#if-let-expresssions)
+  * [`while let` expressions](expressions.html#)
   * Inside other patterns
-
-<!-- FIXME: pattern main uses (functions, match, let, if let, while let, etc.) -->
 
 ## Destructuring
 
@@ -61,11 +99,6 @@ match message {
 ## Refutability
 
 <!-- FIXME: irrefutable patterns -->
-<!-- FIXME: multiple patterns: a | b -->
-<!-- FIXME: ignoring one value: _ -->
-<!-- FIXME: ignoring multiple values: .. -->
-<!-- FIXME: binding: @ -->
-<!-- FIXME: guards: _Pattern_ `if` _Expression_ -->
 
 ## Literal patterns
 
@@ -119,6 +152,10 @@ The _wildcard pattern_ means any value or the value does not matter.
 
 <!-- FIXME where can it be used? -->
 <!-- FIXME examples -->
+<!-- FIXME example: ignore function parameter -->
+<!-- FIXME example: ignore a field from a tuple -->
+<!-- FIXME example: ignore a field from a struct -->
+<!-- FIXME example: ignore the field of an enum: use Some(_) -->
 
 ## Range patterns
 
@@ -169,13 +206,15 @@ assert_eq!(y, z);
 
 > **<sup>Syntax</sup>**  
 > _IdentifierPattern :<a name="identifier-pattern-syntax"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; `mut` IDENTIFIER  
-> &nbsp;&nbsp; | `mut` IDENTIFIER `@` _Pattern_  
-> &nbsp;&nbsp; | `ref` IDENTIFIER `@` _Pattern_  
+> &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>  
+> &nbsp;&nbsp; | `mut` IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>  
+> &nbsp;&nbsp; | `ref` `mut`<sup>?</sup> IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>
 
 [_IdentifierPattern_]: #identifier-pattern-syntax
 
 <!-- FIXME: explain identifier patterns -->
+<!-- FIXME: do not talk about subpatterns initially -->
+<!-- FIXME: mention that IDENTIFIER pattern is the commonly used one in let and function parameters -->
 
 Subpatterns can also be bound to variables by the use of the syntax `variable @
 subpattern`. For example:
