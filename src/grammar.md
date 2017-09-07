@@ -794,9 +794,9 @@
 > &nbsp;&nbsp; | (`&`|`&&`) _Mutability_ _Pattern_  
 >  
 > _IdentifierPattern :<a name="identifier-pattern-syntax"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; `mut` IDENTIFIER  
-> &nbsp;&nbsp; | `mut` IDENTIFIER `@` _Pattern_  
-> &nbsp;&nbsp; | `ref` IDENTIFIER `@` _Pattern_  
+> &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>  
+> &nbsp;&nbsp; | `mut` IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>  
+> &nbsp;&nbsp; | `ref` `mut`<sup>?</sup> IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>
 >  
 > _BoxPattern_ :<a name="box-pattern-syntax"></a>  
 > &nbsp;&nbsp; `box` **FIXME**
