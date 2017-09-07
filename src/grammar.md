@@ -786,11 +786,10 @@
 > &nbsp;&nbsp; `_`
 >  
 > _RangePattern_ :<a name="reference-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; _Expression_ `...` _Expression_  
 >  
 > _ReferencePattern_ :<a name="reference-pattern-syntax"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; (`&`|`&&`) _Pattern_  
-> &nbsp;&nbsp; | (`&`|`&&`) _Mutability_ _Pattern_  
+> &nbsp;&nbsp; (`&`|`&&`) `mut`<sup>?</sup> _Pattern_  
 >  
 > _IdentifierPattern :<a name="identifier-pattern-syntax"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>  
@@ -798,7 +797,7 @@
 > &nbsp;&nbsp; | `ref` `mut`<sup>?</sup> IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>
 >  
 > _BoxPattern_ :<a name="box-pattern-syntax"></a>  
-> &nbsp;&nbsp; `box` **FIXME**
+> &nbsp;&nbsp; `box` [_Pattern_]  
 >  
 > _StructPattern_ :<a name="struct-pattern-syntax"></a>  
 > &nbsp;&nbsp; _Path_ `{`  
@@ -829,7 +828,15 @@
 > &nbsp;&nbsp; **FIXME**
 >  
 > _TuplePattern_ :<a name="tuple-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; `(` _TupplePatternItems_<sup>?</sup> `)`  
+>  
+> _TuplePatternItems_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Pattern_] `,`  
+> &nbsp;&nbsp; | [_Pattern_]&nbsp;(`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; | `..`  
+> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>+</sup> `..`  
+> &nbsp;&nbsp; | `..` (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>+</sup> `..` (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
 >  
 > _SlicePattern_ :<a name="slice-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
