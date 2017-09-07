@@ -162,6 +162,8 @@ For example:
     
 ```
 
+<!-- FIXME but it can be bound to a variable -->
+
 <!-- FIXME where can it be used? -->
 <!-- FIXME examples -->
 <!-- FIXME example: ignore function parameter -->
@@ -173,7 +175,7 @@ For example:
 
 > **<sup>Syntax</sup>**  
 > _RangePattern_ :<a name="reference-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; _Expression_ `...` _Expression_  
 
 [_RangePattern_]: #range-pattern-syntax
 
@@ -194,8 +196,7 @@ a sub-range of another range pattern inside the same `match`.
 
 > **<sup>Syntax</sup>**  
 > _ReferencePattern_ :<a name="reference-pattern-syntax"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; (`&`|`&&`) _Pattern_  
-> &nbsp;&nbsp; | (`&`|`&&`) _Mutability_ _Pattern_  
+> &nbsp;&nbsp; (`&`|`&&`) `mut`<sup>?</sup> _Pattern_  
 
 [_ReferencePattern_]: #reference-pattern-syntax
 
@@ -251,7 +252,7 @@ bind to a reference by using the `ref` keyword, or to a mutable reference using
 
 > **<sup>Syntax</sup>**  
 > _BoxPattern_ :<a name="box-pattern-syntax"></a>  
-> &nbsp;&nbsp; `box` **FIXME**
+> &nbsp;&nbsp; `box` [_Pattern_]  
 
 [_BoxPattern_]: #box-pattern-syntax
 
@@ -308,7 +309,15 @@ Struct patterns match ...
 
 > **<sup>Syntax</sup>**  
 > _TuplePattern_ :<a name="tuple-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; `(` _TupplePatternItems_<sup>?</sup> `)`  
+>  
+> _TuplePatternItems_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Pattern_] `,`  
+> &nbsp;&nbsp; | [_Pattern_]&nbsp;(`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; | `..`  
+> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>+</sup> `..`  
+> &nbsp;&nbsp; | `..` (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>+</sup> `..` (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
 
 [_TuplePattern_]: #tuple-pattern-syntax
 
