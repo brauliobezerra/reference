@@ -360,6 +360,7 @@ The two values of the boolean type are written `true` and `false`.
 
 ### Naming components
 
+> **<sup>Lexer</sup>**  
 > UNDERSCORE        : `_`  
 > LIFETIME_OR_LABEL : `'` IDENTIFIER <a name="lifetime-or-label"></a>  
 
