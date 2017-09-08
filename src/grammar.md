@@ -199,6 +199,9 @@
 > [DOLLAR] :<a name="dollar"></a> `$`  
 > [QUESTION] :<a name="question"></a> `?`  
 >  
+> [UNDERSCORE] :<a name="underscore"></a> `_`  
+> [LIFETIME_OR_LABEL] :<a name="lifetime_or_label"></a> `'` IDENTIFIER <a name="lifetime-or-label"></a>  
+>  
 > [OPEN_PAREN] :<a name="open_paren"></a> `(`  
 > [CLOSE_PAREN] :<a name="close_paren"></a> `)`  
 > [OPEN_BRACKET] :<a name="open_bracket"></a> `[`  
@@ -317,6 +320,8 @@
 [POUND]: #pound
 [DOLLAR]: #dollar
 [QUESTION]: #question
+[UNDERSCORE]: #underscore
+[LIFETIME_OR_LABEL]: #lifetime_or_label
 [OPEN_PAREN]: #open_paren
 [CLOSE_PAREN]: #close_paren
 [OPEN_BRACKET]: #open_bracket
