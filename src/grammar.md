@@ -791,10 +791,9 @@
 > _ReferencePattern_ :<a name="reference-pattern-syntax"></a>  
 > &nbsp;&nbsp; (`&`|`&&`) `mut`<sup>?</sup> _Pattern_  
 >  
-> _IdentifierPattern :<a name="identifier-pattern-syntax"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>  
-> &nbsp;&nbsp; | `mut` IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>  
-> &nbsp;&nbsp; | `ref` `mut`<sup>?</sup> IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>
+> _IdentifierPattern_ :<a name="identifier-pattern-syntax"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `mut`<sup>?</sup> IDENTIFIER (`@` [_Pattern_] ) <sup>?</sup>  
+> &nbsp;&nbsp; | `ref` `mut`<sup>?</sup> IDENTIFIER (`@` [_Pattern_] ) <sup>?</sup>
 >  
 > _BoxPattern_ :<a name="box-pattern-syntax"></a>  
 > &nbsp;&nbsp; `box` [_Pattern_]  
@@ -805,7 +804,7 @@
 > &nbsp;&nbsp; `}`  
 >  
 > _StructPatternElements_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; _StructPatternFields_ (`,` _StructPatternEtCetera_) ?  
+> &nbsp;&nbsp; &nbsp;&nbsp; _StructPatternFields_ (`,` | `,` _StructPatternEtCetera_)<sup>?</sup>  
 > &nbsp;&nbsp; | _StructPatternEtCetera_  
 >  
 > _StructPatternFields_ :  
@@ -825,7 +824,11 @@
 > &nbsp;&nbsp; `..`  
 >  
 > _TupleStructPattern_ :<a name="tuplestruct-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; _Path_ `(` _TupleStructItems_ `)`  
+>  
+> _TupleStructItems_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Pattern_]&nbsp;( `,` [_Pattern_] )<sup>\*</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>\*</sup> `..` ( (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup> )<sup>?</sup>  
 >  
 > _TuplePattern_ :<a name="tuple-pattern-syntax"></a>  
 > &nbsp;&nbsp; `(` _TupplePatternItems_<sup>?</sup> `)`  
@@ -833,13 +836,10 @@
 > _TuplePatternItems_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Pattern_] `,`  
 > &nbsp;&nbsp; | [_Pattern_]&nbsp;(`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
-> &nbsp;&nbsp; | `..`  
-> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>+</sup> `..`  
-> &nbsp;&nbsp; | `..` (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
-> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>+</sup> `..` (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>\*</sup> `..` ( (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup> )<sup>?</sup>  
 >  
 > _SlicePattern_ :<a name="slice-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; `[` **FIXME** `]`
 >  
 > _PathPattern_ :<a name="path-pattern-syntax"></a>  
 > &nbsp;&nbsp; **FIXME**
