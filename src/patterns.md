@@ -218,19 +218,32 @@ assert_eq!(y, z);
 ## Identifier patterns
 
 > **<sup>Syntax</sup>**  
-> _IdentifierPattern :<a name="identifier-pattern-syntax"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>  
-> &nbsp;&nbsp; | `mut` IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>  
-> &nbsp;&nbsp; | `ref` `mut`<sup>?</sup> IDENTIFIER (`@` _Pattern_ ) <sup>?</sup>
+> _IdentifierPattern_ :<a name="identifier-pattern-syntax"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `mut`<sup>?</sup> IDENTIFIER (`@` [_Pattern_] ) <sup>?</sup>  
+> &nbsp;&nbsp; | `ref` `mut`<sup>?</sup> IDENTIFIER (`@` [_Pattern_] ) <sup>?</sup>
 
 [_IdentifierPattern_]: #identifier-pattern-syntax
 
 <!-- FIXME: explain identifier patterns -->
-<!-- FIXME: do not talk about subpatterns initially -->
 <!-- FIXME: mention that IDENTIFIER pattern is the commonly used one in let and function parameters -->
 
-Subpatterns can also be bound to variables by the use of the syntax `variable @
-subpattern`. For example:
+_Identifier patterns_ bind the value they match to a variable.
+
+Patterns that consist of only an identifier, possibly with a `mut`, like
+`variable`, `x`, and `y` below:
+
+```rust
+let mut variable = 10;
+fn sum(x: i32, y: i32) -> i32 {
+#    x + y
+#}
+```
+
+match any value and bind it to that identifier. This is the most commonly
+used pattern in variable declarations and function/closure parameters.
+
+To bind non-trivial patterns to a variable, the use of the syntax `variable @
+subpattern` is needed. For example:
 
 ```rust
 let x = 1;
@@ -241,12 +254,49 @@ match x {
 }
 ```
 
-Patterns that bind variables default to binding to a copy or move of the
-matched value (depending on the matched value's type). This can be changed to
-bind to a reference by using the `ref` keyword, or to a mutable reference using
-`ref mut`.
+binds to `e` the value 1 (not the entire range: the range is a range subpattern).
 
-<!-- explain the difference between `& var` and `ref var` in patterns -->
+By default, identifier patterns bind a variable to a copy or move of the
+matched value (depending whether the matched value implements the Copy trait).
+This can be changed to bind to a reference by using the `ref` keyword,
+or to a mutable reference using `ref mut`. For example:
+
+```rust
+// TODO
+```
+
+in the first match arm, the value is copied. In the second one, a reference
+to the same memory location is bound to the variable. This syntax is needed
+because in destructuring subpatterns we can't apply the `&` operator to
+the value's fields. For example:
+
+```rust,compile_fail
+// TODO
+
+struct Person {
+    name: String,
+}
+
+if let Person{& name: person_name} = value {
+}
+
+```
+
+is not valid. What we must do is:
+
+```
+// TODO
+
+struct Person {
+    name: String,
+}
+
+if let Person(name: ref person_name) = value {
+}
+```
+
+<!-- FIXME cannot bind by-move and by-ref in the same pattern -->
+<!-- FIXME explain the difference between `& var` and `ref var` in patterns -->
 
 ## Box pattern
 
@@ -268,7 +318,7 @@ bind to a reference by using the `ref` keyword, or to a mutable reference using
 > &nbsp;&nbsp; `}`  
 >  
 > _StructPatternElements_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; _StructPatternFields_ (`,` _StructPatternEtCetera_) ?  
+> &nbsp;&nbsp; &nbsp;&nbsp; _StructPatternFields_ (`,` | `,` _StructPatternEtCetera_)<sup>?</sup>  
 > &nbsp;&nbsp; | _StructPatternEtCetera_  
 >  
 > _StructPatternFields_ :  
@@ -298,7 +348,11 @@ Struct patterns match ...
 
 > **<sup>Syntax</sup>**  
 > _TupleStructPattern_ :<a name="tuplestruct-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; _Path_ `(` _TupleStructItems_ `)`  
+>  
+> _TupleStructItems_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Pattern_]&nbsp;( `,` [_Pattern_] )<sup>\*</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>\*</sup> `..` ( (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup> )<sup>?</sup>  
 
 [_TupleStructPattern_]: #tuplestruct-pattern-syntax
 
@@ -314,10 +368,7 @@ Struct patterns match ...
 > _TuplePatternItems_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Pattern_] `,`  
 > &nbsp;&nbsp; | [_Pattern_]&nbsp;(`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
-> &nbsp;&nbsp; | `..`  
-> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>+</sup> `..`  
-> &nbsp;&nbsp; | `..` (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
-> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>+</sup> `..` (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>\*</sup> `..` ( (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup> )<sup>?</sup>  
 
 [_TuplePattern_]: #tuple-pattern-syntax
 
@@ -327,7 +378,7 @@ Struct patterns match ...
 
 > **<sup>Syntax</sup>**  
 > _SlicePattern_ :<a name="slice-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; `[` **FIXME** `]`
 
 [_SlicePattern_]: #slice-pattern-syntax
 
