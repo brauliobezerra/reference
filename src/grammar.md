@@ -440,7 +440,7 @@
 >              ( `,` _UseItems_ )<sup>?<sup>
 >  
 > [_Function_]:  
-> &nbsp;&nbsp; `const`<sup>?</sup> `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
+> &nbsp;&nbsp; `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
 >              [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` _FunctionParameters_<sup>?</sup> `)`
 >              _FunctionReturnType_<sup>?</sup> [_WhereClause_]<sup>?</sup>  
@@ -450,7 +450,10 @@
 > &nbsp;&nbsp; STRING_LITERAL  
 >  
 > _FunctionParameters_:  
-> &nbsp;&nbsp; `(` `)`  
+> &nbsp;&nbsp; _FunctionParam_ (`,` _FunctionParam_)<sup>\*</sup> `,`<sup>?</sup>  
+>  
+> [_FunctionParam_] :<a name="functionparam"></a>  
+> &nbsp;&nbsp; _Pattern_ `:` _Type_  
 >  
 > _FunctionReturnType_:  
 > &nbsp;&nbsp; `->` [_Type_]  
@@ -513,15 +516,15 @@
 > [_EnumItem_] :<a name="enumitem"></a>  
 > &nbsp;&nbsp; _OuterAttribute_<sup>\*</sup>  
 > &nbsp;&nbsp; [IDENTIFIER]&nbsp;( _EnumItemTuple_ | _EnumItemStruct_ 
->                                | _EnumItemWithDiscriminant_ )<sup>?</sup>  
+>                                | _EnumItemDiscriminant_ )<sup>?</sup>  
 >  
 > [_EnumItemTuple_] :<a name="enumitemtuple"></a>  
 > &nbsp;&nbsp; `(` [_TupleFields_]<sup>?</sup> `)`  
 >   
 > [_EnumItemStruct_] :<a name="enumitemstruct"></a>  
-> &nbsp;&nbsp; `(` [_StructFields_]<sup>?</sup> `)`  
+> &nbsp;&nbsp; `{` [_StructFields_]<sup>?</sup> `}`  
 >   
-> [_EnumItemWithDiscriminant_] :<a name="enumitemwithdiscriminant"></a>  
+> [_EnumItemDiscriminant_] :<a name="enumitemdiscriminant"></a>  
 > &nbsp;&nbsp; `=` [_Expression_]  
 >  
 > [_Union_] :<a name="union"></a>  
@@ -555,7 +558,30 @@
 > &nbsp;&nbsp; _ImplementationItems?_  
 > `}`
 >  
-> [_ExternBlock_] :<a name="externblock"></a> `extern` FIXME
+> [_ExternBlock_] :<a name="externblock"></a>  
+> &nbsp;&nbsp; `extern` _Abi_<sup>?</sup> `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; _InnerAttribute_<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _ExternalItem_<sup>\*</sup>  
+> &nbsp;&nbsp; `}`  
+>  
+> [_ExternalItem_] :<a name="externalitem"></a>  
+> &nbsp;&nbsp; _OuterAttribute_<sup>\*</sup>  
+> &nbsp;&nbsp; _VisibilityNoTuple_<sup>?</sup>  
+> &nbsp;&nbsp; (externalStaticItem | externalFunctionItem)  
+>  
+> [_ExternalStaticItem_] :<a name="externalstaticitem"></a>  
+> &nbsp;&nbsp; `static` `mut`<sup>?</sup> IDENTIFIER `:` _Type_ `;`  
+>  
+> [_ExternalFunctionItem_] :<a name="externalfunctionitem"></a>  
+> &nbsp;&nbsp; `fn` IDENTIFIER _Generics_<sup>?</sup>  
+> &nbsp;&nbsp; ( _FunctionParameters_ | _FunctionParametersWithVariadics_ )  
+> &nbsp;&nbsp; _FunctionReturnType_<sup>?</sup> _WhereClause_<sup>?</sup> `;`  
+>  
+> [_FunctionParametersWithVariadics_] :<a name="functionparameterswithvariadics"></a>  
+> &nbsp;&nbsp; `(` ( _FunctionParam_ `,` )<sup>\*</sup> _VariadicFunctionParam_ `)`  
+>  
+> [_VariadicFunctionParam_] :<a name="variadicfunctionparam"></a>  
+> &nbsp;&nbsp; _FunctionParam_ `,` `...`  
 >  
 
 ### Visibility and Privacy
@@ -1042,6 +1068,7 @@
 [_UseDeclaration_]: #usedeclaration
 [_UseItems_]: #useitems
 [_Function_]: #function
+[_FunctionParam_]: #functionparam
 [_BlockWithInnerAttributes_]: #blockwithinnerattributes
 [_TypeAlias_]: #typealias
 [_Struct_]: #struct
@@ -1056,13 +1083,18 @@
 [_EnumItem_]: #enumitem
 [_EnumItemTuple_]: #enumitemtuple
 [_EnumItemStruct_]: #enumitemstruct
-[_EnumItemWithDiscriminant_]: #enumitemwithdiscriminant
+[_EnumItemDiscriminant_]: #enumitemdiscriminant
 [_Union_]: #union
 [_ConstantItem_]: #constantitem
 [_StaticItem_]: #staticitem
 [_Trait_]: #trait
 [_Implementation_]: #implementation
 [_ExternBlock_]: #externblock
+[_ExternalItem_]: #externalitem
+[_ExternalStaticItem_]: #externalstaticitem
+[_ExternalFunctionItem_]: #externalfunctionitem
+[_FunctionParametersWithVariadics_]: #functionparameterswithvariadics
+[_VariadicFunctionParam_]: #variadicfunctionparam
 [_Visibility_]: #visibility
 [_Attribute_]: #attribute
 [_InnerAttribute_]: #innerattribute
