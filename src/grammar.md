@@ -458,7 +458,9 @@
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Statement_]<sup>\*</sup>  
 > &nbsp;&nbsp; `}`  
 >  
-> [_TypeAlias_] :<a name="typealias"></a> FIXME
+> [_TypeAlias_] :<a name="typealias"></a>  
+> &nbsp;&nbsp; `type` [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>
+>              [_WhereClause_]<sup>?</sup> `=` [_Type_] `;`  
 >  
 > [_Struct_] :<a name="struct"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; _StructStruct_  
