@@ -255,8 +255,11 @@ literal_. The grammar for recognizing the two kinds of literals is mixed.
 > &nbsp;&nbsp; `0x` (HEX_DIGIT|`_`)<sup>\*</sup> HEX_DIGIT (HEX_DIGIT|`_`)<sup>\*</sup>  
 >  
 > BIN_DIGIT : [`0`-`1` `_`]  
+>  
 > OCT_DIGIT : [`0`-`7` `_`]  
+>  
 > DEC_DIGIT : [`0`-`9` `_`]  
+>  
 > HEX_DIGIT : [`0`-`9` `a`-`f` `A`-`F` `_`]  
 >  
 > INTEGER_SUFFIX :  
@@ -342,11 +345,6 @@ Examples of invalid integer literals:
 0b_;
 0b____;
 ```
-
-<!-- FIXME some examples without the suffix -->
-<!-- FIXME some extreme examples -->
-<!-- FIXME examples of the same number in the 4 bases -->
-<!-- FIXME say that the `_` can be used to separate the suffic -->
 
 Note that the Rust syntax considers `-1i8` as an application of the [unary minus
 operator] to an integer literal `1i8`, rather than

@@ -145,8 +145,11 @@
 > &nbsp;&nbsp; `0x` (HEX_DIGIT|`_`)<sup>\*</sup> HEX_DIGIT (HEX_DIGIT|`_`)<sup>\*</sup>  
 >  
 > [BIN_DIGIT] :<a name="bin_digit"></a> [`0`-`1` `_`]  
+>  
 > [OCT_DIGIT] :<a name="oct_digit"></a> [`0`-`7` `_`]  
+>  
 > [DEC_DIGIT] :<a name="dec_digit"></a> [`0`-`9` `_`]  
+>  
 > [HEX_DIGIT] :<a name="hex_digit"></a> [`0`-`9` `a`-`f` `A`-`F` `_`]  
 >  
 > [INTEGER_SUFFIX] :<a name="integer_suffix"></a>  
