@@ -607,9 +607,6 @@ let _: F = E::A;  // OK
 ```
 
 ## Structs
-[_Struct_]: #structs
-[_StructFields_]: #struct-fields
-[_TupleFields_]: #tuple-fields
 
 > **<sup>Syntax</sup>**  
 > [_Struct_] :  
@@ -646,6 +643,10 @@ let _: F = E::A;  // OK
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
 > &nbsp;&nbsp; [_Visibility_]<sup>?</sup>  
 > &nbsp;&nbsp; [_Type_]  
+
+[_Struct_]: #structs
+[_StructFields_]: #struct-fields
+[_TupleFields_]: #tuple-fields
 
 A _struct_ is a nominal [struct type] defined with the keyword `struct`.
 
@@ -708,15 +709,15 @@ particular layout using the [`repr` attribute].
 > _EnumItem_ :  
 > &nbsp;&nbsp; _OuterAttribute_<sup>\*</sup>  
 > &nbsp;&nbsp; [IDENTIFIER]&nbsp;( _EnumItemTuple_ | _EnumItemStruct_ 
->                                | _EnumItemWithDiscriminant_ )<sup>?</sup>  
+>                                | _EnumItemDiscriminant_ )<sup>?</sup>  
 >  
 > _EnumItemTuple_ :  
 > &nbsp;&nbsp; `(` [_TupleFields_]<sup>?</sup> `)`  
 >   
 > _EnumItemStruct_ :  
-> &nbsp;&nbsp; `(` [_StructFields_]<sup>?</sup> `)`  
+> &nbsp;&nbsp; `{` [_StructFields_]<sup>?</sup> `}`  
 >   
-> _EnumItemWithDiscriminant_ :  
+> _EnumItemDiscriminant_ :  
 > &nbsp;&nbsp; `=` [_Expression_]  
 
 An _enumeration_ is a simultaneous definition of a nominal [enumerated type] as
@@ -1511,7 +1512,30 @@ impl Seq<bool> for u32 {
 [_ExternBlock_]: #external-blocks
 
 > **<sup>Syntax</sup>**  
-> [_ExternBlock_] : `extern` FIXME
+> [_ExternBlock_] :  
+> &nbsp;&nbsp; `extern` _Abi_<sup>?</sup> `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; _InnerAttribute_<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _ExternalItem_<sup>\*</sup>  
+> &nbsp;&nbsp; `}`  
+>  
+> _ExternalItem_ :  
+> &nbsp;&nbsp; _OuterAttribute_<sup>\*</sup>  
+> &nbsp;&nbsp; _VisibilityNoTuple_<sup>?</sup>  
+> &nbsp;&nbsp; (externalStaticItem | externalFunctionItem)  
+>  
+> _ExternalStaticItem_ :  
+> &nbsp;&nbsp; `static` `mut`<sup>?</sup> IDENTIFIER `:` _Type_ `;`  
+>  
+> _ExternalFunctionItem_ :  
+> &nbsp;&nbsp; `fn` IDENTIFIER _Generics_<sup>?</sup>  
+> &nbsp;&nbsp; ( _FunctionParameters_ | _FunctionParametersWithVariadics_ )  
+> &nbsp;&nbsp; _FunctionReturnType_<sup>?</sup> _WhereClause_<sup>?</sup> `;`  
+>  
+> _FunctionParametersWithVariadics_ :  
+> &nbsp;&nbsp; `(` ( _FunctionParam_ `,` )<sup>\*</sup> _VariadicFunctionParam_ `)`  
+>  
+> _VariadicFunctionParam_ :  
+> &nbsp;&nbsp; _FunctionParam_ `,` `...`  
 
 External blocks form the basis for Rust's foreign function interface.
 Declarations in an external block describe symbols in external, non-Rust
