@@ -382,7 +382,7 @@ fn main() {}
 
 > **<sup>Syntax</sup>**  
 > [_Function_]:  
-> &nbsp;&nbsp; `const`<sup>?</sup> `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
+> &nbsp;&nbsp; `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
 >              [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` _FunctionParameters_<sup>?</sup> `)`
 >              _FunctionReturnType_<sup>?</sup> [_WhereClause_]<sup>?</sup>  
@@ -392,7 +392,10 @@ fn main() {}
 > &nbsp;&nbsp; STRING_LITERAL  
 >  
 > _FunctionParameters_:  
-> &nbsp;&nbsp; `(` `)`  
+> &nbsp;&nbsp; _FunctionParam_ (`,` _FunctionParam_)<sup>\*</sup> `,`<sup>?</sup>  
+>  
+> _FunctionParam_ :  
+> &nbsp;&nbsp; _Pattern_ `:` _Type_  
 >  
 > _FunctionReturnType_:  
 > &nbsp;&nbsp; `->` [_Type_]  
