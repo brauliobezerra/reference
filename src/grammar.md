@@ -594,6 +594,10 @@
 > &nbsp;&nbsp; | `pub` `(` `in`<sup>?</sup> `self` `)`  
 > &nbsp;&nbsp; | `pub` `(` `in`<sup>?</sup> `super` `)`  
 >  
+> [_VisibilityNoTuple_] :<a name="visibilitynotuple"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; EMPTY  
+> &nbsp;&nbsp; | `pub`  
+>  
 
 ### Attributes
 
@@ -1096,6 +1100,7 @@
 [_FunctionParametersWithVariadics_]: #functionparameterswithvariadics
 [_VariadicFunctionParam_]: #variadicfunctionparam
 [_Visibility_]: #visibility
+[_VisibilityNoTuple_]: #visibilitynotuple
 [_Attribute_]: #attribute
 [_InnerAttribute_]: #innerattribute
 [_OuterAttribute_]: #outerattribute

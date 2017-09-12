@@ -8,6 +8,10 @@
 > &nbsp;&nbsp; | `pub` `(` `in` _ModulePath_ `)`  
 > &nbsp;&nbsp; | `pub` `(` `in`<sup>?</sup> `self` `)`  
 > &nbsp;&nbsp; | `pub` `(` `in`<sup>?</sup> `super` `)`  
+>  
+> _VisibilityNoTuple_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; EMPTY  
+> &nbsp;&nbsp; | `pub`  
 
 These two terms are often used interchangeably, and what they are attempting to
 convey is the answer to the question "Can this item be used at this location?"
