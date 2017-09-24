@@ -21,12 +21,23 @@ evaluated (primarily) at compile time.
 
 |                                              | Example         | `#` sets   | Characters  | Escapes             |
 |----------------------------------------------|-----------------|------------|-------------|---------------------|
-| [Character](#character-literals)             | `'H'`           | `N/A`      | All Unicode | [Quote](#quote-escapes) & [Byte](#byte-escapes) & [Unicode](#unicode-escapes) |
-| [String](#string-literals)                   | `"hello"`       | `N/A`      | All Unicode | [Quote](#quote-escapes) & [Byte](#byte-escapes) & [Unicode](#unicode-escapes) |
+| [Character](#character-literals)             | `'H'`           | `N/A`      | All Unicode | [Quote](#quote-escapes) & [ASCII](#ascii-escapes) & [Unicode](#unicode-escapes) |
+| [String](#string-literals)                   | `"hello"`       | `N/A`      | All Unicode | [Quote](#quote-escapes) & [ASCII](#ascii-escapes) & [Unicode](#unicode-escapes) |
 | [Raw](#raw-string-literals)                  | `r#"hello"#`    | `0...`     | All Unicode | `N/A`                                                      |
 | [Byte](#byte-literals)                       | `b'H'`          | `N/A`      | All ASCII   | [Quote](#quote-escapes) & [Byte](#byte-escapes)                               |
 | [Byte string](#byte-string-literals)         | `b"hello"`      | `N/A`      | All ASCII   | [Quote](#quote-escapes) & [Byte](#byte-escapes)                               |
 | [Raw byte string](#raw-byte-string-literals) | `br#"hello"#`   | `0...`     | All ASCII   | `N/A`                                                      |
+
+#### ASCII escapes
+
+|   | Name |
+|---|------|
+| `\x41` | 7-bit character code (exactly 2 digits, up to 0x7F) |
+| `\n` | Newline |
+| `\r` | Carriage return |
+| `\t` | Tab |
+| `\\` | Backslash |
+| `\0` | Null |
 
 #### Byte escapes
 
@@ -75,7 +86,23 @@ evaluated (primarily) at compile time.
 #### Character literals
 
 > **<sup>Lexer</sup>**  
-> **FIXME**
+> CHAR_LITERAL :  
+> &nbsp;&nbsp; `'` ( ~[`'` `\` \\n \\r \\t] | QUOTE_ESCAPE | ASCII_ESCAPE | UNICODE_ESCAPE ) `'`  
+>  
+> QUOTE_ESCAPE :  
+> &nbsp;&nbsp; `\'` | `\"`  
+>  
+> ASCII_ESCAPE :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `\x` OCT_DIGIT HEX_DIGIT  
+> &nbsp;&nbsp; | `\n` | `\r` | `\t` | `\\` | `\0`  
+>  
+> UNICODE_ESCAPE :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `\u{` HEX_DIGIT `}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT `}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT `}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT `}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT`}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT`}`  
 
 A _character literal_ is a single Unicode character enclosed within two
 `U+0027` (single-quote) characters, with the exception of `U+0027` itself,
@@ -84,7 +111,18 @@ which must be _escaped_ by a preceding `U+005C` character (`\`).
 #### String literals
 
 > **<sup>Lexer</sup>**  
-> **FIXME**
+> STRING_LITERAL :  
+> &nbsp;&nbsp; `"` (  
+> &nbsp;&nbsp; &nbsp;&nbsp; ~[`"` `\` _IsolatedCR_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | QUOTE_ESCAPE  
+> &nbsp;&nbsp; &nbsp;&nbsp; | ASCII_ESCAPE  
+> &nbsp;&nbsp; &nbsp;&nbsp; | UNICODE_ESCAPE  
+> &nbsp;&nbsp; &nbsp;&nbsp; | STRING_CONTINUE  
+> &nbsp;&nbsp; )<sup>\*</sup> `"`  
+>  
+> STRING_CONTINUE :  
+> &nbsp;&nbsp; `\` _followed by_ \\n  
+
 
 A _string literal_ is a sequence of any Unicode characters enclosed within two
 `U+0022` (double-quote) characters, with the exception of `U+0022` itself,
@@ -105,9 +143,6 @@ assert_eq!(a,b);
 ```
 
 #### Character escapes
-
-> **<sup>Lexer</sup>**  
-> **FIXME**
 
 Some additional _escapes_ are available in either character or non-raw string
 literals. An escape starts with a `U+005C` (`\`) and continues with one of the
@@ -130,7 +165,12 @@ following forms:
 #### Raw string literals
 
 > **<sup>Lexer</sup>**  
-> **FIXME**
+> RAW_STRING_LITERAL :  
+> &nbsp;&nbsp; `r` RAW_STRING_CONTENT  
+>  
+> RAW_STRING_CONTENT :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `"` ( ~ _IsolatedCR_ )<sup>* (non-greedy)</sup> `"`  
+> &nbsp;&nbsp; | `#` RAW_STRING_CONTENT `#`  
 
 Raw string literals do not process any escapes. They start with the character
 `U+0072` (`r`), followed by zero or more of the character `U+0023` (`#`) and a
@@ -162,7 +202,15 @@ r##"foo #"# bar"##;                // foo #"# bar
 #### Byte literals
 
 > **<sup>Lexer</sup>**  
-> **FIXME**
+> BYTE_LITERAL :  
+> &nbsp;&nbsp; `b'` ( ASCII_FOR_CHAR | BYTE_ESCAPE )  `'`  
+>  
+> ASCII_FOR_CHAR :  
+> &nbsp;&nbsp; _any ASCII (i.e. 0x00 to 0x7F), except_ `'`, `/`, \\n, \\r or \\t  
+>  
+> BYTE_ESCAPE :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `\x` HEX_DIGIT HEX_DIGIT  
+> &nbsp;&nbsp; | `\n` | `\r` | `\t` | `\\` | `\0`  
 
 A _byte literal_ is a single ASCII character (in the `U+0000` to `U+007F`
 range) or a single _escape_ preceded by the characters `U+0062` (`b`) and
@@ -174,7 +222,11 @@ _number literal_.
 #### Byte string literals
 
 > **<sup>Lexer</sup>**  
-> **FIXME**
+> BYTE_STRING_LITERAL :  
+> &nbsp;&nbsp; `b"` ( ASCII_FOR_STRING | BYTE_ESCAPE | STRING_CONTINUE )<sup>\*</sup> `"`  
+>  
+> ASCII_FOR_STRING :  
+> &nbsp;&nbsp; _any ASCII (i.e 0x00 to 0x7F), except_ `"`, `/` _and IsolatedCR_ 
 
 A non-raw _byte string literal_ is a sequence of ASCII characters and _escapes_,
 preceded by the characters `U+0062` (`b`) and `U+0022` (double-quote), and
@@ -202,7 +254,16 @@ following forms:
 #### Raw byte string literals
 
 > **<sup>Lexer</sup>**  
-> **FIXME**
+> RAW_BYTE_STRING_LITERAL :  
+> &nbsp;&nbsp; `br` RAW_BYTE_STRING_CONTENT  
+>  
+> RAW_BYTE_STRING_CONTENT :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `"` ASCII<sup>* (non-greedy)</sup> `"`  
+> &nbsp;&nbsp; | `#` RAW_STRING_CONTENT `#`  
+>  
+> ASCII :  
+> &nbsp;&nbsp; _any ASCII (i.e. 0x00 to 0x7F)_  
+
 
 Raw byte string literals do not process any escapes. They start with the
 character `U+0062` (`b`), followed by `U+0072` (`r`), followed by zero or more

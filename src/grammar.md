@@ -114,19 +114,68 @@
 
 ### Tokens
 
-> **FIXME**
+> [CHAR_LITERAL] :<a name="char_literal"></a>  
+> &nbsp;&nbsp; `'` ( ~[`'` `\` \\n \\r \\t] | QUOTE_ESCAPE | ASCII_ESCAPE | UNICODE_ESCAPE ) `'`  
 >  
-> **FIXME**
+> [QUOTE_ESCAPE] :<a name="quote_escape"></a>  
+> &nbsp;&nbsp; `\'` | `\"`  
 >  
-> **FIXME**
+> [ASCII_ESCAPE] :<a name="ascii_escape"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `\x` OCT_DIGIT HEX_DIGIT  
+> &nbsp;&nbsp; | `\n` | `\r` | `\t` | `\\` | `\0`  
 >  
-> **FIXME**
+> [UNICODE_ESCAPE] :<a name="unicode_escape"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `\u{` HEX_DIGIT `}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT `}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT `}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT `}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT`}`  
+> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT`}`  
 >  
-> **FIXME**
+> [STRING_LITERAL] :<a name="string_literal"></a>  
+> &nbsp;&nbsp; `"` (  
+> &nbsp;&nbsp; &nbsp;&nbsp; ~[`"` `\` _IsolatedCR_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | QUOTE_ESCAPE  
+> &nbsp;&nbsp; &nbsp;&nbsp; | ASCII_ESCAPE  
+> &nbsp;&nbsp; &nbsp;&nbsp; | UNICODE_ESCAPE  
+> &nbsp;&nbsp; &nbsp;&nbsp; | STRING_CONTINUE  
+> &nbsp;&nbsp; )<sup>\*</sup> `"`  
 >  
-> **FIXME**
+> [STRING_CONTINUE] :<a name="string_continue"></a>  
+> &nbsp;&nbsp; `\` _followed by_ \\n  
 >  
-> **FIXME**
+> [RAW_STRING_LITERAL] :<a name="raw_string_literal"></a>  
+> &nbsp;&nbsp; `r` RAW_STRING_CONTENT  
+>  
+> [RAW_STRING_CONTENT] :<a name="raw_string_content"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `"` ( ~ _IsolatedCR_ )<sup>* (non-greedy)</sup> `"`  
+> &nbsp;&nbsp; | `#` RAW_STRING_CONTENT `#`  
+>  
+> [BYTE_LITERAL] :<a name="byte_literal"></a>  
+> &nbsp;&nbsp; `b'` ( ASCII_FOR_CHAR | BYTE_ESCAPE )  `'`  
+>  
+> [ASCII_FOR_CHAR] :<a name="ascii_for_char"></a>  
+> &nbsp;&nbsp; _any ASCII (i.e. 0x00 to 0x7F), except_ `'`, `/`, \\n, \\r or \\t  
+>  
+> [BYTE_ESCAPE] :<a name="byte_escape"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `\x` HEX_DIGIT HEX_DIGIT  
+> &nbsp;&nbsp; | `\n` | `\r` | `\t` | `\\` | `\0`  
+>  
+> [BYTE_STRING_LITERAL] :<a name="byte_string_literal"></a>  
+> &nbsp;&nbsp; `b"` ( ASCII_FOR_STRING | BYTE_ESCAPE | STRING_CONTINUE )<sup>\*</sup> `"`  
+>  
+> [ASCII_FOR_STRING] :<a name="ascii_for_string"></a>  
+> &nbsp;&nbsp; _any ASCII (i.e 0x00 to 0x7F), except_ `"`, `/` _and IsolatedCR_ 
+>  
+> [RAW_BYTE_STRING_LITERAL] :<a name="raw_byte_string_literal"></a>  
+> &nbsp;&nbsp; `br` RAW_BYTE_STRING_CONTENT  
+>  
+> [RAW_BYTE_STRING_CONTENT] :<a name="raw_byte_string_content"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `"` ASCII<sup>* (non-greedy)</sup> `"`  
+> &nbsp;&nbsp; | `#` RAW_STRING_CONTENT `#`  
+>  
+> [ASCII] :<a name="ascii"></a>  
+> &nbsp;&nbsp; _any ASCII (i.e. 0x00 to 0x7F)_  
 >  
 > [INTEGER_LITERAL] :<a name="integer_literal"></a>  
 > &nbsp;&nbsp; ( DEC_LITERAL | BIN_LITERAL | OCT_LITERAL | HEX_LITERAL )
@@ -284,6 +333,22 @@
 [OUTER_BLOCK_DOC]: #outer_block_doc
 [_BlockCommentOrDoc_]: #blockcommentordoc
 [_IsolatedCR_]: #isolatedcr
+[CHAR_LITERAL]: #char_literal
+[QUOTE_ESCAPE]: #quote_escape
+[ASCII_ESCAPE]: #ascii_escape
+[UNICODE_ESCAPE]: #unicode_escape
+[STRING_LITERAL]: #string_literal
+[STRING_CONTINUE]: #string_continue
+[RAW_STRING_LITERAL]: #raw_string_literal
+[RAW_STRING_CONTENT]: #raw_string_content
+[BYTE_LITERAL]: #byte_literal
+[ASCII_FOR_CHAR]: #ascii_for_char
+[BYTE_ESCAPE]: #byte_escape
+[BYTE_STRING_LITERAL]: #byte_string_literal
+[ASCII_FOR_STRING]: #ascii_for_string
+[RAW_BYTE_STRING_LITERAL]: #raw_byte_string_literal
+[RAW_BYTE_STRING_CONTENT]: #raw_byte_string_content
+[ASCII]: #ascii
 [INTEGER_LITERAL]: #integer_literal
 [DEC_LITERAL]: #dec_literal
 [BIN_LITERAL]: #bin_literal
