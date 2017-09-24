@@ -144,13 +144,13 @@
 > [HEX_LITERAL] :<a name="hex_literal"></a>  
 > &nbsp;&nbsp; `0x` (HEX_DIGIT|`_`)<sup>\*</sup> HEX_DIGIT (HEX_DIGIT|`_`)<sup>\*</sup>  
 >  
-> [BIN_DIGIT] :<a name="bin_digit"></a> [`0`-`1` `_`]  
+> [BIN_DIGIT] :<a name="bin_digit"></a> [`0`-`1`]  
 >  
-> [OCT_DIGIT] :<a name="oct_digit"></a> [`0`-`7` `_`]  
+> [OCT_DIGIT] :<a name="oct_digit"></a> [`0`-`7`]  
 >  
-> [DEC_DIGIT] :<a name="dec_digit"></a> [`0`-`9` `_`]  
+> [DEC_DIGIT] :<a name="dec_digit"></a> [`0`-`9`]  
 >  
-> [HEX_DIGIT] :<a name="hex_digit"></a> [`0`-`9` `a`-`f` `A`-`F` `_`]  
+> [HEX_DIGIT] :<a name="hex_digit"></a> [`0`-`9` `a`-`f` `A`-`F`]  
 >  
 > [INTEGER_SUFFIX] :<a name="integer_suffix"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `u8` | `u16` | `u32` | `u64` | `usize`  
