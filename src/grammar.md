@@ -1072,27 +1072,37 @@
 
 ### Types
 
-> [_Type_] :<a name="type"></a> <a name="type"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_TypePath_]  
-> &nbsp;&nbsp; | [_QualifiedPathType_]  
+> [_Type_] :<a name="type"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_ParenthesizedType_]&nbsp;(`+` [_TypeParamBounds_])<sup>?</sup>  
 > &nbsp;&nbsp; | [_TupleType_]  
+> &nbsp;&nbsp; | [_NeverType_]  
+> &nbsp;&nbsp; | [_RawPointerType_]  
+> &nbsp;&nbsp; | [_ReferenceType_]  
 > &nbsp;&nbsp; | [_ArrayType_]  
 > &nbsp;&nbsp; | [_SliceType_]  
-> &nbsp;&nbsp; | [_ReferenceType_]  
-> &nbsp;&nbsp; | [_RawPointerType_]  
-> &nbsp;&nbsp; | [_BareFunctionType_]  
-> &nbsp;&nbsp; | [_NeverType_]  
-> &nbsp;&nbsp; | [_TraitObjectType_]  
-> &nbsp;&nbsp; | [_ImplTraitType_]  
-> &nbsp;&nbsp; | [_ParenthesizedType_]  
 > &nbsp;&nbsp; | [_InferredType_]  
+> &nbsp;&nbsp; | [_QualifiedPathForType_]  
+> &nbsp;&nbsp; | [_PathForTypeWithGenerics_]&nbsp;(`+` [_TypeParamBounds_])<sup>?</sup>  
+> &nbsp;&nbsp; | [_BareFunctionType_]  
+> &nbsp;&nbsp; | [_MacroInvocationType_]  
+> &nbsp;&nbsp; | [_TypeParamBounds_]  
 >  
-> [_TypePath_] :<a name="typepath"></a>  
-> &nbsp;&nbsp; [_Path_]  
+> [_TypeNoBounds_] :<a name="typenobounds"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_ParenthesizedType_]  
+> &nbsp;&nbsp; | [_TupleType_]  
+> &nbsp;&nbsp; | [_NeverType_]  
+> &nbsp;&nbsp; | [_RawPointerType_]  
+> &nbsp;&nbsp; | [_ReferenceType_]  
+> &nbsp;&nbsp; | [_ArrayType_]  
+> &nbsp;&nbsp; | [_SliceType_]  
+> &nbsp;&nbsp; | [_InferredType_]  
+> &nbsp;&nbsp; | [_QualifiedPathForType_]  
+> &nbsp;&nbsp; | [_PathForTypeWithGenerics_]  
+> &nbsp;&nbsp; | [_BareFunctionType_]  
+> &nbsp;&nbsp; | [_MacroInvocationType_]  
 >  
 > [_ParenthesizedType_] :<a name="parenthesizedtype"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `(` [_Type_] `)`  
-> &nbsp;&nbsp; `(` [_Type_] `)` `+` [_TypeBounds_]  
 >  
 >  
 > [_TupleType_] :<a name="tupletype"></a> <a name="tuple-type"></a>  
@@ -1101,20 +1111,20 @@
 > &nbsp;&nbsp; | `(` [_Type_]&nbsp;( `,` [_Type_] ) <sup>+</sup> `,`<sup>?</sup> `)`
 >  
 > [_ArrayType_] :<a name="arraytype"></a> <a name="array-type"></a>  
-> &nbsp;&nbsp; `[` [_Type_] `;` [_Expression_] `]`  
+> &nbsp;&nbsp; `[` _type `;` [_Expression_] `]` **FIXME**  
 >  
 > [_SliceType_] :<a name="slicetype"></a> <a name="slice-type"></a>  
-> &nbsp;&nbsp; `&` `[` [_Type_] `]`  
+> &nbsp;&nbsp; `[` _type `]` **FIXME**  
 >  
 > [_NeverType_] :<a name="nevertype"></a> `!`
 >  
 > [_InferredType_] :<a name="inferredtype"></a> `_`
 >  
 > [_ReferenceType_] :<a name="referencetype"></a>  
-> &nbsp;&nbsp; `&` Lifetime? `mut`? [_TypeNoBounds_]
+> &nbsp;&nbsp; `&` Lifetime? `mut`? _type **FIXME**
 >  
 > [_RawPointerType_] :<a name="rawpointertype"></a>  
-> &nbsp;&nbsp; `*` ( `mut` | `const` ) [_TypeNoBounds_]
+> &nbsp;&nbsp; `*` ( `mut` | `const` ) _type **FIXME  
 >  
 
 [_Crate_]: #crate
@@ -1246,7 +1256,7 @@
 [_SlicePattern_]: #slicepattern
 [_PathPattern_]: #pathpattern
 [_Type_]: #type
-[_TypePath_]: #typepath
+[_TypeNoBounds_]: #typenobounds
 [_ParenthesizedType_]: #parenthesizedtype
 [_TupleType_]: #tupletype
 [_ArrayType_]: #arraytype
