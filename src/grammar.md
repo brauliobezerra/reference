@@ -957,36 +957,37 @@
 
 ### Paths
 
-> [_Path_] :<a name="path"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_NonGlobalPath_]  
-> &nbsp;&nbsp; | [_GlobalPath_]  
+> [_PathForModule_] :<a name="pathformodule"></a>  
+> &nbsp;&nbsp; `::`<sup>?</sup> _PathSegmentIdentifier_ (`::` _PathSegmentIdentifier_)<sup>\*</sup>  
 >  
-> [_NonGlobalPath_] :<a name="nonglobalpath"></a> <a name="nonglobal-path"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_PathSegment_] ( `::` [_NonGlobalPath_] )<sup>?</sup>  
+> [_QualifiedPathForModule_] :<a name="qualifiedpathformodule"></a>  
+> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForModule_ **FIXME**  
 >  
-> [_GlobalPath_] :<a name="globalpath"></a> <a name="global-path"></a>  
-> &nbsp;&nbsp; `::` [_NonGlobalPath_]  
+> [_PathSegmentIdentifier_] :<a name="pathsegmentidentifier"></a>  
+> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self` **FIXME**  
 >  
-> [_PathSegment_] :<a name="pathsegment"></a> <a name="path-segment"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; [IDENTIFIER]  
-> &nbsp;&nbsp; | `<` _TypeArguments_ `>`  
-> &nbsp;&nbsp; | `super`  
-> &nbsp;&nbsp; | `self`  
+> [_PathForTypeWithGenerics_] :<a name="pathfortypewithgenerics"></a>  
+> &nbsp;&nbsp; `::`<sup>?</sup> _PathWithGenericsElement_ (`::` _PathWithGenericsElement_)<sup>\*</sup>  
 >  
-> [_PathParameter_] :<a name="pathparameter"></a>  
+> [_PathWithGenericsElement_] :<a name="pathwithgenericselement"></a>  
+> &nbsp;&nbsp; _PathSegmentIdentifier_ (_GenericsForType_ | _FunctionSignature_)<sup>?</sup>  
 >  
+> [_QualifiedPathForType_] :<a name="qualifiedpathfortype"></a>  
+> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForTypeWithGenerics_ **FIXME**  
 >  
-> [_ModulePath_] :<a name="modulepath"></a>  
-> &nbsp;&nbsp; _ModulePathItem_ ( `::` _ModulePathItem_ )<sup>*</sup>  
+> [_GenericsForType_] :<a name="genericsfortype"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `<` (_LifetimeParams_ (`,` _TypeParamsForTypes_)<sup>?</sup> (`,` _BindingParams_)<sup>?</sup> `,`<sup>?</sup> )<sup>?</sup> `>`  
+> &nbsp;&nbsp; | `<` _TypeParamsForTypes_ (`,` _BindingParams_)<sup>?</sup> `,`<sup>?</sup> `>`  
+> &nbsp;&nbsp; | `<` _BindingParams_ `,`<sup>?</sup> `>`  
 >  
-> [_ModulePathItem_] :<a name="modulepathitem"></a>  
-> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self`  
+> [_TypeParamsForTypes_] :<a name="typeparamsfortypes"></a>  
+> &nbsp;&nbsp; _Type_ (`,` _Type_)<sup>\*</sup>  
 >  
-> [_TypePath_] :<a name="typepath"></a>  
-> &nbsp;&nbsp; _TypePathItem_ ( `::` _TypePathItem_ )<sup>*</sup>  
+> [_BindingParams_] :<a name="bindingparams"></a>  
+> &nbsp;&nbsp; _TypeBindingParam_ (`,` _TypeBindingParam_)<sup>\*</sup>  
 >  
-> [_TypePathItem_] :<a name="typepathitem"></a>  
-> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self`  
+> [_TypeBindingParam_] :<a name="typebindingparam"></a>  
+> &nbsp;&nbsp; IDENTIFIER `=` type_ **FIXME**  
 >  
 
 ### Patterns
@@ -1228,15 +1229,16 @@
 [_IfLetExpression_]: #ifletexpression
 [_WhileLetExpression_]: #whileletexpression
 [_ReturnExpression_]: #returnexpression
-[_Path_]: #path
-[_NonGlobalPath_]: #nonglobalpath
-[_GlobalPath_]: #globalpath
-[_PathSegment_]: #pathsegment
-[_PathParameter_]: #pathparameter
-[_ModulePath_]: #modulepath
-[_ModulePathItem_]: #modulepathitem
-[_TypePath_]: #typepath
-[_TypePathItem_]: #typepathitem
+[_PathForModule_]: #pathformodule
+[_QualifiedPathForModule_]: #qualifiedpathformodule
+[_PathSegmentIdentifier_]: #pathsegmentidentifier
+[_PathForTypeWithGenerics_]: #pathfortypewithgenerics
+[_PathWithGenericsElement_]: #pathwithgenericselement
+[_QualifiedPathForType_]: #qualifiedpathfortype
+[_GenericsForType_]: #genericsfortype
+[_TypeParamsForTypes_]: #typeparamsfortypes
+[_BindingParams_]: #bindingparams
+[_TypeBindingParam_]: #typebindingparam
 [_Pattern_]: #pattern
 [_LiteralPattern_]: #literalpattern
 [_WildcardPattern_]: #wildcardpattern
