@@ -966,6 +966,12 @@
 > [_PathSegmentIdentifier_] :<a name="pathsegmentidentifier"></a>  
 > &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self` **FIXME**  
 >  
+> [_PathForExpression_] :<a name="pathforexpression"></a>  
+> &nbsp;&nbsp; `::`<sup>?</sup> _PathSegmentIdentifier_ (`::` (_PathSegmentIdentifier_ | _GenericsForType_) )<sup>\*</sup>  
+>  
+> [_QualifiedPathForExpression_] :<a name="qualifiedpathforexpression"></a>  
+> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForExpression_ **FIXME**  
+>  
 > [_PathForTypeWithGenerics_] :<a name="pathfortypewithgenerics"></a>  
 > &nbsp;&nbsp; `::`<sup>?</sup> _PathWithGenericsElement_ (`::` _PathWithGenericsElement_)<sup>\*</sup>  
 >  
@@ -1232,6 +1238,8 @@
 [_PathForModule_]: #pathformodule
 [_QualifiedPathForModule_]: #qualifiedpathformodule
 [_PathSegmentIdentifier_]: #pathsegmentidentifier
+[_PathForExpression_]: #pathforexpression
+[_QualifiedPathForExpression_]: #qualifiedpathforexpression
 [_PathForTypeWithGenerics_]: #pathfortypewithgenerics
 [_PathWithGenericsElement_]: #pathwithgenericselement
 [_QualifiedPathForType_]: #qualifiedpathfortype
