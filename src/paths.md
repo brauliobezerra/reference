@@ -2,42 +2,16 @@
 
 <!-- FIXME: UFCS - universal function call syntax -->
 
-> **<sup>Syntax</sup>**  
-> [_Path_] :  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_NonGlobalPath_]  
-> &nbsp;&nbsp; | [_GlobalPath_]  
->  
-> [_NonGlobalPath_] : <a name="nonglobal-path"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_PathSegment_] ( `::` [_NonGlobalPath_] )<sup>?</sup>  
->  
-> [_GlobalPath_] : <a name="global-path"></a>  
-> &nbsp;&nbsp; `::` [_NonGlobalPath_]  
->  
-> [_PathSegment_] : <a name="path-segment"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; [IDENTIFIER]  
-> &nbsp;&nbsp; | `<` _TypeArguments_ `>`  
-> &nbsp;&nbsp; | `super`  
-> &nbsp;&nbsp; | `self`  
->  
-> _PathParameter_ :  
->  
+A _path_ is a sequence of one or more path components _logically_ separated by
+a namespace qualifier (`::`). If a path consists of only one component, it may
+refer to either an [item] or a [variable] in a local control
+scope. If a path has multiple components, it refers to an item.
 
+Every item has a _canonical path_ within its crate, but the path naming an item
+is only meaningful within a given crate. There is no global namespace across
+crates; an item's canonical path merely identifies it within the crate.
 
-
-
-> path:  
->   qualified = <...>  
->   global  
->   nonglobal  
->  
-
-
-
-A *path* is a sequence of one or more path components _logically_ separated by
-a namespace <span class="parenthetical">qualifier (`::`)</span>. If a path
-consists of only one component, it refers to either an [item] or a [variable] in
-a local control scope. If a path has multiple components, it always refers to an
-item.
+## Types of paths
 
 Two examples of simple paths consisting of only identifier components:
 
@@ -46,12 +20,12 @@ x;
 x::y::z;
 ```
 
-Path components are usually [identifiers], but they may also include
-angle-bracket-enclosed lists of type arguments. In [expression] context, the
-type argument list is given after a `::` namespace qualifier in order to
-disambiguate it from a relational expression involving the less-than
-<span class="parenthetical">symbol (`<`)</span>. In type expression context, the
-final namespace qualifier is omitted.
+Path components are usually [identifiers], but they may
+also include angle-bracket-enclosed lists of type arguments. In
+[expression] context, the type argument list is given
+after a `::` namespace qualifier in order to disambiguate it from a
+relational expression involving the less-than symbol (`<`). In type
+expression context, the final namespace qualifier is omitted.
 
 Two examples of paths with type arguments:
 
@@ -67,22 +41,48 @@ let x  = id::<i32>(10);       // Type arguments used in a call expression
 ### Module paths
 
 > **<sup>Syntax</sup>**  
-> _ModulePath_ :  
-> &nbsp;&nbsp; _ModulePathItem_ ( `::` _ModulePathItem_ )<sup>*</sup>  
+> _PathForModule_ :  
+> &nbsp;&nbsp; `::`<sup>?</sup> _PathSegmentIdentifier_ (`::` _PathSegmentIdentifier_)<sup>\*</sup>  
 >  
-> _ModulePathItem_ :  
-> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self`  
+> _QualifiedPathForModule_ :  
+> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForModule_ **FIXME**  
+>  
+> _PathSegmentIdentifier_ :  
+> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self` **FIXME**  
+
+### Expression paths
+
+> _PathForExpression_ :  
+> &nbsp;&nbsp; `::`<sup>?</sup> _PathSegmentIdentifier_ (`::` (_PathSegmentIdentifier_ | _GenericsForType_) )<sup>\*</sup>  
+>  
+> _QualifiedPathForExpression_ :  
+> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForExpression_ **FIXME**  
 
 ### Type paths
 
 > **<sup>Syntax</sup>**  
-> _TypePath_ :  
-> &nbsp;&nbsp; _TypePathItem_ ( `::` _TypePathItem_ )<sup>*</sup>  
+> _PathForTypeWithGenerics_ :  
+> &nbsp;&nbsp; `::`<sup>?</sup> _PathWithGenericsElement_ (`::` _PathWithGenericsElement_)<sup>\*</sup>  
 >  
-> _TypePathItem_ :  
-> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self`  
-
-### Expression paths
+> _PathWithGenericsElement_ :  
+> &nbsp;&nbsp; _PathSegmentIdentifier_ (_GenericsForType_ | _FunctionSignature_)<sup>?</sup>  
+>  
+> _QualifiedPathForType_ :  
+> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForTypeWithGenerics_ **FIXME**  
+>  
+> _GenericsForType_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `<` (_LifetimeParams_ (`,` _TypeParamsForTypes_)<sup>?</sup> (`,` _BindingParams_)<sup>?</sup> `,`<sup>?</sup> )<sup>?</sup> `>`  
+> &nbsp;&nbsp; | `<` _TypeParamsForTypes_ (`,` _BindingParams_)<sup>?</sup> `,`<sup>?</sup> `>`  
+> &nbsp;&nbsp; | `<` _BindingParams_ `,`<sup>?</sup> `>`  
+>  
+> _TypeParamsForTypes_ :  
+> &nbsp;&nbsp; _Type_ (`,` _Type_)<sup>\*</sup>  
+>  
+> _BindingParams_ :  
+> &nbsp;&nbsp; _TypeBindingParam_ (`,` _TypeBindingParam_)<sup>\*</sup>  
+>  
+> _TypeBindingParam_ :  
+> &nbsp;&nbsp; IDENTIFIER `=` type_ **FIXME**  
 
 ## Path qualifiers
 
@@ -232,6 +232,7 @@ mod without { // ::without
 [_PathSegment_]: #path-segment
 
 [IDENTIFIER]: identifiers.html
+
 [item]: items.html
 [variable]: variables.html
 [identifiers]: identifiers.html
