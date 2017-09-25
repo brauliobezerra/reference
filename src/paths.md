@@ -2,37 +2,6 @@
 
 <!-- FIXME: UFCS - universal function call syntax -->
 
-> **<sup>Syntax</sup>**  
-> [_Path_] :  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_NonGlobalPath_]  
-> &nbsp;&nbsp; | [_GlobalPath_]  
->  
-> [_NonGlobalPath_] : <a name="nonglobal-path"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_PathSegment_] ( `::` [_NonGlobalPath_] )<sup>?</sup>  
->  
-> [_GlobalPath_] : <a name="global-path"></a>  
-> &nbsp;&nbsp; `::` [_NonGlobalPath_]  
->  
-> [_PathSegment_] : <a name="path-segment"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; [IDENTIFIER]  
-> &nbsp;&nbsp; | `<` _TypeArguments_ `>`  
-> &nbsp;&nbsp; | `super`  
-> &nbsp;&nbsp; | `self`  
->  
-> _PathParameter_ :  
->  
-
-
-
-
-> path:  
->   qualified = <...>  
->   global  
->   nonglobal  
->  
-
-
-
 A _path_ is a sequence of one or more path components _logically_ separated by
 a namespace qualifier (`::`). If a path consists of only one component, it may
 refer to either an [item] or a [variable] in a local control
@@ -72,22 +41,48 @@ let x  = id::<i32>(10);       // Type arguments used in a call expression
 ### Module paths
 
 > **<sup>Syntax</sup>**  
-> _ModulePath_ :  
-> &nbsp;&nbsp; _ModulePathItem_ ( `::` _ModulePathItem_ )<sup>*</sup>  
+> _PathForModule_ :  
+> &nbsp;&nbsp; `::`<sup>?</sup> _PathSegmentIdentifier_ (`::` _PathSegmentIdentifier_)<sup>\*</sup>  
 >  
-> _ModulePathItem_ :  
-> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self`  
+> _QualifiedPathForModule_ :  
+> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForModule_ **FIXME**  
+>  
+> _PathSegmentIdentifier_ :  
+> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self` **FIXME**  
+
+### Expression paths
+
+> _PathForExpression_ :  
+> &nbsp;&nbsp; `::`<sup>?</sup> _PathSegmentIdentifier_ (`::` (_PathSegmentIdentifier_ | _GenericsForType_) )<sup>\*</sup>  
+>  
+> _QualifiedPathForExpression_ :  
+> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForExpression_ **FIXME**  
 
 ### Type paths
 
 > **<sup>Syntax</sup>**  
-> _TypePath_ :  
-> &nbsp;&nbsp; _TypePathItem_ ( `::` _TypePathItem_ )<sup>*</sup>  
+> _PathForTypeWithGenerics_ :  
+> &nbsp;&nbsp; `::`<sup>?</sup> _PathWithGenericsElement_ (`::` _PathWithGenericsElement_)<sup>\*</sup>  
 >  
-> _TypePathItem_ :  
-> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self`  
-
-### Expression paths
+> _PathWithGenericsElement_ :  
+> &nbsp;&nbsp; _PathSegmentIdentifier_ (_GenericsForType_ | _FunctionSignature_)<sup>?</sup>  
+>  
+> _QualifiedPathForType_ :  
+> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForTypeWithGenerics_ **FIXME**  
+>  
+> _GenericsForType_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; `<` (_LifetimeParams_ (`,` _TypeParamsForTypes_)<sup>?</sup> (`,` _BindingParams_)<sup>?</sup> `,`<sup>?</sup> )<sup>?</sup> `>`  
+> &nbsp;&nbsp; | `<` _TypeParamsForTypes_ (`,` _BindingParams_)<sup>?</sup> `,`<sup>?</sup> `>`  
+> &nbsp;&nbsp; | `<` _BindingParams_ `,`<sup>?</sup> `>`  
+>  
+> _TypeParamsForTypes_ :  
+> &nbsp;&nbsp; _Type_ (`,` _Type_)<sup>\*</sup>  
+>  
+> _BindingParams_ :  
+> &nbsp;&nbsp; _TypeBindingParam_ (`,` _TypeBindingParam_)<sup>\*</sup>  
+>  
+> _TypeBindingParam_ :  
+> &nbsp;&nbsp; IDENTIFIER `=` type_ **FIXME**  
 
 ## Path qualifiers
 
