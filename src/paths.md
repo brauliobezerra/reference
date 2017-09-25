@@ -52,6 +52,7 @@ let x  = id::<i32>(10);       // Type arguments used in a call expression
 
 ### Expression paths
 
+> **<sup>Syntax</sup>**  
 > _PathForExpression_ :  
 > &nbsp;&nbsp; `::`<sup>?</sup> _PathSegmentIdentifier_ (`::` (_PathSegmentIdentifier_ | _GenericsForType_) )<sup>\*</sup>  
 >  
