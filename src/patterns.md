@@ -176,12 +176,14 @@ It's either a two or a four
 
 <!-- FIXME explain the wildcard pattern -->
 
-The _wildcard pattern_ means any value or the value does not matter.
+The _wildcard pattern_ matches any value. Thus, it is always irrefutable.
 
 For example: 
 
-```
-    
+```rust
+# let x = 20;
+let (a, _) = (10, x);   // the x is always matched by _
+# assert_eq!(a, 10);
 ```
 
 <!-- FIXME but it can be bound to a variable -->
@@ -192,8 +194,6 @@ For example:
 <!-- FIXME example: ignore a field from a tuple -->
 <!-- FIXME example: ignore a field from a struct -->
 <!-- FIXME example: ignore the field of an enum: use Some(_) -->
-
-<!-- when is this pattern type refutable? -->
 
 ## Range patterns
 
@@ -240,6 +240,8 @@ let z = match x { &0 => "zero", _ => "some" };
 
 assert_eq!(y, z);
 ```
+
+<!-- when is this pattern type refutable? -->
 
 ## Identifier patterns
 
