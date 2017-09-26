@@ -125,12 +125,7 @@
 > &nbsp;&nbsp; | `\n` | `\r` | `\t` | `\\` | `\0`  
 >  
 > [UNICODE_ESCAPE] :<a name="unicode_escape"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; `\u{` HEX_DIGIT `}`  
-> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT `}`  
-> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT `}`  
-> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT `}`  
-> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT`}`  
-> &nbsp;&nbsp; | `\u{` HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT`}`  
+> &nbsp;&nbsp; `\u{` ( HEX_DIGIT `_`<sup>\*</sup> )<sup>1..6</sup> `}`  
 >  
 > [STRING_LITERAL] :<a name="string_literal"></a>  
 > &nbsp;&nbsp; `"` (  
