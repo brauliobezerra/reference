@@ -76,7 +76,7 @@ when creating such values. When destructing a data structure with named (but
 not numbered) fields, it is allowed to write `fieldname` as a shorthand for
 `fieldname: fieldname`. In a pattern whose head expression has a `struct`,
 `enum` or `tupl` type, a placeholder (`_`) stands for a *single* data field,
-whereas a wildcard `..` stands for *all* the fields of a particular variant.
+whereas a wildcard `..` stands for *all* the remaining fields of a particular variant.
 
 ```rust
 # enum Message {
@@ -99,17 +99,17 @@ match message {
 
 ## Refutability
 
-A pattern is said to be *refutable* when it **has the possibily of not being matched**
-by some value it is being matched against. *Irrefutable* patterns, on the other hand,
+A pattern is said to be *Refutable* when it **has the possibily of not being matched**
+by the value it is being matched against. *Irrefutable* patterns, on the other hand,
 always match the value they are being matched againt. Examples:
 
 ```rust
-let (x, y) = (1, 2); // "(x, y)" is an irrefutable pattern
+let (x, y) = (1, 2);               // "(x, y)" is an irrefutable pattern
 
 if let (a, 3) = (1, 2) {           // "(a, 3)" is refutable, and will not match
     panic!("Shouldn't reach here");
 } else if let (a, 4) = (3, 4) {    // "(a, 4)" is refutable, and will match
-    println!("Matched (a, 4)");
+    println!("Matched ({}, 4)", a);
 }
 ```
 
@@ -117,7 +117,15 @@ if let (a, 3) = (1, 2) {           // "(a, 3)" is refutable, and will not match
 
 > **<sup>Syntax</sup>**  
 > _LiteralPattern_ :<a name="literal-pattern-syntax"></a>  
-> &nbsp;&nbsp; `-`<sup>?</sup> ( CHAR_LITERAL | INTEGER_LITERAL | FLOAT_LITERAL )  
+> &nbsp;&nbsp; &nbsp;&nbsp; BOOLEAN_LITERAL   
+> &nbsp;&nbsp; | CHAR_LITERAL  
+> &nbsp;&nbsp; | BYTE_LITERAL  
+> &nbsp;&nbsp; | STRING_LITERAL  
+> &nbsp;&nbsp; | RAW_STRING_LITERAL  
+> &nbsp;&nbsp; | BYTE_STRING_LITERAL  
+> &nbsp;&nbsp; | RAW_BYTE_STRING_LITERAL  
+> &nbsp;&nbsp; | `-`<sup>?</sup> INTEGER_LITERAL  
+> &nbsp;&nbsp; | `-`<sup>?</sup> FLOAT_LITERAL  
 
 [_LiteralPattern_]: #literal-pattern-syntax
 
@@ -126,10 +134,14 @@ not literals in Rust, literal patterns also accept an optional minus sign before
 literal.
 
 Floating-point literals are currently accepted, but due to the complexity of comparing
-them, they are going to be forbidden in a future version of Rust (see
+them, they are going to be forbidden on literal patterns in a future version of Rust (see
 [issue #41620](https://github.com/rust-lang/rust/issues/41620)).
 
-Example:
+Literal patterns are always refutable.
+
+Examples:
+
+<!-- FIXME more examples -->
 
 ```rust
 for i in -2..5 {
@@ -153,8 +165,6 @@ It's either a two or a four
 Matched none of the arms
 It's either a two or a four
 ```
-
-<!-- when is this pattern type refutable? -->
 
 ## Wildcard pattern
 
