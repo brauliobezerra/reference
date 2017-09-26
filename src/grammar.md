@@ -1012,7 +1012,15 @@
 > &nbsp;&nbsp; | [_PathPattern_]  
 >  
 > [_LiteralPattern_] :<a name="literalpattern"></a><a name="literal-pattern-syntax"></a>  
-> &nbsp;&nbsp; `-`<sup>?</sup> ( CHAR_LITERAL | INTEGER_LITERAL | FLOAT_LITERAL )  
+> &nbsp;&nbsp; &nbsp;&nbsp; BOOLEAN_LITERAL   
+> &nbsp;&nbsp; | CHAR_LITERAL  
+> &nbsp;&nbsp; | BYTE_LITERAL  
+> &nbsp;&nbsp; | STRING_LITERAL  
+> &nbsp;&nbsp; | RAW_STRING_LITERAL  
+> &nbsp;&nbsp; | BYTE_STRING_LITERAL  
+> &nbsp;&nbsp; | RAW_BYTE_STRING_LITERAL  
+> &nbsp;&nbsp; | `-`<sup>?</sup> INTEGER_LITERAL  
+> &nbsp;&nbsp; | `-`<sup>?</sup> FLOAT_LITERAL  
 >  
 > [_WildcardPattern_] :<a name="wildcardpattern"></a><a name="wildcard-pattern-syntax"></a>  
 > &nbsp;&nbsp; `_`
@@ -1074,7 +1082,8 @@
 > &nbsp;&nbsp; `[` **FIXME** `]`
 >  
 > [_PathPattern_] :<a name="pathpattern"></a><a name="path-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; &nbsp;&nbsp; _PathForExpression_  
+> &nbsp;&nbsp; | _QualifiedPathForExpression_
 >  
 
 ### Types

@@ -19,7 +19,7 @@
 Patterns in Rust are used to match values against structures and to,
 optionally, bind variables to values inside these structures. They are also
 used in variable declarations and function/closure parameters, though most of
-the time simply as an identifier that binds to any value.
+the time simply as an identifier that binds to a value.
 
 For example, the pattern used in:
 
@@ -71,12 +71,12 @@ Patterns are used in:
 ## Destructuring
 
 Patterns can be used to *destructure* structs, enums, and tuples. Destructuring
-breaks a value up into its component pieces. The syntax used is the same as
+breaks a value up into its component pieces. The syntax used is almost the same as
 when creating such values. When destructing a data structure with named (but
 not numbered) fields, it is allowed to write `fieldname` as a shorthand for
 `fieldname: fieldname`. In a pattern whose head expression has a `struct`,
 `enum` or `tupl` type, a placeholder (`_`) stands for a *single* data field,
-whereas a wildcard `..` stands for *all* the fields of a particular variant.
+whereas a wildcard `..` stands for *all* the remaining fields of a particular variant.
 
 ```rust
 # enum Message {
@@ -99,15 +99,33 @@ match message {
 
 ## Refutability
 
-<!-- FIXME: irrefutable patterns -->
-<!-- FIXME: which things don't accept irrefutable patterns? -->
-<!-- FIXME: which things don't accept refutable patterns? -->
+A pattern is said to be *Refutable* when it **has the possibily of not being matched**
+by the value it is being matched against. *Irrefutable* patterns, on the other hand,
+always match the value they are being matched againt. Examples:
+
+```rust
+let (x, y) = (1, 2);               // "(x, y)" is an irrefutable pattern
+
+if let (a, 3) = (1, 2) {           // "(a, 3)" is refutable, and will not match
+    panic!("Shouldn't reach here");
+} else if let (a, 4) = (3, 4) {    // "(a, 4)" is refutable, and will match
+    println!("Matched ({}, 4)", a);
+}
+```
 
 ## Literal patterns
 
 > **<sup>Syntax</sup>**  
 > _LiteralPattern_ :<a name="literal-pattern-syntax"></a>  
-> &nbsp;&nbsp; `-`<sup>?</sup> ( CHAR_LITERAL | INTEGER_LITERAL | FLOAT_LITERAL )  
+> &nbsp;&nbsp; &nbsp;&nbsp; BOOLEAN_LITERAL   
+> &nbsp;&nbsp; | CHAR_LITERAL  
+> &nbsp;&nbsp; | BYTE_LITERAL  
+> &nbsp;&nbsp; | STRING_LITERAL  
+> &nbsp;&nbsp; | RAW_STRING_LITERAL  
+> &nbsp;&nbsp; | BYTE_STRING_LITERAL  
+> &nbsp;&nbsp; | RAW_BYTE_STRING_LITERAL  
+> &nbsp;&nbsp; | `-`<sup>?</sup> INTEGER_LITERAL  
+> &nbsp;&nbsp; | `-`<sup>?</sup> FLOAT_LITERAL  
 
 [_LiteralPattern_]: #literal-pattern-syntax
 
@@ -116,10 +134,14 @@ not literals in Rust, literal patterns also accept an optional minus sign before
 literal.
 
 Floating-point literals are currently accepted, but due to the complexity of comparing
-them, they are going to be forbidden in a future version of Rust (see
+them, they are going to be forbidden on literal patterns in a future version of Rust (see
 [issue #41620](https://github.com/rust-lang/rust/issues/41620)).
 
-Example:
+Literal patterns are always refutable.
+
+Examples:
+
+<!-- FIXME more examples -->
 
 ```rust
 for i in -2..5 {
@@ -171,6 +193,8 @@ For example:
 <!-- FIXME example: ignore a field from a struct -->
 <!-- FIXME example: ignore the field of an enum: use Some(_) -->
 
+<!-- when is this pattern type refutable? -->
+
 ## Range patterns
 
 > **<sup>Syntax</sup>**  
@@ -191,6 +215,8 @@ a sub-range of another range pattern inside the same `match`.
 
 <!-- which types can be used here? -->
 <!-- FIXME floating point literals use here is being deprecated -->
+
+<!-- when is this pattern type refutable? -->
 
 ## Reference patterns
 
@@ -295,8 +321,14 @@ if let Person(name: ref person_name) = value {
 }
 ```
 
+Thus, `ref` is not something that is being matched against. Its objective is
+exclusively to make the matched binding a reference, instead of potentially
+copying or moving the value of what was matched.
+
 <!-- FIXME cannot bind by-move and by-ref in the same pattern -->
 <!-- FIXME explain the difference between `& var` and `ref var` in patterns -->
+
+<!-- when is this pattern type refutable? -->
 
 ## Box pattern
 
@@ -308,6 +340,8 @@ if let Person(name: ref person_name) = value {
 
 <!-- FIXME: explain box patterns -->
 <!-- FIXME: they're not stable -->
+
+<!-- when is this pattern type refutable? -->
 
 ## Struct patterns
 
@@ -344,6 +378,8 @@ if let Person(name: ref person_name) = value {
 
 Struct patterns match ...
 
+<!-- when is this pattern type refutable? -->
+
 ## TupleStruct patterns
 
 > **<sup>Syntax</sup>**  
@@ -358,6 +394,8 @@ Struct patterns match ...
 
 <!-- FIXME: explain tuple struct patterns -->
 <!-- FIXME: includes enum variants? Yes! -->
+
+<!-- when is this pattern type refutable? -->
 
 ## Tuple patterns
 
@@ -374,6 +412,10 @@ Struct patterns match ...
 
 <!-- FIXME: explain tuple patterns -->
 
+<!-- when is this pattern type refutable? -->
+
+<!-- NOT STABLE:
+
 ## Slice patterns
 
 > **<sup>Syntax</sup>**  
@@ -381,17 +423,22 @@ Struct patterns match ...
 > &nbsp;&nbsp; `[` **FIXME** `]`
 
 [_SlicePattern_]: #slice-pattern-syntax
-
+-->
 <!-- FIXME: explain slice patterns -->
 <!-- FIXME: this is not stable -->
+<!-- when is this pattern type refutable? -->
+
 
 ## Path patterns
 
 > **<sup>Syntax</sup>**  
 > _PathPattern_ :<a name="path-pattern-syntax"></a>  
-> &nbsp;&nbsp; **FIXME**
+> &nbsp;&nbsp; &nbsp;&nbsp; _PathForExpression_  
+> &nbsp;&nbsp; | _QualifiedPathForExpression_
 
 [_PathPattern_]: #path-pattern-syntax
 
 <!-- FIXME: explain paths in patterns -->
+<!-- when is this pattern type refutable? -->
+
 
