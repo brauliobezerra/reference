@@ -1020,12 +1020,13 @@
 > [_WildcardPattern_] :<a name="wildcardpattern"></a><a name="wildcard-pattern-syntax"></a>  
 > &nbsp;&nbsp; `_`
 >  
-> [_RangePattern_] :<a name="rangepattern"></a><a name="reference-pattern-syntax"></a>  
+> [_RangePattern_] :<a name="rangepattern"></a><a name="range-pattern-syntax"></a>  
 > &nbsp;&nbsp;  _RangePatternBound_ `...` _RangePatternBound_  
 >  
 > [_RangePatternBound_] :<a name="rangepatternbound"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; _Literal_  
 > &nbsp;&nbsp; | _PathForExpression_  
+> &nbsp;&nbsp; | _QualifiedPathForExpression_  
 >  
 > [_ReferencePattern_] :<a name="referencepattern"></a><a name="reference-pattern-syntax"></a>  
 > &nbsp;&nbsp; (`&`|`&&`) `mut`<sup>?</sup> _Pattern_  

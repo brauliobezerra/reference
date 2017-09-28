@@ -176,7 +176,7 @@ It's either a two or a four
 
 <!-- FIXME explain the wildcard pattern -->
 
-The _wildcard pattern_ matches any value. Thus, it is always irrefutable.
+The _wildcard pattern_ matches any value.
 
 For example: 
 
@@ -186,9 +186,8 @@ let (a, _) = (10, x);   // the x is always matched by _
 # assert_eq!(a, 10);
 ```
 
-<!-- FIXME but it can be bound to a variable -->
+The wildcard pattern is always irrefutable.
 
-<!-- FIXME where can it be used? -->
 <!-- FIXME examples -->
 <!-- FIXME example: ignore function parameter -->
 <!-- FIXME example: ignore a field from a tuple -->
@@ -198,18 +197,17 @@ let (a, _) = (10, x);   // the x is always matched by _
 ## Range patterns
 
 > **<sup>Syntax</sup>**  
-> _RangePattern_ :<a name="reference-pattern-syntax"></a>  
+> _RangePattern_ :<a name="range-pattern-syntax"></a>  
 > &nbsp;&nbsp;  _RangePatternBound_ `...` _RangePatternBound_  
 >  
 > _RangePatternBound_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; _Literal_  
 > &nbsp;&nbsp; | _PathForExpression_  
+> &nbsp;&nbsp; | _QualifiedPathForExpression_  
 
 [_RangePattern_]: #range-pattern-syntax
 
-<!-- FIXME: explain range patterns -->
-
-Range patterns match values that are within the closed range defined by the lower and
+Range patterns match values that are within the closed range defined by its lower and
 upper bounds. For example, a pattern `'m'...'p'` will match only the values `'m'`, `'n'`,
 `'o'`, and `'p'`. The bounds can be literals or paths that point to constant values.
 
@@ -243,6 +241,7 @@ println!("{}", match ph {
     _ => unreachable!(),
 });
 
+// using paths to constants:
 # const TROPOSPHERE_MIN : u8 = 6;
 # const TROPOSPHERE_MAX : u8 = 20;
 # 
@@ -270,6 +269,27 @@ println!("{}", match altitude {
 if let size @ binary::MEGA...binary::GIGA = n_items * bytes_per_item {
     println!("It fits and occupies {} bytes", size);
 }
+
+# trait MaxValue {
+#     const MAX: u64;
+# }
+# impl MaxValue for u8 {
+#     const MAX: u64 = (1 << 8) - 1;
+# }
+# impl MaxValue for u16 {
+#     const MAX: u64 = (1 << 16) - 1;
+# }
+# impl MaxValue for u32 {
+#     const MAX: u64 = (1 << 32) - 1;
+# }
+// using qualified paths:
+println!("{}", match 0xfacade {
+    0 ... <u8 as MaxValue>::MAX => "fits in a u8",
+    0 ... <u16 as MaxValue>::MAX => "fits in a u16",
+    0 ... <u32 as MaxValue>::MAX => "fits in a u32",
+    _ => "too big",
+});
+
 ```
 
 Range patterns are always refutable, even when they cover the complete set of possible
