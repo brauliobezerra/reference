@@ -199,24 +199,88 @@ let (a, _) = (10, x);   // the x is always matched by _
 
 > **<sup>Syntax</sup>**  
 > _RangePattern_ :<a name="reference-pattern-syntax"></a>  
-> &nbsp;&nbsp; _Expression_ `...` _Expression_  
+> &nbsp;&nbsp;  _RangePatternBound_ `...` _RangePatternBound_  
+>  
+> _RangePatternBound_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _Literal_  
+> &nbsp;&nbsp; | _PathForExpression_  
 
 [_RangePattern_]: #range-pattern-syntax
 
 <!-- FIXME: explain range patterns -->
 
-Range patterns match ...
+Range patterns match values that are within the closed range defined by the lower and
+upper bounds. For example, a pattern `'m'...'p'` will match only the values `'m'`, `'n'`,
+`'o'`, and `'p'`. The bounds can be literals or paths that point to constant values.
 
-Range patterns only work on scalar types (like integers and characters; not
-like arrays and structs, which have sub-components). A range pattern may not be
-a sub-range of another range pattern inside the same `match`.
+A pattern a `...` b must always have a &le; b. Thus, it is not possible to have a range
+pattern `10...0`.
 
-<!-- FIXME examples -->
+Range patterns only work on scalar types. The accepted types are:
 
-<!-- which types can be used here? -->
-<!-- FIXME floating point literals use here is being deprecated -->
+* Integer types (u8, i8, u16, i16, usize, isize, etc.).
+* Character types (char).
+* Floating point types (f32 and f64). This is being deprecated and will not be available
+  in a future version of Rust (see
+  [issue #41620](https://github.com/rust-lang/rust/issues/41620)).
 
-<!-- when is this pattern type refutable? -->
+Examples:
+
+```rust
+# let c = 'f';
+let valid_variable = match c {
+    'a'...'z' => true,
+    'A'...'Z' => true,
+    'α'...'ω' => true,
+    _ => false,
+};
+
+# let ph = 10;
+println!("{}", match ph {
+    0...6 => "acid",
+    7 => "neutral",
+    8...14 => "base",
+    _ => unreachable!(),
+});
+
+# const TROPOSPHERE_MIN : u8 = 6;
+# const TROPOSPHERE_MAX : u8 = 20;
+# 
+# const STRATOSPHERE_MIN : u8 = TROPOSPHERE_MAX + 1;
+# const STRATOSPHERE_MAX : u8 = 50;
+# 
+# const MESOSPHERE_MIN : u8 = STRATOSPHERE_MAX + 1;
+# const MESOSPHERE_MAX : u8 = 85;
+# 
+# let altitude = 70;
+# 
+println!("{}", match altitude {
+    TROPOSPHERE_MIN...TROPOSPHERE_MAX => "troposphere",
+    STRATOSPHERE_MIN...STRATOSPHERE_MAX => "stratosphere",
+    MESOSPHERE_MIN...MESOSPHERE_MAX => "mesosphere",
+    _ => "outer space, maybe",
+});
+
+# pub mod binary {
+#     pub const MEGA : u64 = 1024*1024;
+#     pub const GIGA : u64 = 1024*1024*1024;
+# }
+# let n_items = 20_832_425;
+# let bytes_per_item = 12;
+if let size @ binary::MEGA...binary::GIGA = n_items * bytes_per_item {
+    println!("It fits and occupies {} bytes", size);
+}
+```
+
+Range patterns are always refutable, even when they cover the complete set of possible
+values of a type. For example, `0u8...255u8` is refutable even though it covers all
+possible values of `u8`.
+
+<!-- FIXME change _PathForExpression_ to _PathInExpression_ ? -->
+
+<!-- FIXME put this on the match section
+A range pattern may not be a sub-range of another range pattern inside the same `match`.
+-->
 
 ## Reference patterns
 

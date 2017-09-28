@@ -1021,7 +1021,11 @@
 > &nbsp;&nbsp; `_`
 >  
 > [_RangePattern_] :<a name="rangepattern"></a><a name="reference-pattern-syntax"></a>  
-> &nbsp;&nbsp; _Expression_ `...` _Expression_  
+> &nbsp;&nbsp;  _RangePatternBound_ `...` _RangePatternBound_  
+>  
+> [_RangePatternBound_] :<a name="rangepatternbound"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _Literal_  
+> &nbsp;&nbsp; | _PathForExpression_  
 >  
 > [_ReferencePattern_] :<a name="referencepattern"></a><a name="reference-pattern-syntax"></a>  
 > &nbsp;&nbsp; (`&`|`&&`) `mut`<sup>?</sup> _Pattern_  
@@ -1255,6 +1259,7 @@
 [_LiteralPattern_]: #literalpattern
 [_WildcardPattern_]: #wildcardpattern
 [_RangePattern_]: #rangepattern
+[_RangePatternBound_]: #rangepatternbound
 [_ReferencePattern_]: #referencepattern
 [_IdentifierPattern_]: #identifierpattern
 [_BoxPattern_]: #boxpattern
