@@ -1,5 +1,9 @@
 # Struct expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+> FIXME include shorthand?
+
 There are several forms of struct expressions. A _struct expression_ consists
 of the [path] of a [struct item](items/structs.html), followed by a
 brace-enclosed list of zero or more comma-separated name-value pairs, providing

@@ -1,5 +1,8 @@
 # Path expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A [path] used as an expression context denotes either a local
 variable or an item. Path expressions that resolve to local or static variables
 are [place expressions], other paths are [value expressions]. Using a

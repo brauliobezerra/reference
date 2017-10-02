@@ -1,5 +1,8 @@
 # Enumeration Variant expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 Enumeration variants can be constructed similarly to structs, using a path to
 an enum variant instead of to a struct:
 

@@ -1,5 +1,8 @@
 # Method-call expressions
 
+> **<sup>Syntax</sup>**  
+> FIXME
+
 A _method call_ consists of an expression (the *receiver*) followed by a single
 dot, an [identifier], and a parenthesized expression-list. Method calls are
 resolved to methods on specific traits, either statically dispatching to a
