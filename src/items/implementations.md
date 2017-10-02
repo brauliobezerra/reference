@@ -1,5 +1,12 @@
 # Implementations
 
+> **<sup>Syntax</sup>**  
+> _Implementation_ :  
+> `unsafe`? `impl` [_GenericsDecl_] (`!`? [_Path_] `for`)? (_TypeName_ | `..`) `{`  
+> &nbsp;&nbsp; _InnerAttributes?_  
+> &nbsp;&nbsp; _ImplementationItems?_  
+> `}`
+
 An _implementation_ is an item that can implement a [trait](items/traits.html) for a
 specific type.
 

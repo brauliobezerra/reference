@@ -1,5 +1,34 @@
 # Functions
 
+> **<sup>Syntax</sup>**  
+> _Function_:  
+> &nbsp;&nbsp; `unsafe`<sup>?</sup> (`extern` Abi<sup>?</sup>)<sup>?</sup> `fn`
+>              [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `(` _FunctionParameters_<sup>?</sup> `)`
+>              _FunctionReturnType_<sup>?</sup> [_WhereClause_]<sup>?</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _BlockWithInnerAttributes_
+>  
+> _Abi_:  
+> &nbsp;&nbsp; [STRING_LITERAL]  
+>  
+> _FunctionParameters_:  
+> &nbsp;&nbsp; _FunctionParam_ (`,` _FunctionParam_)<sup>\*</sup> `,`<sup>?</sup>  
+>  
+> _FunctionParam_ :  
+> &nbsp;&nbsp; [_Pattern_] `:` [_Type_]  
+>  
+> _FunctionReturnType_:  
+> &nbsp;&nbsp; `->` [_Type_]  
+>  
+> _BlockWithInnerAttributes_ :  
+> &nbsp;&nbsp; `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Statement_]<sup>\*</sup>  
+> &nbsp;&nbsp; `}`  
+
+<!-- FIXME: Attributes are allowed for each type/lifetime on the _Generics_ production , but it is experimental -->
+<!-- FIXME: check what kind of types and generics can be used here -->
+
 A _function_ consists of a [block], along with a name and a set of parameters.
 Other than a name, all these are optional. Functions are declared with the
 keyword `fn`. Functions may declare a set of *input* [*variables*][variables]
@@ -165,3 +194,13 @@ same type as the functions declared in an extern block.
 let fptr: extern "C" fn() -> i32 = new_i32;
 ```
 
+[IDENTIFIER]: identifiers.html
+[STRING_LITERAL]: tokens.html#string-literals
+
+[_InnerAttribute_]: attributes.html
+[_Statement_]: statements.html
+[_Type_]: types.html
+[_Pattern_]: patterns.html
+
+[_Generics_]: items.html#type-parameters
+[_WhereClause_]: items.html#type-parameters

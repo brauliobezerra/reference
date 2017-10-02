@@ -1,5 +1,19 @@
 # Traits
 
+> **<sup>Syntax</sup>**  
+> _Trait_ :  
+> &nbsp;&nbsp; `unsafe`<sup>?</sup> `trait` [IDENTIFIER]&nbsp;
+>              [_GenericsDecl_]<sup>?</sup>
+>              [_WhereClause_]<sup>?</sup> `{`  
+> &nbsp;&nbsp;&nbsp;&nbsp; _TraitItem_<sup>\*</sup>  
+> &nbsp;&nbsp; `}`  
+>   
+> _TraitItem_ :  
+> &nbsp;&nbsp; _TraitMethod_ | _TraitConst_ | _TraitType_  
+>   
+> _TraitMethod_ :  
+> &nbsp;&nbsp; _TypeMethod_ | _Method_
+
 A _trait_ describes an abstract interface that types can implement. This
 interface consists of associated items, which come in three varieties:
 
@@ -306,3 +320,10 @@ Likewise, supertrait methods may also be called on trait objects.
 let mycircle = Box::new(mycircle) as Box<Circle>;
 let nonsense = mycircle.radius() * mycircle.area();
 ```
+
+[_Type-Parameters_]: #type-parameters
+[IDENTIFIER]: identifiers.html
+[_Type_]: types.html
+
+[_GenericsDecl_]: items.html#type-parameters
+[_WhereClause_]: items.html#type-parameters
