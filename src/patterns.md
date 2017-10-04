@@ -1,7 +1,7 @@
 # Patterns
 
 > **<sup>Syntax</sup>**  
-> _Pattern_ :<a name="pattern-syntax"></a>  
+> _Pattern_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; [_LiteralPattern_]  
 > &nbsp;&nbsp; | [_WildcardPattern_]  
 > &nbsp;&nbsp; | [_RangePattern_]  
@@ -14,12 +14,11 @@
 > &nbsp;&nbsp; | [_SlicePattern_]  
 > &nbsp;&nbsp; | [_PathPattern_]  
 
-[_Pattern_]: #pattern-syntax
-
 Patterns in Rust are used to match values against structures and to,
 optionally, bind variables to values inside these structures. They are also
-used in variable declarations and function/closure parameters, though most of
-the time simply as an identifier that binds to a value.
+used in variable declarations and function/closure parameters, though in these
+cases most of the time they are simply used as an identifier that binds to a
+value.
 
 For example, the pattern used in:
 
@@ -116,7 +115,7 @@ if let (a, 3) = (1, 2) {           // "(a, 3)" is refutable, and will not match
 ## Literal patterns
 
 > **<sup>Syntax</sup>**  
-> _LiteralPattern_ :<a name="literal-pattern-syntax"></a>  
+> _LiteralPattern_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; BOOLEAN_LITERAL   
 > &nbsp;&nbsp; | CHAR_LITERAL  
 > &nbsp;&nbsp; | BYTE_LITERAL  
@@ -126,8 +125,6 @@ if let (a, 3) = (1, 2) {           // "(a, 3)" is refutable, and will not match
 > &nbsp;&nbsp; | RAW_BYTE_STRING_LITERAL  
 > &nbsp;&nbsp; | `-`<sup>?</sup> INTEGER_LITERAL  
 > &nbsp;&nbsp; | `-`<sup>?</sup> FLOAT_LITERAL  
-
-[_LiteralPattern_]: #literal-pattern-syntax
 
 _Literal patterns_ match exactly the value they represent. Since negative numbers are
 not literals in Rust, literal patterns also accept an optional minus sign before the
@@ -157,10 +154,8 @@ for i in -2..5 {
 ## Wildcard pattern
 
 > **<sup>Syntax</sup>**  
-> _WildcardPattern_ :<a name="wildcard-pattern-syntax"></a>  
+> _WildcardPattern_ :  
 > &nbsp;&nbsp; `_`
-
-[_WildcardPattern_]: #wildcard-pattern-syntax
 
 <!-- FIXME explain the wildcard pattern -->
 
@@ -185,15 +180,13 @@ The wildcard pattern is always irrefutable.
 ## Range patterns
 
 > **<sup>Syntax</sup>**  
-> _RangePattern_ :<a name="range-pattern-syntax"></a>  
+> _RangePattern_ :  
 > &nbsp;&nbsp;  _RangePatternBound_ `...` _RangePatternBound_  
 >  
 > _RangePatternBound_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; _Literal_  
 > &nbsp;&nbsp; | _PathForExpression_  
 > &nbsp;&nbsp; | _QualifiedPathForExpression_  
-
-[_RangePattern_]: #range-pattern-syntax
 
 Range patterns match values that are within the closed range defined by its lower and
 upper bounds. For example, a pattern `'m'...'p'` will match only the values `'m'`, `'n'`,
@@ -293,17 +286,18 @@ A range pattern may not be a sub-range of another range pattern inside the same 
 ## Reference patterns
 
 > **<sup>Syntax</sup>**  
-> _ReferencePattern_ :<a name="reference-pattern-syntax"></a>  
+> _ReferencePattern_ :  
 > &nbsp;&nbsp; (`&`|`&&`) `mut`<sup>?</sup> _Pattern_  
-
-[_ReferencePattern_]: #reference-pattern-syntax
 
 <!-- FIXME: explain reference patterns  -->
 <!-- FIXME: explain why the `&&` is part of the grammar -->
+<!-- FIXME: explain that they only dereference one time -->
+<!-- FIXME: example with 3 or more & -->
 
-Patterns can also dereference pointers by using the `&`, `&mut` and `box`
-symbols, as appropriate. For example, these two matches on `x: &i32` are
-equivalent:
+Reference patterns dereference the pointers that are being matched
+and, thus, borrow them. If 
+
+For example, these two matches on `x: &i32` are equivalent:
 
 ```rust
 # let x = &3;
@@ -313,21 +307,19 @@ let z = match x { &0 => "zero", _ => "some" };
 assert_eq!(y, z);
 ```
 
-<!-- when is this pattern type refutable? -->
+Reference patterns are always irrefutable.
 
 ## Identifier patterns
 
 > **<sup>Syntax</sup>**  
-> _IdentifierPattern_ :<a name="identifier-pattern-syntax"></a>  
+> _IdentifierPattern_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; `mut`<sup>?</sup> IDENTIFIER (`@` [_Pattern_] ) <sup>?</sup>  
 > &nbsp;&nbsp; | `ref` `mut`<sup>?</sup> IDENTIFIER (`@` [_Pattern_] ) <sup>?</sup>
-
-[_IdentifierPattern_]: #identifier-pattern-syntax
 
 <!-- FIXME: explain identifier patterns -->
 <!-- FIXME: mention that IDENTIFIER pattern is the commonly used one in let and function parameters -->
 
-_Identifier patterns_ bind the value they match to a variable.
+_Identifier patterns_ bind the value they match to a **previously undeclared** variable.
 
 Patterns that consist of only an identifier, possibly with a `mut`, like
 `variable`, `x`, and `y` below:
@@ -399,28 +391,18 @@ Thus, `ref` is not something that is being matched against. Its objective is
 exclusively to make the matched binding a reference, instead of potentially
 copying or moving the value of what was matched.
 
+<!-- FIXME: identifier patterns that don't have mut/ref/@ and that refer to an identifier -->
+
+
 <!-- FIXME cannot bind by-move and by-ref in the same pattern -->
 <!-- FIXME explain the difference between `& var` and `ref var` in patterns -->
-
-<!-- when is this pattern type refutable? -->
-
-## Box pattern
-
-> **<sup>Syntax</sup>**  
-> _BoxPattern_ :<a name="box-pattern-syntax"></a>  
-> &nbsp;&nbsp; `box` [_Pattern_]  
-
-[_BoxPattern_]: #box-pattern-syntax
-
-<!-- FIXME: explain box patterns -->
-<!-- FIXME: they're not stable -->
 
 <!-- when is this pattern type refutable? -->
 
 ## Struct patterns
 
 > **<sup>Syntax</sup>**  
-> _StructPattern_ :<a name="struct-pattern-syntax"></a>  
+> _StructPattern_ :  
 > &nbsp;&nbsp; _Path_ `{`  
 > &nbsp;&nbsp; &nbsp;&nbsp; _StructPatternElements_ <sup>?</sup>  
 > &nbsp;&nbsp; `}`  
@@ -445,8 +427,6 @@ copying or moving the value of what was matched.
 > &nbsp;&nbsp; _OuterAttribute_ <sup>\*</sup>  
 > &nbsp;&nbsp; `..`  
 
-[_StructPattern_]: #struct-pattern-syntax
-
 <!-- FIXME: explain struct patterns -->
 <!-- FIXME: destructuring patterns -->
 
@@ -457,14 +437,12 @@ Struct patterns match ...
 ## TupleStruct patterns
 
 > **<sup>Syntax</sup>**  
-> _TupleStructPattern_ :<a name="tuplestruct-pattern-syntax"></a>  
+> _TupleStructPattern_ :  
 > &nbsp;&nbsp; _Path_ `(` _TupleStructItems_ `)`  
 >  
 > _TupleStructItems_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Pattern_]&nbsp;( `,` [_Pattern_] )<sup>\*</sup> `,`<sup>?</sup>  
 > &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>\*</sup> `..` ( (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup> )<sup>?</sup>  
-
-[_TupleStructPattern_]: #tuplestruct-pattern-syntax
 
 <!-- FIXME: explain tuple struct patterns -->
 <!-- FIXME: includes enum variants? Yes! -->
@@ -482,13 +460,55 @@ Struct patterns match ...
 > &nbsp;&nbsp; | [_Pattern_]&nbsp;(`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup>  
 > &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>\*</sup> `..` ( (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup> )<sup>?</sup>  
 
-[_TuplePattern_]: #tuple-pattern-syntax
-
 <!-- FIXME: explain tuple patterns -->
 
 <!-- when is this pattern type refutable? -->
 
-<!-- NOT STABLE:
+## Path patterns
+
+> **<sup>Syntax</sup>**  
+> _PathPattern_ :  
+> &nbsp;&nbsp; &nbsp;&nbsp; _PathForExpression_  
+> &nbsp;&nbsp; | _QualifiedPathForExpression_
+
+_Path patterns_ are patterns that refer either to constant values or
+to structs or enum variants that have no fields.
+
+<!-- FIXME how to disambiguate between identifier patterns and path patterns 
+
+Patterns 
+
+-->
+
+Unqualified path patterns can refer to
+
+* enum variants
+* structs
+* constants
+* associated constants
+
+Qualified path patterns can only refer to associated constants.
+
+<!-- FIXME: explain paths in patterns -->
+<!-- FIXME examples -->
+<!-- FIXME when is this pattern type refutable? -->
+
+Path patterns are irrefutable when they refer to constants or structs.
+They are refutable when the refer to enum variants.
+
+[_Pattern_]: #patterns
+[_LiteralPattern_]: #literal-patterns
+[_WildcardPattern_]: #wildcard-pattern
+[_RangePattern_]: #range-patterns
+[_ReferencePattern_]: #reference-patterns
+[_IdentifierPattern_]: #identifier-patterns
+[_TupleStructPattern_]: #tuplestruct-patterns
+[_StructPattern_]: #struct-patterns
+[_TuplePattern_]: #tuple-patterns
+[_BoxPattern_]: #box-pattern
+[_PathPattern_]: #path-patterns
+
+<!-- UNSTABLE:
 
 ## Slice patterns
 
@@ -498,21 +518,18 @@ Struct patterns match ...
 
 [_SlicePattern_]: #slice-pattern-syntax
 -->
+
 <!-- FIXME: explain slice patterns -->
-<!-- FIXME: this is not stable -->
 <!-- when is this pattern type refutable? -->
 
-
-## Path patterns
+<!-- UNSTABLE:
+## Box pattern
 
 > **<sup>Syntax</sup>**  
-> _PathPattern_ :<a name="path-pattern-syntax"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; _PathForExpression_  
-> &nbsp;&nbsp; | _QualifiedPathForExpression_
+> _BoxPattern_ :</a>  
+> &nbsp;&nbsp; `box` [_Pattern_]  
+-->
 
-[_PathPattern_]: #path-pattern-syntax
-
-<!-- FIXME: explain paths in patterns -->
+<!-- FIXME: explain box patterns -->
 <!-- when is this pattern type refutable? -->
-
 
