@@ -25,6 +25,8 @@ let name: &'static str = (|| "Rust")();
 
 ## Disambiguating Function Calls
 
+<!-- FIXME reference the qualified path syntax in paths.html here -->
+
 Rust treats all function calls as sugar for a more explicit, fully-qualified
 syntax. Upon compilation, Rust will desugar all function calls into the explicit
 form. Rust may sometimes require you to qualify function calls with trait,
