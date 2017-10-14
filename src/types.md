@@ -10,8 +10,8 @@
 > &nbsp;&nbsp; | [_ArrayType_]  
 > &nbsp;&nbsp; | [_SliceType_]  
 > &nbsp;&nbsp; | [_InferredType_]  
-> &nbsp;&nbsp; | [_QualifiedPathForType_]  
-> &nbsp;&nbsp; | [_PathForTypeWithGenerics_]&nbsp;(`+` [_TypeParamBounds_])<sup>?</sup>  
+> &nbsp;&nbsp; | [_QualifiedTypePath_]  
+> &nbsp;&nbsp; | [_TypePath_]&nbsp;(`+` [_TypeParamBounds_])<sup>?</sup>  
 > &nbsp;&nbsp; | [_BareFunctionType_]  
 > &nbsp;&nbsp; | [_MacroInvocationType_]  
 > &nbsp;&nbsp; | [_TypeParamBounds_]  
@@ -25,8 +25,8 @@
 > &nbsp;&nbsp; | [_ArrayType_]  
 > &nbsp;&nbsp; | [_SliceType_]  
 > &nbsp;&nbsp; | [_InferredType_]  
-> &nbsp;&nbsp; | [_QualifiedPathForType_]  
-> &nbsp;&nbsp; | [_PathForTypeWithGenerics_]  
+> &nbsp;&nbsp; | [_QualifiedTypePath_]  
+> &nbsp;&nbsp; | [_TypePath_]  
 > &nbsp;&nbsp; | [_BareFunctionType_]  
 > &nbsp;&nbsp; | [_MacroInvocationType_]  
 >  
@@ -732,3 +732,20 @@ impl Printable for String {
 [issue 33140]: https://github.com/rust-lang/rust/issues/33140
 [_PATH_]: paths.html
 [_LIFETIME_OR_LABEL_]: tokens.html#lifetimes-and-loop-labels
+
+[_Type_]: #type
+[_TypePath_]: paths.html#type-paths
+[_QualifiedTypePath_]: paths.html#type-paths
+[_TupleType_]: #tuple-type
+[_ArrayType_]: #array-type
+[_SliceType_]: #slice-type
+[_ReferenceType_]: #reference-type
+[_RawPointerType_]: #raw-pointer-type
+[_BareFunctionType_]: #bare-function-type
+[_NeverType_]: #never-type
+[_TraitObjectType_]: #trait-object-type
+[_ImplTraitType_]: #impl-trait-type
+[_ParenthesizedType_]: #parenthesized-type
+[_InferredType_]: #inferred-type
+
+[_Expression_]: expressions.html
