@@ -3,15 +3,13 @@
 <!-- FIXME: UFCS - universal function call syntax -->
 
 A _path_ is a sequence of one or more path components _logically_ separated by
-a namespace qualifier (`::`). If a path consists of only one component, it may
+namespace qualifiers (`::`). If a path consists of only one component, it may
 refer to either an [item] or a [variable] in a local control
 scope. If a path has multiple components, it refers to an item.
 
 Every item has a _canonical path_ within its crate, but the path naming an item
 is only meaningful within a given crate. There is no global namespace across
 crates; an item's canonical path merely identifies it within the crate.
-
-## Types of paths
 
 Two examples of simple paths consisting of only identifier components:
 
@@ -38,38 +36,70 @@ let x  = id::<i32>(10);       // Type arguments used in a call expression
 # }
 ```
 
-### Module paths
+## Types of paths
+
+### Simple paths
 
 > **<sup>Syntax</sup>**  
-> _PathForModule_ :  
+> _SimplePath_ :  
 > &nbsp;&nbsp; `::`<sup>?</sup> _PathSegmentIdentifier_ (`::` _PathSegmentIdentifier_)<sup>\*</sup>  
 >  
-> _QualifiedPathForModule_ :  
-> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForModule_ **FIXME**  
->  
 > _PathSegmentIdentifier_ :  
-> &nbsp;&nbsp; IDENTIFIER | `super` | `self` | `Self` **FIXME**  
+> &nbsp;&nbsp; [IDENTIFIER] | `super` | `self` | `Self` **FIXME**  
 
-### Expression paths
+Simple paths are used on `pub` markers, macro invocations and `use` items.
+
+<!-- FIXME examples -->
+<!-- FIXME where are they used -->
+
+<!-- 1 - macro invocation as trait item -->
+<!-- 2 - macro invocation as impl item (seems to only accept methods. Can't define other impl items using macros?) -->
+<!-- 3 - pub(in SimplePath), pub(self), pub(super) [self and super are parsed as a SimplePath] -->
+<!-- 4 - macro invocation item -->
+<!-- 5 - use item -->
+
+### Paths in expressions
 
 > **<sup>Syntax</sup>**  
-> _PathForExpression_ :  
+> _PathInExpr_ :  
 > &nbsp;&nbsp; `::`<sup>?</sup> _PathSegmentIdentifier_ (`::` (_PathSegmentIdentifier_ | _GenericsForType_) )<sup>\*</sup>  
 >  
-> _QualifiedPathForExpression_ :  
-> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForExpression_ **FIXME**  
+> _QualifiedPathInExpr_ :  
+> &nbsp;&nbsp; `<` type_ (`as` _TypePath_)? `>` `::` _PathInExpr_  
 
-### Type paths
+<!-- FIXME examples -->
+<!-- FIXME qualified examples -->
+<!-- FIXME where are they used
+
+1 - qualified path expression         - _QualifiedPathInExpr_
+2 - macro invocation                  - _PathInExpr_ `!`
+3 - struct expr (not always allowed)  - _PathInExpr_ { ... }
+4 - path expression                   - _PathInExpr_
+5 - method call                       - `.` _PathSegmentInExpression_ `(` ... `)`
+6 - field access                      - `.` _PathSegmentInExpression_
+        obs: no generic arguments are allowed
+7 - cast                              - `as` _PathInExpr_ (but only in case of error)
+8 - range pattern end                 - `...` _QualifiedPathInExpr_
+                                      - `...` _PathInExpr_
+9 - patterns that start with a path   - macro invocation in pattern
+                                      - range pattern
+                                      - struct pattern (no qualified path allowed, though)
+                                      - tuple pattern (no qualified path allowed, though)
+                                      - path pattern
+10 - expressions in statements        - no qualified path allowed
+11 - macro invocation in statements   - no qualified path allowed
+
+-->
+<!-- FIXME ambiguity -->
+
+### Paths in types
 
 > **<sup>Syntax</sup>**  
-> _PathForTypeWithGenerics_ :  
-> &nbsp;&nbsp; `::`<sup>?</sup> _PathWithGenericsElement_ (`::` _PathWithGenericsElement_)<sup>\*</sup>  
+> _TypePath_ :  
+> &nbsp;&nbsp; `::`<sup>?</sup> _TypePathElement_ (`::` _TypePathElement_)<sup>\*</sup>  
 >  
-> _PathWithGenericsElement_ :  
+> _TypePathElement_ :  
 > &nbsp;&nbsp; _PathSegmentIdentifier_ (_GenericsForType_ | _FunctionSignature_)<sup>?</sup>  
->  
-> _QualifiedPathForType_ :  
-> &nbsp;&nbsp; `<` type_ (`as` _PathForTypeWithGenerics_)? `>` `::` _PathForTypeWithGenerics_ **FIXME**  
 >  
 > _GenericsForType_ :  
 > &nbsp;&nbsp; &nbsp;&nbsp; `<` (_LifetimeParams_ (`,` _TypeParamsForTypes_)<sup>?</sup> (`,` _BindingParams_)<sup>?</sup> `,`<sup>?</sup> )<sup>?</sup> `>`  
@@ -85,12 +115,23 @@ let x  = id::<i32>(10);       // Type arguments used in a call expression
 > _TypeBindingParam_ :  
 > &nbsp;&nbsp; IDENTIFIER `=` type_ **FIXME**  
 
+<!-- FIXME examples -->
+<!-- FIXME qualified examples -->
+<!-- FIXME where are they used 
+
+1 - types
+2 - `for` in types
+3 - all qualified paths, after the `as`
+4 - type param bounds
+
+-->
+
 ## Path qualifiers
 
-### `::`
-
 Paths can be denoted with various leading qualifiers to change the meaning of
-how it is resolved:
+how it is resolved.
+
+### `::`
 
 Paths starting with `::` are considered to be global paths where the
 components of the path start being resolved from the crate root. Each
@@ -157,7 +198,15 @@ mod a {
 # fn main() {}
 ```
 
-## Canonical paths
+<!-- FIXME Self:: ? -->
+
+### Canonical paths
+
+## Qualified paths
+
+> **<sup>Syntax</sup>**  
+> _Qualified_TypePath__ :  
+> &nbsp;&nbsp; `<` [_Type_]&nbsp;(`as` _TypePath_)? `>` `::` _TypePath_ **FIXME**  
 
 Items defined in a module or implementation have a *canonical path* that
 corresponds to where within its crate it is defined. All other paths to these
@@ -235,9 +284,8 @@ mod without { // ::without
 [IDENTIFIER]: identifiers.html
 
 [item]: items.html
-[variable]: variables.html
 [identifiers]: identifiers.html
 [expression]: expressions.html
-[implementations]: items/implementations.html
-[modules]: items/modules.html
-[use declarations]: items/use-declarations.html
+[variable]: variables.html
+
+[_Type_]: types.html
