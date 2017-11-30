@@ -7,11 +7,9 @@
 > &nbsp;&nbsp; | [_RangePattern_]  
 > &nbsp;&nbsp; | [_ReferencePattern_]  
 > &nbsp;&nbsp; | [_IdentifierPattern_]  
-> &nbsp;&nbsp; | [_BoxPattern_]  
 > &nbsp;&nbsp; | [_StructPattern_]  
 > &nbsp;&nbsp; | [_TuplePattern_]  
 > &nbsp;&nbsp; | [_TupleStructPattern_]  
-> &nbsp;&nbsp; | [_SlicePattern_]  
 > &nbsp;&nbsp; | [_PathPattern_]  
 
 Patterns in Rust are used to match values against structures and to,
@@ -184,9 +182,15 @@ The wildcard pattern is always irrefutable.
 > &nbsp;&nbsp;  _RangePatternBound_ `...` _RangePatternBound_  
 >  
 > _RangePatternBound_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; _Literal_  
-> &nbsp;&nbsp; | _PathForExpression_  
-> &nbsp;&nbsp; | _QualifiedPathForExpression_  
+> &nbsp;&nbsp; &nbsp;&nbsp; CHAR_LITERAL  
+> &nbsp;&nbsp; | BYTE_LITERAL  
+> &nbsp;&nbsp; | `-`<sup>?</sup> INTEGER_LITERAL  
+> &nbsp;&nbsp; | `-`<sup>?</sup> FLOAT_LITERAL  
+> &nbsp;&nbsp; | [_PathInExpression_]  
+> &nbsp;&nbsp; | [_QualifiedPathForExpression_]  
+
+[_PathInExpression_]: paths.html
+[_QualifiedPathForExpression_]: paths.html
 
 Range patterns match values that are within the closed range defined by its lower and
 upper bounds. For example, a pattern `'m'...'p'` will match only the values `'m'`, `'n'`,
@@ -273,9 +277,9 @@ println!("{}", match 0xfacade {
 
 ```
 
-Range patterns are always refutable, even when they cover the complete set of possible
-values of a type. For example, `0u8...255u8` is refutable even though it covers all
-possible values of `u8`.
+Range patterns are a priori always refutable, even when they cover the complete set
+of possible values of a type. For example, `0u8...255u8` is refutable even though
+it covers all possible values of `u8`.
 
 <!-- FIXME change _PathForExpression_ to _PathInExpression_ ? -->
 
@@ -348,7 +352,7 @@ match x {
 
 binds to `e` the value 1 (not the entire range: the range is a range subpattern).
 
-By default, identifier patterns bind a variable to a copy or move of the
+By default, identifier patterns bind a variable to a copy of or move from the
 matched value (depending whether the matched value implements the Copy trait).
 This can be changed to bind to a reference by using the `ref` keyword,
 or to a mutable reference using `ref mut`. For example:
@@ -389,7 +393,7 @@ if let Person(name: ref person_name) = value {
 
 Thus, `ref` is not something that is being matched against. Its objective is
 exclusively to make the matched binding a reference, instead of potentially
-copying or moving the value of what was matched.
+copying or moving what was matched.
 
 <!-- FIXME: identifier patterns that don't have mut/ref/@ and that refer to an identifier -->
 
@@ -505,31 +509,4 @@ They are refutable when the refer to enum variants.
 [_TupleStructPattern_]: #tuplestruct-patterns
 [_StructPattern_]: #struct-patterns
 [_TuplePattern_]: #tuple-patterns
-[_BoxPattern_]: #box-pattern
 [_PathPattern_]: #path-patterns
-
-<!-- UNSTABLE:
-
-## Slice patterns
-
-> **<sup>Syntax</sup>**  
-> _SlicePattern_ :<a name="slice-pattern-syntax"></a>  
-> &nbsp;&nbsp; `[` **FIXME** `]`
-
-[_SlicePattern_]: #slice-pattern-syntax
--->
-
-<!-- FIXME: explain slice patterns -->
-<!-- when is this pattern type refutable? -->
-
-<!-- UNSTABLE:
-## Box pattern
-
-> **<sup>Syntax</sup>**  
-> _BoxPattern_ :</a>  
-> &nbsp;&nbsp; `box` [_Pattern_]  
--->
-
-<!-- FIXME: explain box patterns -->
-<!-- when is this pattern type refutable? -->
-
