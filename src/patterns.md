@@ -389,8 +389,10 @@ the value's fields. For example:
 ```rust,compile_fail
 #struct Person {
 #    name: String,
+#    age: u8,
 #}
-if let Person{& name: person_name} = value { }
+# let value = Person{ name: String::from("John"), age: 23 };
+if let Person{& name: person_name, age: 18...150} = value { }
 ```
 
 is not valid. What we must do is:
@@ -398,8 +400,10 @@ is not valid. What we must do is:
 ```rust
 #struct Person {
 #    name: String,
+#    age: u8,
 #}
-if let Person(name: ref person_name) = value { }
+# let value = Person{ name: String::from("John"), age: 23 };
+if let Person{name: ref person_name, age: 18...150} = value { }
 ```
 
 Thus, `ref` is not something that is being matched against. Its objective is
@@ -445,9 +449,10 @@ copying or moving what was matched.
 <!-- FIXME: explain struct patterns -->
 <!-- FIXME: destructuring patterns -->
 
-Struct patterns match ...
+Struct patterns match struct values that match all criteria defined by its subpatterns.
+They are also used to [destructure](destructuring) a struct.
 
-<!-- when is this pattern type refutable? -->
+This pattern is refutable when one of its subpatterns is refutable.
 
 ## TupleStruct patterns
 
@@ -459,10 +464,14 @@ Struct patterns match ...
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Pattern_]&nbsp;( `,` [_Pattern_] )<sup>\*</sup> `,`<sup>?</sup>  
 > &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>\*</sup> `..` ( (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup> )<sup>?</sup>  
 
+TupleStruct patterns match tuple struct and anum values that match all criteria defined
+by its subpatterns. They are also used to [destructure](destructuring) a tuple struct or
+enum value.
+
 <!-- FIXME: explain tuple struct patterns -->
 <!-- FIXME: includes enum variants? Yes! -->
 
-<!-- when is this pattern type refutable? -->
+This pattern is refutable when one of its subpatterns is refutable.
 
 ## Tuple patterns
 
@@ -477,7 +486,10 @@ Struct patterns match ...
 
 <!-- FIXME: explain tuple patterns -->
 
-<!-- when is this pattern type refutable? -->
+Tuple patterns match tuple values that match all criteria defined by its subpatterns.
+They are also used to [destructure](destructuring) a tuple.
+
+This pattern is refutable when one of its subpatterns is refutable.
 
 ## Path patterns
 
