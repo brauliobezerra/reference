@@ -155,25 +155,38 @@ for i in -2..5 {
 > _WildcardPattern_ :  
 > &nbsp;&nbsp; `_`
 
-<!-- FIXME explain the wildcard pattern -->
+The _wildcard pattern_ matches any value. It is used to ignore values when they don't
+matter.
 
-The _wildcard pattern_ matches any value.
-
-For example: 
+Examples: 
 
 ```rust
 # let x = 20;
 let (a, _) = (10, x);   // the x is always matched by _
 # assert_eq!(a, 10);
+
+// ignore a function/closure param
+let real_part = |a: f64, _: f64| { a };
+
+// ignore a field from a struct
+#struct RGBA {
+#    r: f32,
+#    g: f32,
+#    b: f32,
+#    a: f32,
+#}
+#let color = RGBA{r: 0.4, g: 0.1, b: 0.9, a: 0.5};
+let RGBA{r: red, g: green, b: blue, a: _} = color;
+# assert_eq!(color.r, red);
+# assert_eq!(color.g, green);
+# assert_eq!(color.b, blue);
+
+// accept any Some, with any value
+# let x = Some(10);
+if let Some(_) = x {}
 ```
 
 The wildcard pattern is always irrefutable.
-
-<!-- FIXME examples -->
-<!-- FIXME example: ignore function parameter -->
-<!-- FIXME example: ignore a field from a tuple -->
-<!-- FIXME example: ignore a field from a struct -->
-<!-- FIXME example: ignore the field of an enum: use Some(_) -->
 
 ## Range patterns
 
@@ -187,17 +200,17 @@ The wildcard pattern is always irrefutable.
 > &nbsp;&nbsp; | `-`<sup>?</sup> INTEGER_LITERAL  
 > &nbsp;&nbsp; | `-`<sup>?</sup> FLOAT_LITERAL  
 > &nbsp;&nbsp; | [_PathInExpression_]  
-> &nbsp;&nbsp; | [_QualifiedPathForExpression_]  
+> &nbsp;&nbsp; | [_QualifiedPathInExpression_]  
 
 [_PathInExpression_]: paths.html
-[_QualifiedPathForExpression_]: paths.html
+[_QualifiedPathInExpression_]: paths.html
 
 Range patterns match values that are within the closed range defined by its lower and
 upper bounds. For example, a pattern `'m'...'p'` will match only the values `'m'`, `'n'`,
 `'o'`, and `'p'`. The bounds can be literals or paths that point to constant values.
 
 A pattern a `...` b must always have a &le; b. Thus, it is not possible to have a range
-pattern `10...0`.
+pattern `10...0`, for example.
 
 Range patterns only work on scalar types. The accepted types are:
 
@@ -281,8 +294,6 @@ Range patterns are a priori always refutable, even when they cover the complete 
 of possible values of a type. For example, `0u8...255u8` is refutable even though
 it covers all possible values of `u8`.
 
-<!-- FIXME change _PathForExpression_ to _PathInExpression_ ? -->
-
 <!-- FIXME put this on the match section
 A range pattern may not be a sub-range of another range pattern inside the same `match`.
 -->
@@ -350,7 +361,7 @@ match x {
 }
 ```
 
-binds to `e` the value 1 (not the entire range: the range is a range subpattern).
+binds to `e` the value 1 (not the entire range: the range here is a range subpattern).
 
 By default, identifier patterns bind a variable to a copy of or move from the
 matched value (depending whether the matched value implements the Copy trait).
@@ -359,6 +370,15 @@ or to a mutable reference using `ref mut`. For example:
 
 ```rust
 // TODO
+match a {
+    None => ,
+    Some(value) => ,
+}
+
+match a {
+    None => ,
+    Some(ref value) => ,
+}
 ```
 
 in the first match arm, the value is copied. In the second one, a reference
@@ -367,28 +387,19 @@ because in destructuring subpatterns we can't apply the `&` operator to
 the value's fields. For example:
 
 ```rust,compile_fail
-// TODO
-
-struct Person {
-    name: String,
-}
-
-if let Person{& name: person_name} = value {
-}
-
+#struct Person {
+#    name: String,
+#}
+if let Person{& name: person_name} = value { }
 ```
 
 is not valid. What we must do is:
 
-```
-// TODO
-
-struct Person {
-    name: String,
-}
-
-if let Person(name: ref person_name) = value {
-}
+```rust
+#struct Person {
+#    name: String,
+#}
+if let Person(name: ref person_name) = value { }
 ```
 
 Thus, `ref` is not something that is being matched against. Its objective is
