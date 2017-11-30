@@ -448,6 +448,7 @@ copying or moving what was matched.
 
 <!-- FIXME: explain struct patterns -->
 <!-- FIXME: destructuring patterns -->
+<!-- FIXME: examples -->
 
 Struct patterns match struct values that match all criteria defined by its subpatterns.
 They are also used to [destructure](destructuring) a struct.
@@ -470,6 +471,7 @@ enum value.
 
 <!-- FIXME: explain tuple struct patterns -->
 <!-- FIXME: includes enum variants? Yes! -->
+<!-- FIXME: examples -->
 
 This pattern is refutable when one of its subpatterns is refutable.
 
@@ -485,6 +487,7 @@ This pattern is refutable when one of its subpatterns is refutable.
 > &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>\*</sup> `..` ( (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup> )<sup>?</sup>  
 
 <!-- FIXME: explain tuple patterns -->
+<!-- FIXME: examples -->
 
 Tuple patterns match tuple values that match all criteria defined by its subpatterns.
 They are also used to [destructure](destructuring) a tuple.
@@ -501,11 +504,7 @@ This pattern is refutable when one of its subpatterns is refutable.
 _Path patterns_ are patterns that refer either to constant values or
 to structs or enum variants that have no fields.
 
-<!-- FIXME how to disambiguate between identifier patterns and path patterns 
-
-Patterns 
-
--->
+<!-- FIXME how to disambiguate between identifier patterns and path patterns -->
 
 Unqualified path patterns can refer to
 
