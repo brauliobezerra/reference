@@ -1,5 +1,31 @@
 # External blocks
 
+> **<sup>Syntax</sup>**  
+> _ExternBlock_ :  
+> &nbsp;&nbsp; `extern` [_Abi_]<sup>?</sup> `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _ExternalItem_<sup>\*</sup>  
+> &nbsp;&nbsp; `}`  
+>  
+> _ExternalItem_ :  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; [_VisibilityNoTuple_]<sup>?</sup>  
+> &nbsp;&nbsp; ( _ExternalStaticItem_ | _ExternalFunctionItem_ )  
+>  
+> _ExternalStaticItem_ :  
+> &nbsp;&nbsp; `static` `mut`<sup>?</sup> [IDENTIFIER] `:` [_Type_] `;`  
+>  
+> _ExternalFunctionItem_ :  
+> &nbsp;&nbsp; `fn` [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>  
+> &nbsp;&nbsp; ( [_FunctionParameters_] | _FunctionParametersWithVariadics_ )  
+> &nbsp;&nbsp; [_FunctionReturnType_]<sup>?</sup> [_WhereClause_]<sup>?</sup> `;`  
+>  
+> _FunctionParametersWithVariadics_ :  
+> &nbsp;&nbsp; `(` ( [_FunctionParam_] `,` )<sup>\*</sup> _VariadicFunctionParam_ `)`  
+>  
+> _VariadicFunctionParam_ :  
+> &nbsp;&nbsp; [_FunctionParam_] `,` `...`  
+
 External blocks form the basis for Rust's foreign function interface.
 Declarations in an external block describe symbols in external, non-Rust
 libraries.
@@ -81,3 +107,16 @@ It is valid to add the `link` attribute on an empty extern block. You can use
 this to satisfy the linking requirements of extern blocks elsewhere in your
 code (including upstream crates) instead of adding the attribute to each extern
 block.
+
+[_InnerAttribute_]: attributes.html
+[_OuterAttribute_]: attributes.html
+[IDENTIFIER]: identifiers.html
+[_Generics_]: items.html#type-parameters
+[_WhereClause_]: items.html#type-parameters
+
+[_VisibilityNoTuple_]: visibility-and-privacy.html
+[_Type_]: types.html
+[_Abi_]: items/functions.html
+[_FunctionParameters_]: items/functions.html
+[_FunctionParam_]: items/functions.html
+[_FunctionReturnType_]: items/functions.html
