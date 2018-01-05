@@ -98,7 +98,7 @@ match message {
 
 A pattern is said to be *Refutable* when it **has the possibily of not being matched**
 by the value it is being matched against. *Irrefutable* patterns, on the other hand,
-always match the value they are being matched againt. Examples:
+always match the value they are being matched against. Examples:
 
 ```rust
 let (x, y) = (1, 2);               // "(x, y)" is an irrefutable pattern
