@@ -114,15 +114,25 @@ if let (a, 3) = (1, 2) {           // "(a, 3)" is refutable, and will not match
 
 > **<sup>Syntax</sup>**  
 > _LiteralPattern_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; BOOLEAN_LITERAL   
-> &nbsp;&nbsp; | CHAR_LITERAL  
-> &nbsp;&nbsp; | BYTE_LITERAL  
-> &nbsp;&nbsp; | STRING_LITERAL  
-> &nbsp;&nbsp; | RAW_STRING_LITERAL  
-> &nbsp;&nbsp; | BYTE_STRING_LITERAL  
-> &nbsp;&nbsp; | RAW_BYTE_STRING_LITERAL  
-> &nbsp;&nbsp; | `-`<sup>?</sup> INTEGER_LITERAL  
-> &nbsp;&nbsp; | `-`<sup>?</sup> FLOAT_LITERAL  
+> &nbsp;&nbsp; &nbsp;&nbsp; [BOOLEAN_LITERAL]  
+> &nbsp;&nbsp; | [CHAR_LITERAL]  
+> &nbsp;&nbsp; | [BYTE_LITERAL]  
+> &nbsp;&nbsp; | [STRING_LITERAL]  
+> &nbsp;&nbsp; | [RAW_STRING_LITERAL]  
+> &nbsp;&nbsp; | [BYTE_STRING_LITERAL]  
+> &nbsp;&nbsp; | [RAW_BYTE_STRING_LITERAL]  
+> &nbsp;&nbsp; | `-`<sup>?</sup> [INTEGER_LITERAL]  
+> &nbsp;&nbsp; | `-`<sup>?</sup> [FLOAT_LITERAL]  
+
+[BOOLEAN_LITERAL]: tokens.html#boolean-literals
+[CHAR_LITERAL]: tokens.html#character-literals
+[BYTE_LITERAL]: tokens.html#byte-literals
+[STRING_LITERAL]: tokens.html#string-literals
+[RAW_STRING_LITERAL]: tokens.html#raw-string-literals
+[BYTE_STRING_LITERAL]: tokens.html#byte-string-literals
+[RAW_BYTE_STRING_LITERAL]: tokens.html#raw-byte-string-literals
+[INTEGER_LITERAL]: tokens.html#integer-literals
+[FLOAT_LITERAL]: tokens.html#floating-point-literals
 
 _Literal patterns_ match exactly the value they represent. Since negative numbers are
 not literals in Rust, literal patterns also accept an optional minus sign before the
@@ -195,10 +205,10 @@ The wildcard pattern is always irrefutable.
 > &nbsp;&nbsp;  _RangePatternBound_ `...` _RangePatternBound_  
 >  
 > _RangePatternBound_ :  
-> &nbsp;&nbsp; &nbsp;&nbsp; CHAR_LITERAL  
-> &nbsp;&nbsp; | BYTE_LITERAL  
-> &nbsp;&nbsp; | `-`<sup>?</sup> INTEGER_LITERAL  
-> &nbsp;&nbsp; | `-`<sup>?</sup> FLOAT_LITERAL  
+> &nbsp;&nbsp; &nbsp;&nbsp; [CHAR_LITERAL]  
+> &nbsp;&nbsp; | [BYTE_LITERAL]  
+> &nbsp;&nbsp; | `-`<sup>?</sup> [INTEGER_LITERAL]  
+> &nbsp;&nbsp; | `-`<sup>?</sup> [FLOAT_LITERAL]  
 > &nbsp;&nbsp; | [_PathInExpression_]  
 > &nbsp;&nbsp; | [_QualifiedPathInExpression_]  
 
@@ -305,12 +315,10 @@ A range pattern may not be a sub-range of another range pattern inside the same 
 > &nbsp;&nbsp; (`&`|`&&`) `mut`<sup>?</sup> _Pattern_  
 
 <!-- FIXME: explain reference patterns  -->
-<!-- FIXME: explain why the `&&` is part of the grammar -->
 <!-- FIXME: explain that they only dereference one time -->
-<!-- FIXME: example with 3 or more & -->
 
 Reference patterns dereference the pointers that are being matched
-and, thus, borrow them. If 
+and, thus, borrow them.
 
 For example, these two matches on `x: &i32` are equivalent:
 
@@ -321,6 +329,13 @@ let z = match x { &0 => "zero", _ => "some" };
 
 assert_eq!(y, z);
 ```
+
+<!-- FIXME: explain why the `&&` is part of the grammar -->
+
+The grammar production for reference patterns has to match the token `&&`
+because is is a token by itself, not two `&` tokens.
+
+<!-- FIXME: example with 3 or more & -->
 
 Reference patterns are always irrefutable.
 
@@ -353,7 +368,7 @@ To bind non-trivial patterns to a variable, the use of the syntax `variable @
 subpattern` is needed. For example:
 
 ```rust
-let x = 1;
+let x = 2;
 
 match x {
     e @ 1 ... 5 => println!("got a range element {}", e),
@@ -361,7 +376,7 @@ match x {
 }
 ```
 
-binds to `e` the value 1 (not the entire range: the range here is a range subpattern).
+binds to `e` the value 2 (not the entire range: the range here is a range subpattern).
 
 By default, identifier patterns bind a variable to a copy of or move from the
 matched value (depending whether the matched value implements the Copy trait).
@@ -369,21 +384,21 @@ This can be changed to bind to a reference by using the `ref` keyword,
 or to a mutable reference using `ref mut`. For example:
 
 ```rust
-// TODO
+# let a = Some(10);
 match a {
-    None => ,
-    Some(value) => ,
+    None => (),
+    Some(value) => (),
 }
 
 match a {
-    None => ,
-    Some(ref value) => ,
+    None => (),
+    Some(ref value) => (),
 }
 ```
 
-in the first match arm, the value is copied. In the second one, a reference
-to the same memory location is bound to the variable. This syntax is needed
-because in destructuring subpatterns we can't apply the `&` operator to
+in the first match expression, the value is copied (or moved). In the second match,
+a reference to the same memory location is bound to the variable value. This syntax is
+needed because in destructuring subpatterns we can't apply the `&` operator to
 the value's fields. For example:
 
 ```rust,compile_fail
@@ -438,8 +453,7 @@ copying or moving what was matched.
 > &nbsp;&nbsp; (  
 > &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; INTEGER_LITERAL `:` [_Pattern_]  
 > &nbsp;&nbsp; &nbsp;&nbsp; | IDENTIFIER `:` [_Pattern_]  
-> &nbsp;&nbsp; &nbsp;&nbsp; | `box`<sup>?</sup> `ref`<sup>?</sup> `mut`<sup>?</sup>
->                                  IDENTIFIER  
+> &nbsp;&nbsp; &nbsp;&nbsp; | `ref`<sup>?</sup> `mut`<sup>?</sup> IDENTIFIER  
 > &nbsp;&nbsp; )  
 >  
 > _StructPatternEtCetera_ :  
@@ -448,12 +462,97 @@ copying or moving what was matched.
 
 <!-- FIXME: explain struct patterns -->
 <!-- FIXME: destructuring patterns -->
-<!-- FIXME: examples -->
 
 Struct patterns match struct values that match all criteria defined by its subpatterns.
 They are also used to [destructure](destructuring) a struct.
 
-This pattern is refutable when one of its subpatterns is refutable.
+On a struct pattern, the fields are referenced by name, index (in the case of tuples
+structs) or ignored by use of `..`:
+
+```rust
+# struct Point {
+#     x: u32,
+#     y: u32,
+# }
+# let s = Point {x: 1, y: 1};
+# 
+match s {
+    Point {x: 10, y: 20} => (),
+    Point {y: 10, x: 20} => (),    // order doesn't matter
+    Point {x: 10, ..} => (),
+    Point {..} => (),
+}
+
+# struct PointTuple (
+#     u32,
+#     u32,
+# );
+# let t = PointTuple(1, 2);
+# 
+match t {
+    PointTuple {0: 10, 1: 20} => (),
+    PointTuple {1: 10, 0: 20} => (),   // order doesn't matter
+    PointTuple {0: 10, ..} => (),
+    PointTuple {..} => (),
+}
+```
+
+If `..` is not used, it is required to match all fields:
+
+```rust
+#struct Struct {
+#    a: i32,
+#    b: char,
+#    c: f32,
+#}
+#let struct_value = Struct{a: 10, b: 'X', c: 0.15};
+# 
+match struct_value {
+    Struct{a: 10, b: 'X', c: 0.15} => (),
+    Struct{a: 10, b: 'X', ref c} => (),
+    Struct{a: 10, b: 'X', ref mut c} => (),
+    Struct{a: 10, b: 'X', c: _} => (),
+}
+```
+
+The `ref` and/or `mut` _IDENTIFIER_ syntax matches any value and binds it to
+a variable with the same name as the given field. 
+
+<!-- TODO: explain the scope of this new variable
+The scope of this variable
+is the corresponding block of the pattern match. For example, for `match`
+expressions, the block is the -->
+
+```rust
+match .. {
+    
+}
+```
+
+<!-- FIXME: example: identifier all fields -->
+
+```rust
+#struct Struct {
+#    a: i32,
+#    b: char,
+#    c: f32,
+#}
+#let struct_value = Struct{a: 10, b: 'X', c: 0.15};
+# 
+let Struct{a: x, b: y, c: z} = struct_value;          // destructure all fields
+```
+
+<!-- FIXME: example: etcetera (after identifiers) -->
+
+
+
+<!-- FIXME: example: integer literal -->
+<!-- FIXME: example: etcetera (integer literal) -->
+<!-- FIXME: example: ref -->
+<!-- FIXME: example: mut -->
+<!-- FIXME: example: ref mut -->
+
+A struct pattern is refutable when one of its subpatterns is refutable.
 
 ## TupleStruct patterns
 
@@ -465,7 +564,7 @@ This pattern is refutable when one of its subpatterns is refutable.
 > &nbsp;&nbsp; &nbsp;&nbsp; [_Pattern_]&nbsp;( `,` [_Pattern_] )<sup>\*</sup> `,`<sup>?</sup>  
 > &nbsp;&nbsp; | ([_Pattern_] `,`)<sup>\*</sup> `..` ( (`,` [_Pattern_])<sup>+</sup> `,`<sup>?</sup> )<sup>?</sup>  
 
-TupleStruct patterns match tuple struct and anum values that match all criteria defined
+TupleStruct patterns match tuple struct and enum values that match all criteria defined
 by its subpatterns. They are also used to [destructure](destructuring) a tuple struct or
 enum value.
 
@@ -473,7 +572,7 @@ enum value.
 <!-- FIXME: includes enum variants? Yes! -->
 <!-- FIXME: examples -->
 
-This pattern is refutable when one of its subpatterns is refutable.
+A TupleStruct pattern is refutable when one of its subpatterns is refutable.
 
 ## Tuple patterns
 
