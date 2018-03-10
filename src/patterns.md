@@ -179,13 +179,13 @@ let (a, _) = (10, x);   // the x is always matched by _
 let real_part = |a: f64, _: f64| { a };
 
 // ignore a field from a struct
-#struct RGBA {
+# struct RGBA {
 #    r: f32,
 #    g: f32,
 #    b: f32,
 #    a: f32,
-#}
-#let color = RGBA{r: 0.4, g: 0.1, b: 0.9, a: 0.5};
+# }
+# let color = RGBA{r: 0.4, g: 0.1, b: 0.9, a: 0.5};
 let RGBA{r: red, g: green, b: blue, a: _} = color;
 # assert_eq!(color.r, red);
 # assert_eq!(color.g, green);
@@ -358,7 +358,7 @@ Patterns that consist of only an identifier, possibly with a `mut`, like
 let mut variable = 10;
 fn sum(x: i32, y: i32) -> i32 {
 #    x + y
-#}
+# }
 ```
 
 match any value and bind it to that identifier. This is the most commonly
@@ -402,10 +402,10 @@ needed because in destructuring subpatterns we can't apply the `&` operator to
 the value's fields. For example:
 
 ```rust,compile_fail
-#struct Person {
+# struct Person {
 #    name: String,
 #    age: u8,
-#}
+# }
 # let value = Person{ name: String::from("John"), age: 23 };
 if let Person{& name: person_name, age: 18...150} = value { }
 ```
@@ -413,10 +413,10 @@ if let Person{& name: person_name, age: 18...150} = value { }
 is not valid. What we must do is:
 
 ```rust
-#struct Person {
+# struct Person {
 #    name: String,
 #    age: u8,
-#}
+# }
 # let value = Person{ name: String::from("John"), age: 23 };
 if let Person{name: ref person_name, age: 18...150} = value { }
 ```
@@ -500,18 +500,19 @@ match t {
 If `..` is not used, it is required to match all fields:
 
 ```rust
-#struct Struct {
+# struct Struct {
 #    a: i32,
 #    b: char,
-#    c: f32,
-#}
-#let struct_value = Struct{a: 10, b: 'X', c: 0.15};
+#    c: bool,
+# }
+# let mut struct_value = Struct{a: 10, b: 'X', c: false};
 # 
 match struct_value {
-    Struct{a: 10, b: 'X', c: 0.15} => (),
+    Struct{a: 10, b: 'X', c: false} => (),
     Struct{a: 10, b: 'X', ref c} => (),
     Struct{a: 10, b: 'X', ref mut c} => (),
     Struct{a: 10, b: 'X', c: _} => (),
+    Struct{a: _, b: _, c: _} => (),
 }
 ```
 
@@ -521,7 +522,7 @@ a variable with the same name as the given field.
 <!-- TODO: explain the scope of this new variable
 The scope of this variable
 is the corresponding block of the pattern match. For example, for `match`
-expressions, the block is the -->
+expressions, the block is the 
 
 ```rust
 match .. {
@@ -529,15 +530,17 @@ match .. {
 }
 ```
 
+-->
+
 <!-- FIXME: example: identifier all fields -->
 
 ```rust
-#struct Struct {
+# struct Struct {
 #    a: i32,
 #    b: char,
-#    c: f32,
-#}
-#let struct_value = Struct{a: 10, b: 'X', c: 0.15};
+#    c: bool,
+# }
+# let struct_value = Struct{a: 10, b: 'X', c: false};
 # 
 let Struct{a: x, b: y, c: z} = struct_value;          // destructure all fields
 ```
@@ -605,7 +608,7 @@ to structs or enum variants that have no fields.
 
 <!-- FIXME how to disambiguate between identifier patterns and path patterns -->
 
-Unqualified path patterns can refer to
+Unqualified path patterns can refer to:
 
 * enum variants
 * structs
