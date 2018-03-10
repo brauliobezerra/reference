@@ -146,8 +146,6 @@ Literal patterns are always refutable.
 
 Examples:
 
-<!-- FIXME more examples -->
-
 ```rust
 for i in -2..5 {
     match i {
@@ -303,10 +301,6 @@ println!("{}", match 0xfacade {
 Range patterns are a priori always refutable, even when they cover the complete set
 of possible values of a type. For example, `0u8...255u8` is refutable even though
 it covers all possible values of `u8`.
-
-<!-- FIXME put this on the match section
-A range pattern may not be a sub-range of another range pattern inside the same `match`.
--->
 
 ## Reference patterns
 
