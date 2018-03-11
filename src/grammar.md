@@ -13,7 +13,6 @@
 ### Keywords
 
 > [KW_AS] :<a name="kw_as"></a> `as`  
-> [KW_BOX] :<a name="kw_box"></a> `box`  
 > [KW_BREAK] :<a name="kw_break"></a> `break`  
 > [KW_CONST] :<a name="kw_const"></a> `const`  
 > [KW_CONTINUE] :<a name="kw_continue"></a> `continue`  
@@ -49,14 +48,10 @@
 > [KW_WHERE] :<a name="kw_where"></a> `where`  
 > [KW_WHILE] :<a name="kw_while"></a> `while`  
 >  
-> [KW_CATCH] :<a name="kw_catch"></a> `catch`  
-> [KW_DEFAULT] :<a name="kw_default"></a> `default`  
-> [KW_UNION] :<a name="kw_union"></a> `union`  
-> [KW_STATICLIFETIME] :<a name="kw_staticlifetime"></a> `'static`  
->  
 > [KW_ABSTRACT] :<a name="kw_abstract"></a> `abstract`  
 > [KW_ALIGNOF] :<a name="kw_alignof"></a> `alignof`  
 > [KW_BECOME] :<a name="kw_become"></a> `become`  
+> [KW_BOX] :<a name="kw_box"></a> `box`  
 > [KW_DO] :<a name="kw_do"></a> `do`  
 > [KW_FINAL] :<a name="kw_final"></a> `final`  
 > [KW_MACRO] :<a name="kw_macro"></a> `macro`  
@@ -70,12 +65,19 @@
 > [KW_UNSIZED] :<a name="kw_unsized"></a> `unsized`  
 > [KW_VIRTUAL] :<a name="kw_virtual"></a> `virtual`  
 > [KW_YIELD] :<a name="kw_yield"></a> `yield`  
+>  
+> [KW_UNION] :<a name="kw_union"></a> `union`  
+> [KW_STATICLIFETIME] :<a name="kw_staticlifetime"></a> `'static`  
+>  
 
 ### Identifiers
 
+> [IDENTIFIER_OR_KEYWORD] :<a name="identifier_or_keyword"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [`a`-`z` `A`-`Z`]&nbsp;[`a`-`z` `A`-`Z` `0`-`9` `_`]<sup>\*</sup>  
+> &nbsp;&nbsp; | `_` [`a`-`z` `A`-`Z` `0`-`9` `_`]<sup>+</sup>  
+>  
 > [IDENTIFIER] :<a name="identifier"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; XID_start XID_continue<sup>\*</sup>  
-> &nbsp;&nbsp; | `_` XID_continue<sup>+</sup>  
+> IDENTIFIER_OR_KEYWORD <sub>*Except a [strict] or [reserved] keyword*</sub>
 >  
 
 ### Comments
@@ -175,10 +177,14 @@
 > [INTEGER_LITERAL] :<a name="integer_literal"></a>  
 > &nbsp;&nbsp; ( DEC_LITERAL | BIN_LITERAL | OCT_LITERAL | HEX_LITERAL )
 >              INTEGER_SUFFIX<sup>?</sup>
->   
+>  
 > [DEC_LITERAL] :<a name="dec_literal"></a>  
 > &nbsp;&nbsp; DEC_DIGIT (DEC_DIGIT|`_`)<sup>\*</sup>  
 >  
+> [TUPLE_INDEX] :<a name="tuple_index"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `0`
+> &nbsp;&nbsp; | NON_ZERO_DEC_DIGIT DEC_DIGIT<sup>\*</sup>  
+>
 > [BIN_LITERAL] :<a name="bin_literal"></a>  
 > &nbsp;&nbsp; `0b` (BIN_DIGIT|`_`)<sup>\*</sup> BIN_DIGIT (BIN_DIGIT|`_`)<sup>\*</sup>  
 >  
@@ -194,15 +200,17 @@
 >  
 > [DEC_DIGIT] :<a name="dec_digit"></a> [`0`-`9`]  
 >  
+> [NON_ZERO_DEC_DIGIT] :<a name="non_zero_dec_digit"></a> [`1`-`9`]  
+>  
 > [HEX_DIGIT] :<a name="hex_digit"></a> [`0`-`9` `a`-`f` `A`-`F`]  
 >  
 > [INTEGER_SUFFIX] :<a name="integer_suffix"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `u8` | `u16` | `u32` | `u64` | `usize`  
-> &nbsp;&nbsp; | `i8` | `u16` | `i32` | `i64` | `usize`
+> &nbsp;&nbsp; | `i8` | `i16` | `i32` | `i64` | `isize`
 >  
 > [FLOAT_LITERAL] :<a name="float_literal"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; DEC_LITERAL `.`
->   _(not immediately followed by `.`, `_` or an identifier_)  
+>   _(not immediately followed by `.`, `_` or an [identifier]_)  
 > &nbsp;&nbsp; | DEC_LITERAL FLOAT_EXPONENT  
 > &nbsp;&nbsp; | DEC_LITERAL `.` DEC_LITERAL FLOAT_EXPONENT<sup>?</sup>  
 > &nbsp;&nbsp; | DEC_LITERAL (`.` DEC_LITERAL)<sup>?</sup>
@@ -219,6 +227,13 @@
 > &nbsp;&nbsp; &nbsp;&nbsp; `true`  
 > &nbsp;&nbsp; | `false`  
 >  
+> LIFETIME_TOKEN
+> &nbsp;&nbsp; &nbsp;&nbsp; `'` [IDENTIFIER_OR_KEYWORD][identifier]  
+> &nbsp;&nbsp; | `'_`  
+>  
+> LIFETIME_OR_LABEL:  
+> &nbsp;&nbsp; &nbsp;&nbsp; `'` [IDENTIFIER][identifier]
+>  
 
 ### Crates and source files
 
@@ -227,7 +242,6 @@
 >  
 
 [KW_AS]: #kw_as
-[KW_BOX]: #kw_box
 [KW_BREAK]: #kw_break
 [KW_CONST]: #kw_const
 [KW_CONTINUE]: #kw_continue
@@ -262,13 +276,10 @@
 [KW_USE]: #kw_use
 [KW_WHERE]: #kw_where
 [KW_WHILE]: #kw_while
-[KW_CATCH]: #kw_catch
-[KW_DEFAULT]: #kw_default
-[KW_UNION]: #kw_union
-[KW_STATICLIFETIME]: #kw_staticlifetime
 [KW_ABSTRACT]: #kw_abstract
 [KW_ALIGNOF]: #kw_alignof
 [KW_BECOME]: #kw_become
+[KW_BOX]: #kw_box
 [KW_DO]: #kw_do
 [KW_FINAL]: #kw_final
 [KW_MACRO]: #kw_macro
@@ -282,6 +293,9 @@
 [KW_UNSIZED]: #kw_unsized
 [KW_VIRTUAL]: #kw_virtual
 [KW_YIELD]: #kw_yield
+[KW_UNION]: #kw_union
+[KW_STATICLIFETIME]: #kw_staticlifetime
+[IDENTIFIER_OR_KEYWORD]: #identifier_or_keyword
 [IDENTIFIER]: #identifier
 [LINE_COMMENT]: #line_comment
 [BLOCK_COMMENT]: #block_comment
@@ -309,12 +323,14 @@
 [ASCII]: #ascii
 [INTEGER_LITERAL]: #integer_literal
 [DEC_LITERAL]: #dec_literal
+[TUPLE_INDEX]: #tuple_index
 [BIN_LITERAL]: #bin_literal
 [OCT_LITERAL]: #oct_literal
 [HEX_LITERAL]: #hex_literal
 [BIN_DIGIT]: #bin_digit
 [OCT_DIGIT]: #oct_digit
 [DEC_DIGIT]: #dec_digit
+[NON_ZERO_DEC_DIGIT]: #non_zero_dec_digit
 [HEX_DIGIT]: #hex_digit
 [INTEGER_SUFFIX]: #integer_suffix
 [FLOAT_LITERAL]: #float_literal
@@ -335,6 +351,125 @@
 > &nbsp;&nbsp; SHEBANG<sup>?</sup>  
 > &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
 > &nbsp;&nbsp; [_Item_]<sup>\*</sup>  
+>  
+
+### Modules
+
+> [_Module_] :<a name="module"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `mod` [IDENTIFIER] `;`  
+> &nbsp;&nbsp; | `mod` [IDENTIFIER] `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; [_Item_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `}`  
+>  
+
+### Extern crates
+
+> [_ExternCrate_] :<a name="externcrate"></a>  
+> &nbsp;&nbsp; `extern` `crate` [IDENTIFIER]&nbsp;(`as` [IDENTIFIER])<sup>?</sup> `;`
+>  
+
+### Use declarations
+
+> [_UseDeclaration_] :<a name="usedeclaration"></a>  
+> &nbsp;&nbsp; ([_Visibility_])<sup>?</sup> `use` _UseTree_ `;`  
+>  
+> [_UseTree_] :<a name="usetree"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; ([_SimplePath_]<sup>?</sup> `::`)<sup>?</sup> `*`  
+> &nbsp;&nbsp; | ([_SimplePath_]<sup>?</sup> `::`)<sup>?</sup> `{` (_UseTree_ ( `,`  _UseTree_ )<sup>*</sup> `,`<sup>?</sup>)<sup>?</sup> `}`  
+> &nbsp;&nbsp; | [_SimplePath_] `as` [IDENTIFIER]  
+>  
+
+### Type aliases
+
+> [_TypeAlias_] :<a name="typealias"></a>  
+> &nbsp;&nbsp; `type` [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup>
+>              [_WhereClause_]<sup>?</sup> `=` [_Type_] `;`  
+>  
+
+### Structs
+
+> [_Struct_] :<a name="struct"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _StructStruct_  
+> &nbsp;&nbsp; | _TupleStruct_  
+>  
+> [_StructStruct_] :<a name="structstruct"></a>  
+> &nbsp;&nbsp; `struct`
+>   [IDENTIFIER]&nbsp;
+>   [_Generics_]<sup>?</sup>
+>   [_WhereClause_]<sup>?</sup>
+>   ( `{` _StructFields_<sup>?</sup> `}` | `;` )  
+>  
+> [_TupleStruct_] :<a name="tuplestruct"></a>  
+> &nbsp;&nbsp; `struct`
+>   [IDENTIFIER]&nbsp;
+>   [_Generics_]<sup>?</sup>
+>   `(` _TupleFields_<sup>?</sup> `)`
+>   [_WhereClause_]<sup>?</sup>
+>   `;`  
+>  
+> [_StructFields_] :<a name="structfields"></a>  
+> &nbsp;&nbsp; _StructField_ (`,` _StructField_)<sup>\*</sup> `,`<sup>?</sup>  
+>  
+> [_StructField_] :<a name="structfield"></a>  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; [_Visibility_]
+> &nbsp;&nbsp; [IDENTIFIER] `:` [_Type_]  
+>  
+> [_TupleFields_] :<a name="tuplefields"></a>  
+> &nbsp;&nbsp; _TupleField_ (`,` _TupleField_)<sup>\*</sup> `,`<sup>?</sup>  
+>  
+> [_TupleField_] :<a name="tuplefield"></a>  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; [_Visibility_]
+> &nbsp;&nbsp; [_Type_]  
+>  
+
+### Enumerations
+
+> [_Enumeration_] :<a name="enumeration"></a>  
+> &nbsp;&nbsp; `enum`
+>    [IDENTIFIER]&nbsp;
+>    [_Generics_]<sup>?</sup>
+>    [_WhereClause_]<sup>?</sup>
+>    `{` _EnumItems_<sup>?</sup> `}`  
+>  
+> [_EnumItems_] :<a name="enumitems"></a>  
+> &nbsp;&nbsp; _EnumItem_ ( `,` _EnumItem_ )<sup>\*</sup> `,`<sup>?</sup>  
+>  
+> [_EnumItem_] :<a name="enumitem"></a>  
+> &nbsp;&nbsp; _OuterAttribute_<sup>\*</sup>  
+> &nbsp;&nbsp; [IDENTIFIER]&nbsp;( _EnumItemTuple_ | _EnumItemStruct_ 
+>                                | _EnumItemDiscriminant_ )<sup>?</sup>  
+>  
+> [_EnumItemTuple_] :<a name="enumitemtuple"></a>  
+> &nbsp;&nbsp; `(` [_TupleFields_]<sup>?</sup> `)`  
+>   
+> [_EnumItemStruct_] :<a name="enumitemstruct"></a>  
+> &nbsp;&nbsp; `{` [_StructFields_]<sup>?</sup> `}`  
+>   
+> [_EnumItemDiscriminant_] :<a name="enumitemdiscriminant"></a>  
+> &nbsp;&nbsp; `=` [_Expression_]  
+>  
+
+### Unions
+
+> [_Union_] :<a name="union"></a>  
+> &nbsp;&nbsp; `union` [IDENTIFIER]&nbsp;[_Generics_]<sup>?</sup> [_WhereClause_]<sup>?</sup>
+>   `{`[_StructFields_] `}`
+>  
+
+### Constant items
+
+> [_ConstantItem_] :<a name="constantitem"></a>
+> &nbsp;&nbsp; `const` [IDENTIFIER] `:` [_Type_] `=` [_Expression_] `;`
+>  
+
+### Static items
+
+> [_StaticItem_] :<a name="staticitem"></a>  
+> &nbsp;&nbsp; `static` `mut`<sup>?</sup> [IDENTIFIER] `:` [_Type_]
+>              `=` [_Expression_] `;`
 >  
 
 ### Visibility and Privacy
@@ -362,6 +497,7 @@
 > [_MetaItem_] :<a name="metaitem"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER  
 > &nbsp;&nbsp; | IDENTIFIER `=` LITERAL  
+> &nbsp;&nbsp; | IDENTIFIER `(` LITERAL `)`  
 > &nbsp;&nbsp; | IDENTIFIER `(` _MetaSeq_ `)`  
 > &nbsp;&nbsp; | IDENTIFIER `(` _MetaSeq_ `,` `)`  
 >   
@@ -371,10 +507,355 @@
 > &nbsp;&nbsp; | _MetaSeq_ `,` _MetaItem_  
 >  
 
+### Expressions
+
+> [_Expression_] :<a name="expression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_LiteralExpression_]  
+> &nbsp;&nbsp; | [_PathExpression_]  
+> &nbsp;&nbsp; | [_BlockExpression_]  
+> &nbsp;&nbsp; | [_OperatorExpression_]  
+> &nbsp;&nbsp; | [_GroupedExpression_]  
+> &nbsp;&nbsp; | [_ArrayExpression_]  
+> &nbsp;&nbsp; | [_IndexExpression_]  
+> &nbsp;&nbsp; | [_TupleExpression_]  
+> &nbsp;&nbsp; | [_TupleIndexingExpression_]  
+> &nbsp;&nbsp; | [_StructExpression_]  
+> &nbsp;&nbsp; | [_EnumerationVariantExpression_]  
+> &nbsp;&nbsp; | [_CallExpression_]  
+> &nbsp;&nbsp; | [_MethodCallExpression_]  
+> &nbsp;&nbsp; | [_FieldExpression_]  
+> &nbsp;&nbsp; | [_ClosureExpression_]  
+> &nbsp;&nbsp; | [_LoopExpression_]  
+> &nbsp;&nbsp; | [_ContinueExpression_]  
+> &nbsp;&nbsp; | [_BreakExpression_]  
+> &nbsp;&nbsp; | [_RangeExpression_]  
+> &nbsp;&nbsp; | [_IfExpression_]  
+> &nbsp;&nbsp; | [_IfLetExpression_]  
+> &nbsp;&nbsp; | [_MatchExpression_]  
+> &nbsp;&nbsp; | [_ReturnExpression_]  
+>  
+
+### Literal expressions
+
+> [_LiteralExpression_] :<a name="literalexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [CHAR_LITERAL]  
+> &nbsp;&nbsp; | [STRING_LITERAL]  
+> &nbsp;&nbsp; | [RAW_STRING_LITERAL]  
+> &nbsp;&nbsp; | [BYTE_LITERAL]  
+> &nbsp;&nbsp; | [BYTE_STRING_LITERAL]  
+> &nbsp;&nbsp; | [RAW_BYTE_STRING_LITERAL]  
+> &nbsp;&nbsp; | [INTEGER_LITERAL]  
+> &nbsp;&nbsp; | [FLOAT_LITERAL]  
+> &nbsp;&nbsp; | [BOOLEAN_LITERAL]  
+>  
+
+### Block expressions
+
+> [_BlockExpression_] :<a name="blockexpression"></a>  
+> &nbsp;&nbsp; `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Statement_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_]<sup>?</sup>  
+> &nbsp;&nbsp; `}`  
+>  
+> [_UnsafeBlockExpression_] :<a name="unsafeblockexpression"></a>  
+> &nbsp;&nbsp; `unsafe` _BlockExpression_
+>  
+
+### Operator expressions
+
+> [_OperatorExpression_] :<a name="operatorexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_BorrowExpression_]  
+> &nbsp;&nbsp; | [_DereferenceExpression_]  
+> &nbsp;&nbsp; | [_ErrorPropagationExpression_]  
+> &nbsp;&nbsp; | [_NegationExpression_]  
+> &nbsp;&nbsp; | [_ArithmeticOrLogicalExpression_]  
+> &nbsp;&nbsp; | [_ComparisonExpression_]  
+> &nbsp;&nbsp; | [_LazyBooleanExpression_]  
+> &nbsp;&nbsp; | [_TypeCastExpression_]  
+> &nbsp;&nbsp; | [_AssignmentExpression_]  
+> &nbsp;&nbsp; | [_CompoundAssignmentExpression_]  
+>  
+> [_BorrowExpression_] :<a name="borrowexpression"></a>   
+> &nbsp;&nbsp; &nbsp;&nbsp; (`&`|`&&`) [_Expression_]  
+> &nbsp;&nbsp; | (`&`|`&&`) `mut` [_Expression_]  
+>  
+> [_DereferenceExpression_] :<a name="dereferenceexpression"></a>  
+> &nbsp;&nbsp; `*` [_Expression_]
+>  
+> [_ErrorPropagationExpression_] :<a name="errorpropagationexpression"></a>  
+> &nbsp;&nbsp; [_Expression_] `?`  
+>  
+> [_NegationExpression_] :<a name="negationexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `-` [_Expression_]  
+> &nbsp;&nbsp; | `!` [_Expression_]  
+>  
+> [_ArithmeticOrLogicalExpression_] :<a name="arithmeticorlogicalexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `+` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `-` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `*` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `/` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `%` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `&` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `|` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `^` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `<<` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `>>` [_Expression_]  
+>  
+> [_ComparisonExpression_] :<a name="comparisonexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `==` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `!=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `>` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `<` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `>=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `<=` [_Expression_]  
+>  
+> [_LazyBooleanExpression_] :<a name="lazybooleanexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `||` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `&&` [_Expression_]
+>  
+> [_TypeCastExpression_] :<a name="typecastexpression"></a>  
+> &nbsp;&nbsp; [_Expression_] `as` [_PathInExpression_]
+>  
+> [_AssignmentExpression_] :<a name="assignmentexpression"></a>  
+> &nbsp;&nbsp; | [_Expression_] `=` [_Expression_]  
+>  
+> [_CompoundAssignmentExpression_] :<a name="compoundassignmentexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_Expression_] `+=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `-=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `*=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `/=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `%=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `&=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `|=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `^=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `<<=` [_Expression_]  
+> &nbsp;&nbsp; | [_Expression_] `>>=` [_Expression_]  
+>  
+
+### Grouped expressions
+
+> [_GroupedExpression_] :<a name="groupedexpression"></a>  
+> &nbsp;&nbsp; `(` [_Expression_] `)`
+>  
+
+### Array and index expressions
+
+> [_ArrayExpression_] :<a name="arrayexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `[`  `]`  
+> &nbsp;&nbsp; | `[` [_Expression_] ( `,` [_Expression_] )<sup>\*</sup> `,`<sup>?</sup> `]`  
+> &nbsp;&nbsp; | `[` [_Expression_] `;` [_Expression_] `]`  
+>  
+> [_IndexExpression_] :<a name="indexexpression"></a>  
+> &nbsp;&nbsp; [_Expression_] `[` [_Expression_] `]`
+>  
+
+### Call expressions
+
+> [_CallExpression_] :<a name="callexpression"></a>  
+> &nbsp;&nbsp; [_Expression_] `(` _CallParams_<sup>?</sup> `)`  
+>   
+> [_CallParams_] :<a name="callparams"></a>  
+> &nbsp;&nbsp; [_Expression_]&nbsp;( `,` [_Expression_] )<sup>\*</sup> `,`<sup>?</sup>  
+>  
+
+### Field access expressions
+
+> [_FieldExpression_] :<a name="fieldexpression"></a>  
+> &nbsp;&nbsp; [_Expression_] `.` [IDENTIFIER]
+>  
+
+### Closure expressions
+
+> [_ClosureExpression_] :<a name="closureexpression"></a>  
+> &nbsp;&nbsp; `move`<sup>?</sup>  
+> &nbsp;&nbsp; ( `||` | `|` [_FunctionParameters_]<sup>?</sup> `|` )  
+> &nbsp;&nbsp; ([_Expression_] | `->` [_TypeNoBounds_]&nbsp;[_BlockExpression_])  
+>  
+
+### Loop expressions
+
+> [_LoopExpression_] :<a name="loopexpression"></a>  
+> &nbsp;&nbsp; [_LoopLabel_]<sup>?</sup> (  
+> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; [_InfiniteLoopExpression_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_PredicateLoopExpression_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_PredicatePatternLoopExpression_]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [_IteratorLoopExpression_]  
+> &nbsp;&nbsp; )  
+>  
+> [_InfiniteLoopExpression_] :<a name="infiniteloopexpression"></a>  
+> &nbsp;&nbsp; `loop` [_BlockExpression_]
+>  
+> [_PredicateLoopExpression_] :<a name="predicateloopexpression"></a>  
+> &nbsp;&nbsp; `while` [_Expression_]<sub>except struct expression</sub> [_BlockExpression_]
+>  
+> [_PredicatePatternLoopExpression_] :<a name="predicatepatternloopexpression"></a>  
+> &nbsp;&nbsp; `while` `let` _Pattern_ `=` [_Expression_]<sub>except struct expression</sub>
+>              [_BlockExpression_]  
+>  
+> [_IteratorLoopExpression_] :<a name="iteratorloopexpression"></a>  
+> &nbsp;&nbsp; `for` _Pattern_ `in` [_Expression_]<sub>except struct expression</sub>
+>              [_BlockExpression_]
+>  
+> [_LoopLabel_] :<a name="looplabel"></a>  
+> &nbsp;&nbsp; [LIFETIME_OR_LABEL] `:`
+>  
+> [_BreakExpression_] :<a name="breakexpression"></a>  
+> &nbsp;&nbsp; `break` [LIFETIME_OR_LABEL]<sup>?</sup> [_Expression_]<sup>?</sup>
+>  
+> [_ContinueExpression_] :<a name="continueexpression"></a>  
+> &nbsp;&nbsp; `continue` [LIFETIME_OR_LABEL]<sup>?</sup>
+>  
+
+### Range expressions
+
+> [_RangeExpression_] :<a name="rangeexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _RangeExpr_  
+> &nbsp;&nbsp; | _RangeFromExpr_  
+> &nbsp;&nbsp; | _RangeToExpr_  
+> &nbsp;&nbsp; | _RangeFullExpr_  
+>  
+> [_RangeExpr_] :<a name="rangeexpr"></a>  
+> &nbsp;&nbsp; [_Expression_] `..` [_Expression_]  
+>  
+> [_RangeFromExpr_] :<a name="rangefromexpr"></a>  
+> &nbsp;&nbsp; [_Expression_] `..`  
+>  
+> [_RangeToExpr_] :<a name="rangetoexpr"></a>  
+> &nbsp;&nbsp; `..` [_Expression_]  
+>  
+> [_RangeFullExpr_] :<a name="rangefullexpr"></a>  
+> &nbsp;&nbsp; `..`  
+>  
+
+### If and if let expressions
+
+> [_IfExpression_] :<a name="ifexpression"></a>  
+> &nbsp;&nbsp; `if` [_Expression_]<sub>_except struct expression_</sub> [_BlockExpression_]  
+> &nbsp;&nbsp; (`else` (
+>   [_BlockExpression_]
+> | _IfExpression_
+> | _IfLetExpression_ ) )<sup>\?</sup>  
+>  
+> [_IfLetExpression_] :<a name="ifletexpression"></a>  
+> &nbsp;&nbsp; `if` `let` _Pattern_ `=` [_Expression_]<sub>_except struct expression_</sub>
+>              [_BlockExpression_]  
+> &nbsp;&nbsp; (`else` (
+>   [_BlockExpression_]
+> | _IfExpression_
+> | _IfLetExpression_ ) )<sup>\?</sup>  
+>  
+
+### Match expressions
+
+> [_MatchExpression_] :<a name="matchexpression"></a>  
+> &nbsp;&nbsp; `match` [_Expression_]<sub>_except struct expression_</sub> `{`  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; &nbsp;&nbsp; _MatchArms_<sup>?</sup>  
+> &nbsp;&nbsp; `}`  
+>  
+> [_MatchArms_] :<a name="matcharms"></a>  
+> &nbsp;&nbsp; ( _MatchArm_ `=>` 
+>                             ( [_BlockExpression_] `,`<sup>?</sup>
+>                             | [_Expression_] `,` ) 
+>                           )<sup>\*</sup>  
+> &nbsp;&nbsp; _MatchArm_ `=>` ( [_BlockExpression_] | [_Expression_] ) `,`<sup>?</sup>  
+>  
+> [_MatchArm_] :<a name="matcharm"></a>  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> _MatchArmPatterns_ _MatchArmGuard_
+>  
+> [_MatchArmPatterns_] :<a name="matcharmpatterns"></a>  
+> &nbsp;&nbsp; `|`<sup>?</sup> _Pattern_ ( `|` _Pattern_ )<sup>*</sup>  
+>  
+> [_MatchArmGuard_] :<a name="matcharmguard"></a>  
+> &nbsp;&nbsp; `if` [_Expression_]  
+>  
+
+### Return expressions
+
+> [_ReturnExpression_] :<a name="returnexpression"></a>  
+> &nbsp;&nbsp; `return` [_Expression_]<sup>?</sup>  
+>  
+
+### Types
+
+> [_TraitObjectType_] :<a name="traitobjecttype"></a>  
+> &nbsp;&nbsp; _LifetimeOrPath_ ( `+` _LifetimeOrPath_ )<sup>\*</sup> `+`<sup>?</sup>
+>
+> [_LifetimeOrPath_] :<a name="lifetimeorpath"></a>
+> &nbsp;&nbsp; [_Path_] | [_LIFETIME_OR_LABEL_]
+>  
+
 [_Crate_]: #crate
+[_Module_]: #module
+[_ExternCrate_]: #externcrate
+[_UseDeclaration_]: #usedeclaration
+[_UseTree_]: #usetree
+[_TypeAlias_]: #typealias
+[_Struct_]: #struct
+[_StructStruct_]: #structstruct
+[_TupleStruct_]: #tuplestruct
+[_StructFields_]: #structfields
+[_StructField_]: #structfield
+[_TupleFields_]: #tuplefields
+[_TupleField_]: #tuplefield
+[_Enumeration_]: #enumeration
+[_EnumItems_]: #enumitems
+[_EnumItem_]: #enumitem
+[_EnumItemTuple_]: #enumitemtuple
+[_EnumItemStruct_]: #enumitemstruct
+[_EnumItemDiscriminant_]: #enumitemdiscriminant
+[_Union_]: #union
+[_ConstantItem_]: #constantitem
+[_StaticItem_]: #staticitem
 [_Visibility_]: #visibility
 [_Attribute_]: #attribute
 [_InnerAttribute_]: #innerattribute
 [_OuterAttribute_]: #outerattribute
 [_MetaItem_]: #metaitem
 [_MetaSeq_]: #metaseq
+[_Expression_]: #expression
+[_LiteralExpression_]: #literalexpression
+[_BlockExpression_]: #blockexpression
+[_UnsafeBlockExpression_]: #unsafeblockexpression
+[_OperatorExpression_]: #operatorexpression
+[_BorrowExpression_]: #borrowexpression
+[_DereferenceExpression_]: #dereferenceexpression
+[_ErrorPropagationExpression_]: #errorpropagationexpression
+[_NegationExpression_]: #negationexpression
+[_ArithmeticOrLogicalExpression_]: #arithmeticorlogicalexpression
+[_ComparisonExpression_]: #comparisonexpression
+[_LazyBooleanExpression_]: #lazybooleanexpression
+[_TypeCastExpression_]: #typecastexpression
+[_AssignmentExpression_]: #assignmentexpression
+[_CompoundAssignmentExpression_]: #compoundassignmentexpression
+[_GroupedExpression_]: #groupedexpression
+[_ArrayExpression_]: #arrayexpression
+[_IndexExpression_]: #indexexpression
+[_CallExpression_]: #callexpression
+[_CallParams_]: #callparams
+[_FieldExpression_]: #fieldexpression
+[_ClosureExpression_]: #closureexpression
+[_LoopExpression_]: #loopexpression
+[_InfiniteLoopExpression_]: #infiniteloopexpression
+[_PredicateLoopExpression_]: #predicateloopexpression
+[_PredicatePatternLoopExpression_]: #predicatepatternloopexpression
+[_IteratorLoopExpression_]: #iteratorloopexpression
+[_LoopLabel_]: #looplabel
+[_BreakExpression_]: #breakexpression
+[_ContinueExpression_]: #continueexpression
+[_RangeExpression_]: #rangeexpression
+[_RangeExpr_]: #rangeexpr
+[_RangeFromExpr_]: #rangefromexpr
+[_RangeToExpr_]: #rangetoexpr
+[_RangeFullExpr_]: #rangefullexpr
+[_IfExpression_]: #ifexpression
+[_IfLetExpression_]: #ifletexpression
+[_MatchExpression_]: #matchexpression
+[_MatchArms_]: #matcharms
+[_MatchArm_]: #matcharm
+[_MatchArmPatterns_]: #matcharmpatterns
+[_MatchArmGuard_]: #matcharmguard
+[_ReturnExpression_]: #returnexpression
+[_TraitObjectType_]: #traitobjecttype
+[_LifetimeOrPath_]: #lifetimeorpath
