@@ -376,7 +376,7 @@
 >  
 > [_UseTree_] :<a name="usetree"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; ([_SimplePath_]<sup>?</sup> `::`)<sup>?</sup> `*`  
-> &nbsp;&nbsp; | ([_SimplePath_]<sup>?</sup> `::`)<sup>?</sup> `{` (_UseTree_ ( `,`  _UseTree_ )<sup>*</sup> `,`<sup>?</sup>)<sup>?</sup> `}`  
+> &nbsp;&nbsp; | ([_SimplePath_]<sup>?</sup> `::`)<sup>?</sup> `{` (_UseTree_ ( `,`  _UseTree_ )<sup>\*</sup> `,`<sup>?</sup>)<sup>?</sup> `}`  
 > &nbsp;&nbsp; | [_SimplePath_] `as` [IDENTIFIER]  
 >  
 
@@ -650,6 +650,16 @@
 > &nbsp;&nbsp; [_Expression_] `[` [_Expression_] `]`
 >  
 
+### Tuple and index expressions
+
+> [_TupleExpression_] :<a name="tupleexpression"></a>  
+> &nbsp;&nbsp; &nbsp;&nbsp; `(` `)`  
+> &nbsp;&nbsp; | `(` ( [_Expression_] `,` )<sup>+</sup> [_Expression_]<sup>?</sup> `)`
+>  
+> [_TupleIndexingExpression_] :<a name="tupleindexingexpression"></a>  
+> &nbsp;&nbsp; [_Expression_] `.` [TUPLE_INDEX]
+>  
+
 ### Call expressions
 
 > [_CallExpression_] :<a name="callexpression"></a>  
@@ -714,6 +724,8 @@
 > &nbsp;&nbsp; | _RangeFromExpr_  
 > &nbsp;&nbsp; | _RangeToExpr_  
 > &nbsp;&nbsp; | _RangeFullExpr_  
+> &nbsp;&nbsp; | _RangeInclusiveExpr_  
+> &nbsp;&nbsp; | _RangeToInclusiveExpr_  
 >  
 > [_RangeExpr_] :<a name="rangeexpr"></a>  
 > &nbsp;&nbsp; [_Expression_] `..` [_Expression_]  
@@ -726,6 +738,12 @@
 >  
 > [_RangeFullExpr_] :<a name="rangefullexpr"></a>  
 > &nbsp;&nbsp; `..`  
+>
+> [_RangeExpr_] :<a name="rangeexpr"></a>  
+> &nbsp;&nbsp; [_Expression_] `..=` [_Expression_]  
+>  
+> [_RangeToExpr_] :<a name="rangetoexpr"></a>  
+> &nbsp;&nbsp; `..=` [_Expression_]  
 >  
 
 ### If and if let expressions
@@ -748,27 +766,27 @@
 
 ### Match expressions
 
-> [_MatchExpression_] :<a name="matchexpression"></a>  
-> &nbsp;&nbsp; `match` [_Expression_]<sub>_except struct expression_</sub> `{`  
-> &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>  
-> &nbsp;&nbsp; &nbsp;&nbsp; _MatchArms_<sup>?</sup>  
-> &nbsp;&nbsp; `}`  
->  
-> [_MatchArms_] :<a name="matcharms"></a>  
-> &nbsp;&nbsp; ( _MatchArm_ `=>` 
+> [_MatchExpression_] :<a name="matchexpression"></a>
+> &nbsp;&nbsp; `match` [_Expression_]<sub>_except struct expression_</sub> `{`
+> &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>
+> &nbsp;&nbsp; &nbsp;&nbsp; _MatchArms_<sup>?</sup>
+> &nbsp;&nbsp; `}`
+>
+> [_MatchArms_] :<a name="matcharms"></a>
+> &nbsp;&nbsp; ( _MatchArm_ `=>`
 >                             ( [_BlockExpression_] `,`<sup>?</sup>
->                             | [_Expression_] `,` ) 
->                           )<sup>\*</sup>  
-> &nbsp;&nbsp; _MatchArm_ `=>` ( [_BlockExpression_] | [_Expression_] ) `,`<sup>?</sup>  
->  
-> [_MatchArm_] :<a name="matcharm"></a>  
-> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> _MatchArmPatterns_ _MatchArmGuard_
->  
-> [_MatchArmPatterns_] :<a name="matcharmpatterns"></a>  
-> &nbsp;&nbsp; `|`<sup>?</sup> _Pattern_ ( `|` _Pattern_ )<sup>*</sup>  
->  
-> [_MatchArmGuard_] :<a name="matcharmguard"></a>  
-> &nbsp;&nbsp; `if` [_Expression_]  
+>                             | [_Expression_] `,` )
+>                           )<sup>\*</sup>
+> &nbsp;&nbsp; _MatchArm_ `=>` ( [_BlockExpression_] | [_Expression_] ) `,`<sup>?</sup>
+>
+> [_MatchArm_] :<a name="matcharm"></a>
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> _MatchArmPatterns_ _MatchArmGuard_<sup>?</sup>
+>
+> [_MatchArmPatterns_] :<a name="matcharmpatterns"></a>
+> &nbsp;&nbsp; `|`<sup>?</sup> _Pattern_ ( `|` _Pattern_ )<sup>\*</sup>
+>
+> [_MatchArmGuard_] :<a name="matcharmguard"></a>
+> &nbsp;&nbsp; `if` [_Expression_]
 >  
 
 ### Return expressions
@@ -832,6 +850,8 @@
 [_GroupedExpression_]: #groupedexpression
 [_ArrayExpression_]: #arrayexpression
 [_IndexExpression_]: #indexexpression
+[_TupleExpression_]: #tupleexpression
+[_TupleIndexingExpression_]: #tupleindexingexpression
 [_CallExpression_]: #callexpression
 [_CallParams_]: #callparams
 [_FieldExpression_]: #fieldexpression
@@ -849,6 +869,8 @@
 [_RangeFromExpr_]: #rangefromexpr
 [_RangeToExpr_]: #rangetoexpr
 [_RangeFullExpr_]: #rangefullexpr
+[_RangeExpr_]: #rangeexpr
+[_RangeToExpr_]: #rangetoexpr
 [_IfExpression_]: #ifexpression
 [_IfLetExpression_]: #ifletexpression
 [_MatchExpression_]: #matchexpression
