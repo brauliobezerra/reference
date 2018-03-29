@@ -77,7 +77,7 @@
 > &nbsp;&nbsp; | `_` [`a`-`z` `A`-`Z` `0`-`9` `_`]<sup>+</sup>  
 >  
 > [IDENTIFIER] :<a name="identifier"></a>  
-> IDENTIFIER_OR_KEYWORD <sub>*Except a [strict] or [reserved] keyword*</sub>
+> [IDENTIFIER_OR_KEYWORD] <sub>*Except a [strict] or [reserved] keyword*</sub>
 >  
 
 ### Comments
@@ -87,28 +87,28 @@
 > &nbsp;&nbsp; | `//`
 >  
 > [BLOCK_COMMENT] :<a name="block_comment"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; `/*` (~[`*` `!`] | `**` | _BlockCommentOrDoc_)
->      (_BlockCommentOrDoc_ | ~`*/`)<sup>\*</sup> `*/`  
+> &nbsp;&nbsp; &nbsp;&nbsp; `/*` (~[`*` `!`] | `**` | [_BlockCommentOrDoc_])
+>      ([_BlockCommentOrDoc_] | ~`*/`)<sup>\*</sup> `*/`  
 > &nbsp;&nbsp; | `/**/`  
 > &nbsp;&nbsp; | `/***/`  
 >  
 > [INNER_LINE_DOC] :<a name="inner_line_doc"></a>  
-> &nbsp;&nbsp; `//!` ~[`\n` _IsolatedCR_]<sup>\*</sup>  
+> &nbsp;&nbsp; `//!` ~[`\n` [_IsolatedCR_]]<sup>\*</sup>  
 >  
 > [INNER_BLOCK_DOC] :<a name="inner_block_doc"></a>  
-> &nbsp;&nbsp; `/*!` ( _BlockCommentOrDoc_ | ~[`*/` _IsolatedCR_] )<sup>\*</sup> `*/`  
+> &nbsp;&nbsp; `/*!` ( [_BlockCommentOrDoc_] | ~[`*/` [_IsolatedCR_]] )<sup>\*</sup> `*/`  
 >  
 > [OUTER_LINE_DOC] :<a name="outer_line_doc"></a>  
-> &nbsp;&nbsp; `///` (~`/` ~[`\n` _IsolatedCR_]<sup>\*</sup>)<sup>?</sup>  
+> &nbsp;&nbsp; `///` (~`/` ~[`\n` [_IsolatedCR_]]<sup>\*</sup>)<sup>?</sup>  
 >  
 > [OUTER_BLOCK_DOC] :<a name="outer_block_doc"></a>  
-> &nbsp;&nbsp; `/**` (~`*` | _BlockCommentOrDoc_ )
->              (_BlockCommentOrDoc_ | ~[`*/` _IsolatedCR_])<sup>\*</sup> `*/`  
+> &nbsp;&nbsp; `/**` (~`*` | [_BlockCommentOrDoc_] )
+>              ([_BlockCommentOrDoc_] | ~[`*/` [_IsolatedCR_]])<sup>\*</sup> `*/`  
 >  
 > [_BlockCommentOrDoc_] :<a name="blockcommentordoc"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; BLOCK_COMMENT  
-> &nbsp;&nbsp; | OUTER_BLOCK_DOC  
-> &nbsp;&nbsp; | INNER_BLOCK_DOC  
+> &nbsp;&nbsp; &nbsp;&nbsp; [BLOCK_COMMENT]  
+> &nbsp;&nbsp; | [OUTER_BLOCK_DOC]  
+> &nbsp;&nbsp; | [INNER_BLOCK_DOC]  
 >  
 > [_IsolatedCR_] :<a name="isolatedcr"></a>  
 > &nbsp;&nbsp; _A `\r` not followed by a `\n`_  
@@ -117,82 +117,82 @@
 ### Tokens
 
 > [CHAR_LITERAL] :<a name="char_literal"></a>  
-> &nbsp;&nbsp; `'` ( ~[`'` `\` \\n \\r \\t] | QUOTE_ESCAPE | ASCII_ESCAPE | UNICODE_ESCAPE ) `'`  
+> &nbsp;&nbsp; `'` ( ~[`'` `\` \\n \\r \\t] | [QUOTE_ESCAPE] | [ASCII_ESCAPE] | [UNICODE_ESCAPE] ) `'`  
 >  
 > [QUOTE_ESCAPE] :<a name="quote_escape"></a>  
 > &nbsp;&nbsp; `\'` | `\"`  
 >  
 > [ASCII_ESCAPE] :<a name="ascii_escape"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; `\x` OCT_DIGIT HEX_DIGIT  
+> &nbsp;&nbsp; &nbsp;&nbsp; `\x` [OCT_DIGIT] [HEX_DIGIT]  
 > &nbsp;&nbsp; | `\n` | `\r` | `\t` | `\\` | `\0`  
 >  
 > [UNICODE_ESCAPE] :<a name="unicode_escape"></a>  
-> &nbsp;&nbsp; `\u{` ( HEX_DIGIT `_`<sup>\*</sup> )<sup>1..6</sup> `}`  
+> &nbsp;&nbsp; `\u{` ( [HEX_DIGIT] `_`<sup>\*</sup> )<sup>1..6</sup> `}`  
 >  
 > [STRING_LITERAL] :<a name="string_literal"></a>  
 > &nbsp;&nbsp; `"` (  
-> &nbsp;&nbsp; &nbsp;&nbsp; ~[`"` `\` _IsolatedCR_]  
-> &nbsp;&nbsp; &nbsp;&nbsp; | QUOTE_ESCAPE  
-> &nbsp;&nbsp; &nbsp;&nbsp; | ASCII_ESCAPE  
-> &nbsp;&nbsp; &nbsp;&nbsp; | UNICODE_ESCAPE  
-> &nbsp;&nbsp; &nbsp;&nbsp; | STRING_CONTINUE  
+> &nbsp;&nbsp; &nbsp;&nbsp; ~[`"` `\` [_IsolatedCR_]]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [QUOTE_ESCAPE]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [ASCII_ESCAPE]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [UNICODE_ESCAPE]  
+> &nbsp;&nbsp; &nbsp;&nbsp; | [STRING_CONTINUE]  
 > &nbsp;&nbsp; )<sup>\*</sup> `"`  
 >  
 > [STRING_CONTINUE] :<a name="string_continue"></a>  
 > &nbsp;&nbsp; `\` _followed by_ \\n  
 >  
 > [RAW_STRING_LITERAL] :<a name="raw_string_literal"></a>  
-> &nbsp;&nbsp; `r` RAW_STRING_CONTENT  
+> &nbsp;&nbsp; `r` [RAW_STRING_CONTENT]  
 >  
 > [RAW_STRING_CONTENT] :<a name="raw_string_content"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; `"` ( ~ _IsolatedCR_ )<sup>* (non-greedy)</sup> `"`  
-> &nbsp;&nbsp; | `#` RAW_STRING_CONTENT `#`  
+> &nbsp;&nbsp; &nbsp;&nbsp; `"` ( ~ [_IsolatedCR_] )<sup>* (non-greedy)</sup> `"`  
+> &nbsp;&nbsp; | `#` [RAW_STRING_CONTENT] `#`  
 >  
 > [BYTE_LITERAL] :<a name="byte_literal"></a>  
-> &nbsp;&nbsp; `b'` ( ASCII_FOR_CHAR | BYTE_ESCAPE )  `'`  
+> &nbsp;&nbsp; `b'` ( [ASCII_FOR_CHAR] | [BYTE_ESCAPE] )  `'`  
 >  
 > [ASCII_FOR_CHAR] :<a name="ascii_for_char"></a>  
-> &nbsp;&nbsp; _any ASCII (i.e. 0x00 to 0x7F), except_ `'`, `/`, \\n, \\r or \\t  
+> &nbsp;&nbsp; _any [ASCII] (i.e. 0x00 to 0x7F), except_ `'`, `/`, \\n, \\r or \\t  
 >  
 > [BYTE_ESCAPE] :<a name="byte_escape"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; `\x` HEX_DIGIT HEX_DIGIT  
+> &nbsp;&nbsp; &nbsp;&nbsp; `\x` [HEX_DIGIT] [HEX_DIGIT]  
 > &nbsp;&nbsp; | `\n` | `\r` | `\t` | `\\` | `\0`  
 >  
 > [BYTE_STRING_LITERAL] :<a name="byte_string_literal"></a>  
-> &nbsp;&nbsp; `b"` ( ASCII_FOR_STRING | BYTE_ESCAPE | STRING_CONTINUE )<sup>\*</sup> `"`  
+> &nbsp;&nbsp; `b"` ( [ASCII_FOR_STRING] | [BYTE_ESCAPE] | [STRING_CONTINUE] )<sup>\*</sup> `"`  
 >  
 > [ASCII_FOR_STRING] :<a name="ascii_for_string"></a>  
-> &nbsp;&nbsp; _any ASCII (i.e 0x00 to 0x7F), except_ `"`, `/` _and IsolatedCR_ 
+> &nbsp;&nbsp; _any [ASCII] (i.e 0x00 to 0x7F), except_ `"`, `/` _and IsolatedCR_ 
 >  
 > [RAW_BYTE_STRING_LITERAL] :<a name="raw_byte_string_literal"></a>  
-> &nbsp;&nbsp; `br` RAW_BYTE_STRING_CONTENT  
+> &nbsp;&nbsp; `br` [RAW_BYTE_STRING_CONTENT]  
 >  
 > [RAW_BYTE_STRING_CONTENT] :<a name="raw_byte_string_content"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; `"` ASCII<sup>* (non-greedy)</sup> `"`  
-> &nbsp;&nbsp; | `#` RAW_STRING_CONTENT `#`  
+> &nbsp;&nbsp; &nbsp;&nbsp; `"` [ASCII]<sup>* (non-greedy)</sup> `"`  
+> &nbsp;&nbsp; | `#` [RAW_STRING_CONTENT] `#`  
 >  
 > [ASCII] :<a name="ascii"></a>  
-> &nbsp;&nbsp; _any ASCII (i.e. 0x00 to 0x7F)_  
+> &nbsp;&nbsp; _any [ASCII] (i.e. 0x00 to 0x7F)_  
 >  
 > [INTEGER_LITERAL] :<a name="integer_literal"></a>  
-> &nbsp;&nbsp; ( DEC_LITERAL | BIN_LITERAL | OCT_LITERAL | HEX_LITERAL )
->              INTEGER_SUFFIX<sup>?</sup>
+> &nbsp;&nbsp; ( [DEC_LITERAL] | [BIN_LITERAL] | [OCT_LITERAL] | [HEX_LITERAL] )
+>              [INTEGER_SUFFIX]<sup>?</sup>
 >  
 > [DEC_LITERAL] :<a name="dec_literal"></a>  
-> &nbsp;&nbsp; DEC_DIGIT (DEC_DIGIT|`_`)<sup>\*</sup>  
+> &nbsp;&nbsp; [DEC_DIGIT] ([DEC_DIGIT]|`_`)<sup>\*</sup>  
 >  
 > [TUPLE_INDEX] :<a name="tuple_index"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; `0`
-> &nbsp;&nbsp; | NON_ZERO_DEC_DIGIT DEC_DIGIT<sup>\*</sup>  
+> &nbsp;&nbsp; | [NON_ZERO_DEC_DIGIT] [DEC_DIGIT]<sup>\*</sup>  
 >
 > [BIN_LITERAL] :<a name="bin_literal"></a>  
-> &nbsp;&nbsp; `0b` (BIN_DIGIT|`_`)<sup>\*</sup> BIN_DIGIT (BIN_DIGIT|`_`)<sup>\*</sup>  
+> &nbsp;&nbsp; `0b` ([BIN_DIGIT]|`_`)<sup>\*</sup> [BIN_DIGIT] ([BIN_DIGIT]|`_`)<sup>\*</sup>  
 >  
 > [OCT_LITERAL] :<a name="oct_literal"></a>  
-> &nbsp;&nbsp; `0o` (OCT_DIGIT|`_`)<sup>\*</sup> OCT_DIGIT (OCT_DIGIT|`_`)<sup>\*</sup>  
+> &nbsp;&nbsp; `0o` ([OCT_DIGIT]|`_`)<sup>\*</sup> [OCT_DIGIT] ([OCT_DIGIT]|`_`)<sup>\*</sup>  
 >  
 > [HEX_LITERAL] :<a name="hex_literal"></a>  
-> &nbsp;&nbsp; `0x` (HEX_DIGIT|`_`)<sup>\*</sup> HEX_DIGIT (HEX_DIGIT|`_`)<sup>\*</sup>  
+> &nbsp;&nbsp; `0x` ([HEX_DIGIT]|`_`)<sup>\*</sup> [HEX_DIGIT] ([HEX_DIGIT]|`_`)<sup>\*</sup>  
 >  
 > [BIN_DIGIT] :<a name="bin_digit"></a> [`0`-`1`]  
 >  
@@ -209,16 +209,16 @@
 > &nbsp;&nbsp; | `i8` | `i16` | `i32` | `i64` | `isize`
 >  
 > [FLOAT_LITERAL] :<a name="float_literal"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; DEC_LITERAL `.`
+> &nbsp;&nbsp; &nbsp;&nbsp; [DEC_LITERAL] `.`
 >   _(not immediately followed by `.`, `_` or an [identifier]_)  
-> &nbsp;&nbsp; | DEC_LITERAL FLOAT_EXPONENT  
-> &nbsp;&nbsp; | DEC_LITERAL `.` DEC_LITERAL FLOAT_EXPONENT<sup>?</sup>  
-> &nbsp;&nbsp; | DEC_LITERAL (`.` DEC_LITERAL)<sup>?</sup>
->                    FLOAT_EXPONENT<sup>?</sup> FLOAT_SUFFIX  
+> &nbsp;&nbsp; | [DEC_LITERAL] [FLOAT_EXPONENT]  
+> &nbsp;&nbsp; | [DEC_LITERAL] `.` [DEC_LITERAL] [FLOAT_EXPONENT]<sup>?</sup>  
+> &nbsp;&nbsp; | [DEC_LITERAL] (`.` [DEC_LITERAL])<sup>?</sup>
+>                    [FLOAT_EXPONENT]<sup>?</sup> [FLOAT_SUFFIX]  
 >  
 > [FLOAT_EXPONENT] :<a name="float_exponent"></a>  
 > &nbsp;&nbsp; (`e`|`E`) (`+`|`-`)?
->               (DEC_DIGIT|`_`)<sup>\*</sup> DEC_DIGIT (DEC_DIGIT|`_`)<sup>\*</sup>   
+>               ([DEC_DIGIT]|`_`)<sup>\*</sup> [DEC_DIGIT] ([DEC_DIGIT]|`_`)<sup>\*</sup>   
 >  
 > [FLOAT_SUFFIX] :<a name="float_suffix"></a>  
 > &nbsp;&nbsp; `f32` | `f64`
@@ -372,11 +372,11 @@
 ### Use declarations
 
 > [_UseDeclaration_] :<a name="usedeclaration"></a>  
-> &nbsp;&nbsp; ([_Visibility_])<sup>?</sup> `use` _UseTree_ `;`  
+> &nbsp;&nbsp; ([_Visibility_])<sup>?</sup> `use` [_UseTree_] `;`  
 >  
 > [_UseTree_] :<a name="usetree"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; ([_SimplePath_]<sup>?</sup> `::`)<sup>?</sup> `*`  
-> &nbsp;&nbsp; | ([_SimplePath_]<sup>?</sup> `::`)<sup>?</sup> `{` (_UseTree_ ( `,`  _UseTree_ )<sup>\*</sup> `,`<sup>?</sup>)<sup>?</sup> `}`  
+> &nbsp;&nbsp; | ([_SimplePath_]<sup>?</sup> `::`)<sup>?</sup> `{` ([_UseTree_] ( `,`  [_UseTree_] )<sup>\*</sup> `,`<sup>?</sup>)<sup>?</sup> `}`  
 > &nbsp;&nbsp; | [_SimplePath_] `as` [IDENTIFIER]  
 >  
 
@@ -390,26 +390,26 @@
 ### Structs
 
 > [_Struct_] :<a name="struct"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; _StructStruct_  
-> &nbsp;&nbsp; | _TupleStruct_  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_StructStruct_]  
+> &nbsp;&nbsp; | [_TupleStruct_]  
 >  
 > [_StructStruct_] :<a name="structstruct"></a>  
 > &nbsp;&nbsp; `struct`
 >   [IDENTIFIER]&nbsp;
 >   [_Generics_]<sup>?</sup>
 >   [_WhereClause_]<sup>?</sup>
->   ( `{` _StructFields_<sup>?</sup> `}` | `;` )  
+>   ( `{` [_StructFields_]<sup>?</sup> `}` | `;` )  
 >  
 > [_TupleStruct_] :<a name="tuplestruct"></a>  
 > &nbsp;&nbsp; `struct`
 >   [IDENTIFIER]&nbsp;
 >   [_Generics_]<sup>?</sup>
->   `(` _TupleFields_<sup>?</sup> `)`
+>   `(` [_TupleFields_]<sup>?</sup> `)`
 >   [_WhereClause_]<sup>?</sup>
 >   `;`  
 >  
 > [_StructFields_] :<a name="structfields"></a>  
-> &nbsp;&nbsp; _StructField_ (`,` _StructField_)<sup>\*</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; [_StructField_] (`,` [_StructField_])<sup>\*</sup> `,`<sup>?</sup>  
 >  
 > [_StructField_] :<a name="structfield"></a>  
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
@@ -417,7 +417,7 @@
 > &nbsp;&nbsp; [IDENTIFIER] `:` [_Type_]  
 >  
 > [_TupleFields_] :<a name="tuplefields"></a>  
-> &nbsp;&nbsp; _TupleField_ (`,` _TupleField_)<sup>\*</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; [_TupleField_] (`,` [_TupleField_])<sup>\*</sup> `,`<sup>?</sup>  
 >  
 > [_TupleField_] :<a name="tuplefield"></a>  
 > &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
@@ -432,15 +432,15 @@
 >    [IDENTIFIER]&nbsp;
 >    [_Generics_]<sup>?</sup>
 >    [_WhereClause_]<sup>?</sup>
->    `{` _EnumItems_<sup>?</sup> `}`  
+>    `{` [_EnumItems_]<sup>?</sup> `}`  
 >  
 > [_EnumItems_] :<a name="enumitems"></a>  
-> &nbsp;&nbsp; _EnumItem_ ( `,` _EnumItem_ )<sup>\*</sup> `,`<sup>?</sup>  
+> &nbsp;&nbsp; [_EnumItem_] ( `,` [_EnumItem_] )<sup>\*</sup> `,`<sup>?</sup>  
 >  
 > [_EnumItem_] :<a name="enumitem"></a>  
-> &nbsp;&nbsp; _OuterAttribute_<sup>\*</sup>  
-> &nbsp;&nbsp; [IDENTIFIER]&nbsp;( _EnumItemTuple_ | _EnumItemStruct_ 
->                                | _EnumItemDiscriminant_ )<sup>?</sup>  
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup>  
+> &nbsp;&nbsp; [IDENTIFIER]&nbsp;( [_EnumItemTuple_] | [_EnumItemStruct_] 
+>                                | [_EnumItemDiscriminant_] )<sup>?</sup>  
 >  
 > [_EnumItemTuple_] :<a name="enumitemtuple"></a>  
 > &nbsp;&nbsp; `(` [_TupleFields_]<sup>?</sup> `)`  
@@ -486,7 +486,7 @@
 ### Attributes
 
 > [_Attribute_] :<a name="attribute"></a>  
-> &nbsp;&nbsp; _InnerAttribute_ | _OuterAttribute_  
+> &nbsp;&nbsp; [_InnerAttribute_] | [_OuterAttribute_]  
 >  
 > [_InnerAttribute_] :<a name="innerattribute"></a>  
 > &nbsp;&nbsp; `#![` MetaItem `]`  
@@ -498,13 +498,13 @@
 > &nbsp;&nbsp; &nbsp;&nbsp; IDENTIFIER  
 > &nbsp;&nbsp; | IDENTIFIER `=` LITERAL  
 > &nbsp;&nbsp; | IDENTIFIER `(` LITERAL `)`  
-> &nbsp;&nbsp; | IDENTIFIER `(` _MetaSeq_ `)`  
-> &nbsp;&nbsp; | IDENTIFIER `(` _MetaSeq_ `,` `)`  
+> &nbsp;&nbsp; | IDENTIFIER `(` [_MetaSeq_] `)`  
+> &nbsp;&nbsp; | IDENTIFIER `(` [_MetaSeq_] `,` `)`  
 >   
 > [_MetaSeq_] :<a name="metaseq"></a>  
 > &nbsp;&nbsp; &nbsp;&nbsp; EMPTY  
-> &nbsp;&nbsp; | _MetaItem_  
-> &nbsp;&nbsp; | _MetaSeq_ `,` _MetaItem_  
+> &nbsp;&nbsp; | [_MetaItem_]  
+> &nbsp;&nbsp; | [_MetaSeq_] `,` [_MetaItem_]  
 >  
 
 ### Expressions
@@ -559,7 +559,7 @@
 > &nbsp;&nbsp; `}`  
 >  
 > [_UnsafeBlockExpression_] :<a name="unsafeblockexpression"></a>  
-> &nbsp;&nbsp; `unsafe` _BlockExpression_
+> &nbsp;&nbsp; `unsafe` [_BlockExpression_]
 >  
 
 ### Operator expressions
@@ -663,7 +663,7 @@
 ### Call expressions
 
 > [_CallExpression_] :<a name="callexpression"></a>  
-> &nbsp;&nbsp; [_Expression_] `(` _CallParams_<sup>?</sup> `)`  
+> &nbsp;&nbsp; [_Expression_] `(` [_CallParams_]<sup>?</sup> `)`  
 >   
 > [_CallParams_] :<a name="callparams"></a>  
 > &nbsp;&nbsp; [_Expression_]&nbsp;( `,` [_Expression_] )<sup>\*</sup> `,`<sup>?</sup>  
@@ -720,10 +720,10 @@
 ### Range expressions
 
 > [_RangeExpression_] :<a name="rangeexpression"></a>  
-> &nbsp;&nbsp; &nbsp;&nbsp; _RangeExpr_  
-> &nbsp;&nbsp; | _RangeFromExpr_  
-> &nbsp;&nbsp; | _RangeToExpr_  
-> &nbsp;&nbsp; | _RangeFullExpr_  
+> &nbsp;&nbsp; &nbsp;&nbsp; [_RangeExpr_]  
+> &nbsp;&nbsp; | [_RangeFromExpr_]  
+> &nbsp;&nbsp; | [_RangeToExpr_]  
+> &nbsp;&nbsp; | [_RangeFullExpr_]  
 > &nbsp;&nbsp; | _RangeInclusiveExpr_  
 > &nbsp;&nbsp; | _RangeToInclusiveExpr_  
 >  
@@ -752,16 +752,16 @@
 > &nbsp;&nbsp; `if` [_Expression_]<sub>_except struct expression_</sub> [_BlockExpression_]  
 > &nbsp;&nbsp; (`else` (
 >   [_BlockExpression_]
-> | _IfExpression_
-> | _IfLetExpression_ ) )<sup>\?</sup>  
+> | [_IfExpression_]
+> | [_IfLetExpression_] ) )<sup>\?</sup>  
 >  
 > [_IfLetExpression_] :<a name="ifletexpression"></a>  
 > &nbsp;&nbsp; `if` `let` _Pattern_ `=` [_Expression_]<sub>_except struct expression_</sub>
 >              [_BlockExpression_]  
 > &nbsp;&nbsp; (`else` (
 >   [_BlockExpression_]
-> | _IfExpression_
-> | _IfLetExpression_ ) )<sup>\?</sup>  
+> | [_IfExpression_]
+> | [_IfLetExpression_] ) )<sup>\?</sup>  
 >  
 
 ### Match expressions
@@ -769,18 +769,18 @@
 > [_MatchExpression_] :<a name="matchexpression"></a>
 > &nbsp;&nbsp; `match` [_Expression_]<sub>_except struct expression_</sub> `{`
 > &nbsp;&nbsp; &nbsp;&nbsp; [_InnerAttribute_]<sup>\*</sup>
-> &nbsp;&nbsp; &nbsp;&nbsp; _MatchArms_<sup>?</sup>
+> &nbsp;&nbsp; &nbsp;&nbsp; [_MatchArms_]<sup>?</sup>
 > &nbsp;&nbsp; `}`
 >
 > [_MatchArms_] :<a name="matcharms"></a>
-> &nbsp;&nbsp; ( _MatchArm_ `=>`
+> &nbsp;&nbsp; ( [_MatchArm_] `=>`
 >                             ( [_BlockExpression_] `,`<sup>?</sup>
 >                             | [_Expression_] `,` )
 >                           )<sup>\*</sup>
-> &nbsp;&nbsp; _MatchArm_ `=>` ( [_BlockExpression_] | [_Expression_] ) `,`<sup>?</sup>
+> &nbsp;&nbsp; [_MatchArm_] `=>` ( [_BlockExpression_] | [_Expression_] ) `,`<sup>?</sup>
 >
 > [_MatchArm_] :<a name="matcharm"></a>
-> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> _MatchArmPatterns_ _MatchArmGuard_<sup>?</sup>
+> &nbsp;&nbsp; [_OuterAttribute_]<sup>\*</sup> [_MatchArmPatterns_] [_MatchArmGuard_]<sup>?</sup>
 >
 > [_MatchArmPatterns_] :<a name="matcharmpatterns"></a>
 > &nbsp;&nbsp; `|`<sup>?</sup> _Pattern_ ( `|` _Pattern_ )<sup>\*</sup>
@@ -798,7 +798,7 @@
 ### Types
 
 > [_TraitObjectType_] :<a name="traitobjecttype"></a>  
-> &nbsp;&nbsp; _LifetimeOrPath_ ( `+` _LifetimeOrPath_ )<sup>\*</sup> `+`<sup>?</sup>
+> &nbsp;&nbsp; [_LifetimeOrPath_] ( `+` [_LifetimeOrPath_] )<sup>\*</sup> `+`<sup>?</sup>
 >
 > [_LifetimeOrPath_] :<a name="lifetimeorpath"></a>
 > &nbsp;&nbsp; [_Path_] | [_LIFETIME_OR_LABEL_]

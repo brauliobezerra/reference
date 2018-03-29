@@ -67,7 +67,7 @@ def to_anchor(text):
     return text.lower().replace(' ', '-').strip('_')
 
 
-def replace_production(text):
+def to_production_with_anchor(text):
     title = text.group(1)
     spaces = text.group(2)
     anchor = to_anchor(title)
@@ -81,17 +81,24 @@ def link_everything(text):
     
     text = re.sub(
         '\n> \\[?([a-zA-Z_0-9]+)\\]?( )+:',
-        replace_production,
+        to_production_with_anchor,
         text)
     
     # create the link declarations [anchor]: #something
     
     links_decls = ''
+    links = list()
     for match in re.finditer('\n> \\[([a-zA-Z_0-9]+)\\]', text):
         title = match.group(1)
         links_decls += '['+ title +']: #' + to_anchor(title) + '\n'
+        links.append(title)
     
-    # TODO link the usages of all items
+    # link the usages of all items (those that aren't surrounded by [])
+    # FIXME very buggy
+    links.sort(key=len, reverse=True)
+    for link in links:
+        text = re.sub('([^[_a-zA-Z-0-9]){}'.format(link), lambda m: '{}[{}]'.format(m.group(1), link), text)
+        #text = re.sub('{}([^[])'.format(link), lambda m: '[{}]{}'.format(link, m.group(1)), text)
     
     return text + '\n' + links_decls
 
